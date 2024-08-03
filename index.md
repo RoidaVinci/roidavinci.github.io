@@ -27,7 +27,7 @@ title: "Roi Vence Personal Website"
         <div class="row">
             <div class="col" style="text-align: center">
                 <span class="text-muted">
-                    Credits to <a href="https://github.com/TonyLianLong/websitev2"> for a version of the source code for this website. 
+                    Credits to <a href="https://github.com/TonyLianLong/websitev2"></a> for a version of the source code for this website. 
                 </span>
             </div>
         </div>
