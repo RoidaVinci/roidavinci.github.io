@@ -13,13 +13,16 @@ title: "Roi Vence Personal Website"
             <p class="h4 section-title" style="clear: right">About</p>
             {% capture bio %}{% include bio.md %}{% endcapture %}
             <p>{{ bio | markdownify }}</p>
-            <a href="mailto:roi.vence@gmail.com">Email</a>    |    <a href="https://www.linkedin.com/in/roivence">LinkedIn</a>    |    <a href="https://github.com/RoidaVinci">Github</a>
+            <div class="social-icons">
+                <a href="mailto:roi.vence@gmail.com" title="Email"><i class="fas fa-envelope"></i></a>
+                <a href="https://www.linkedin.com/in/roivence" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                <a href="https://github.com/RoidaVinci" title="GitHub"><i class="fab fa-github"></i></a>
+            </div>
         </div>
         <div class="col-auto d-none d-md-block">
             <img class="profile-img" src="{{ '/assets/profile.jpg' | relative_url }}" />
         </div>
     </div>
-
 
 <footer class="footer">
     <div class="container-sm">
@@ -35,3 +38,14 @@ title: "Roi Vence Personal Website"
 
 </main>
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+    .social-icons {
+        margin-top: 10px;
+    }
+    .social-icons a {
+        margin: 0 10px;
+        color: #000;
+        font-size: 1.5rem;
+    }
+</style>
