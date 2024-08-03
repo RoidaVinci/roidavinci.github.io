@@ -1,6 +1,7 @@
 ---
 layout: default
 title: "Roi Vence Personal Website"
+permalink: /article/
 ---
 
 # Articles
