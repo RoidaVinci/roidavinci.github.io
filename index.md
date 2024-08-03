@@ -3,7 +3,6 @@ layout: default
 title: "Roi Vence Personal Website"
 ---
 
-
 <main role="main" class="container-sm" style="max-width: 1080px">
     <div class="row">
         <div class="col">
@@ -21,22 +20,21 @@ title: "Roi Vence Personal Website"
         </div>
     </div>
 
-        
-Here are some articles I've written: 
+    Here are some articles I've written: 
 
-- [My First Article](articles/thesisnn.md)
-- [My Second Article](articles/idis.md)
+    - [My First Article](articles/thesisnn.md)
+    - [My Second Article](articles/idis.md)
 
-<footer class="footer">
-    <div class="container-sm">
-        <div class="row">
-            <div class="col" style="text-align: center">
-                <span class="text-muted">
-                    Credits to <a href="https://github.com/TonyLianLong/websitev2">Tony Lian</a> for a version of the source code for this website. 
-                </span>
+    <footer class="footer">
+        <div class="container-sm">
+            <div class="row">
+                <div class="col" style="text-align: center">
+                    <span class="text-muted">
+                        Credits to <a href="https://github.com/TonyLianLong/websitev2">Tony Lian</a> for a version of the source code for this website. 
+                    </span>
+                </div>
             </div>
         </div>
-    </div>
-</footer>
-
+    </footer>
 </main>
+
