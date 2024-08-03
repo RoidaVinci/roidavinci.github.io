@@ -1,9 +1,6 @@
----
-
----
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta charset="utf-8">
     <meta property="og:site_name" content="Roi Vence Nogueira" />
     <meta property="og:title" content="Roi Vence Nogueira" />
@@ -19,34 +16,53 @@
     <link rel="stylesheet" href="{{ '/assets/style.css' | relative_url }}" />
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="shortcut icon" type="image/png" href="favicon.png">
-    <script>
-      $(document).ready(() => {
-        $(".tldr_btn").click(function(){
-          $(this).parent().parent().find(".publication-excerpt").toggle();
-          return false;
-        });
-      });
-    </script>
-  </head>
-  <body>
+    <style>
+        body {
+            font-family: "Computer Modern Serif", serif;
+        }
+        header {
+            background-color: #ffffff;
+            color: #000000;
+            text-align: center;
+            padding: 20px 0;
+            margin-bottom: 20px;
+        }
+        header nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        header nav ul li {
+            display: inline;
+            margin: 0 10px;
+        }
+        header nav ul li a {
+            color: #000000;
+            text-decoration: none;
+            font-size: 1.2rem;
+        }
+        header nav ul li a:hover {
+            text-decoration: underline;
+        }
+        main {
+            max-width: 1080px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
     <header>
-      <h1><a href="{{ '/' | relative_url }}">{{ site.title }}</a></h1>
-      <nav>
-        <ul>
-          <li><a href="{{ '/' | relative_url }}">Home</a></li>
-          <li><a href="{{ '/articles/thesisnn.md' | relative_url }}">My First Article</a></li>
-          <li><a href="{{ '/articles/idis.md' | relative_url }}">My Second Article</a></li>
-        </ul>
-      </nav>
+        <h1><a href="{{ '/' | relative_url }}">{{ site.title }}</a></h1>
+        <nav>
+            <ul>
+                <li><a href="{{ '/' | relative_url }}">Home</a></li>
+                <li><a href="{{ '/articles/thesisnn.md' | relative_url }}">My First Article</a></li>
+                <li><a href="{{ '/articles/idis.md' | relative_url }}">My Second Article</a></li>
+            </ul>
+        </nav>
     </header>
-    <main role="main" class="container-sm" style="max-width: 1080px">
-      {{ content }}
+    <main role="main" class="container-sm">
+        {{ content }}
     </main>
-    <footer>
-      <p>&copy; {{ site.time | date: '%Y' }} {{ site.author }}</p>
-      <span class="text-muted">
-        Credits to <a href="https://github.com/TonyLianLong/websitev2">Tony Lian</a> for a version of the source code for this website. 
-      </span>
-    </footer>
-  </body>
+</body>
 </html>
