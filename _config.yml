@@ -6,5 +6,3 @@ title: "Roi Vence Personal Website"
 description: "A personal website for Roi Vence Nogueira"
 baseurl: ""
 url: "https://roidavinci.github.io"
-markdown: kramdown
-theme: minima
