@@ -20,10 +20,13 @@ title: "Roi Vence Personal Website"
         </div>
     </div>
 
-    Here are some articles I've written: 
+{{ "
+Here are some articles I've written:
 
-    - [My First Article](articles/thesisnn.md)
-    - [My Second Article](articles/idis.md)
+- [My First Article](articles/thesisnn.md)
+- [My Second Article](articles/idis.md)
+" | markdownify }}
+
 
     <footer class="footer">
         <div class="container-sm">
