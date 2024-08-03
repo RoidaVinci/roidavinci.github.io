@@ -124,3 +124,20 @@ a:active { text-decoration: none; }
     margin: 10px 0;
     color: #d4382a;
 }
+
+* Estilos para el contenido desplegable */
+.toggle-content {
+  display: none; /* Ocultar contenido inicialmente */
+  margin-left: 20px;
+}
+
+.toggle-section {
+  cursor: pointer;
+  font-weight: bold;
+  color: #000000;
+  font-size:20px
+}
+
+.toggle-section:hover {
+  color: #aaaaaa;
+}
