@@ -20,24 +20,18 @@ title: "Roi Vence Personal Website"
         </div>
     </div>
 
-{{ "
-Here are some articles I've written:
 
-- [My First Article](articles/thesisnn.md)
-- [My Second Article](articles/idis.md)
-" | markdownify }}
-
-
-    <footer class="footer">
-        <div class="container-sm">
-            <div class="row">
-                <div class="col" style="text-align: center">
-                    <span class="text-muted" font-size: 0.6rem>
-                        Credits to <a href="https://github.com/TonyLianLong/websitev2">Tony Lian</a> for a version of the source code for this website. 
-                    </span>
-                </div>
+<footer class="footer">
+    <div class="container-sm">
+        <div class="row">
+            <div class="col" style="text-align: center">
+                <span class="text-muted small-text">
+                    Credits to <a href="https://github.com/TonyLianLong/websitev2">Tony Lian</a> for a version of the source code for this website.
+                </span>
             </div>
         </div>
-    </footer>
+    </div>
+</footer>
+
 </main>
 
