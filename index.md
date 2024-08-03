@@ -19,6 +19,12 @@ title: "Roi Vence Personal Website"
             <img class="profile-img" src="{{ '/assets/profile.jpg' | relative_url }}" />
         </div>
     </div>
+
+    
+Here are some articles I've written:
+
+- [My First Article](articles/article1.md)
+- [My Second Article](articles/article2.md)
 </main>
 
 <footer class="footer">
