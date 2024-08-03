@@ -1,56 +1,107 @@
----
-layout: default
-title: "Roi Vence Personal Website"
----
-
-<main role="main" class="container-sm" style="max-width: 1080px">
-    <div class="row">
-        <div class="col">
-            <p class="h1 mt-5 page-title">
-                <img class="profile-img-small d-md-none" src="{{ '/assets/profile.jpg' | relative_url }}" />
-                <span style="clear: right">Roi Vence Nogueira</span>
-            </p>
-            <p class="h4 section-title" style="clear: right">About</p>
-            {% capture bio %}{% include bio.md %}{% endcapture %}
-            <p>{{ bio | markdownify }}</p>
-        </div>
-        <div class="col-auto d-none d-md-block text-center">
-            <img class="profile-img" src="{{ '/assets/profile.jpg' | relative_url }}" />
-            <div class="social-icons">
-                <a href="mailto:roi.vence@gmail.com" title="Email"><i class="fas fa-envelope"></i></a>
-                <a href="https://www.linkedin.com/in/roivence" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                <a href="https://github.com/RoidaVinci" title="GitHub"><i class="fab fa-github"></i></a>
-            </div>
-        </div>
-    </div>
-
-<footer class="footer">
-    <div class="container-sm">
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta property="og:site_name" content="Roi Vence Nogueira" />
+    <meta property="og:title" content="Roi Vence Nogueira" />
+    <meta name="description" content="Roi Vence's Personal Website" />
+    <meta name="keywords" content="Roi Vence, Roi Vence Nogueira" />
+    <meta name="author" content="Roi Vence Nogueira" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ page.title }}</title>
+    <script src="https://cdn.jsdelivr.net/gh/jquery/jquery@3.6.1/dist/jquery.slim.min.js" integrity="sha256-w8CvhFs7iHNVUtnSP0YKEg00p9Ih13rlL9zGqvLdePA=" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{{ '/assets/cmun-serif/cmun-serif.css' | relative_url }}" />
+    <link rel="stylesheet" href="{{ '/assets/style.css' | relative_url }}" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="shortcut icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: "Computer Modern Serif", serif;
+        }
+        header {
+            background-color: #ffffff;
+            color: #000000;
+            text-align: center;
+            padding: 20px 0;
+            margin-bottom: 20px;
+        }
+        header nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        header nav ul li {
+            display: inline;
+            margin: 0 10px;
+        }
+        header nav ul li a {
+            color: #000000;
+            text-decoration: none;
+            font-size: 1.2rem;
+        }
+        header nav ul li a:hover {
+            text-decoration: underline;
+        }
+        main {
+            max-width: 1080px;
+            margin: 0 auto;
+        }
+        .social-icons {
+            margin-top: 10px;
+        }
+        .social-icons a {
+            margin: 0 10px;
+            color: #000;
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1><a href="{{ '/' | relative_url }}">{{ site.title }}</a></h1>
+        <nav>
+            <ul>
+                <li><a href="{{ '/' | relative_url }}">Home</a></li>
+                <li><a href="{{ '/articles/thesisnn.md' | relative_url }}">My First Article</a></li>
+                <li><a href="{{ '/articles/idis.md' | relative_url }}">My Second Article</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main role="main" class="container-sm" style="max-width: 1080px">
         <div class="row">
-            <div class="col" style="text-align: center">
-                <span class="text-muted small-text">
-                    Credits to <a href="https://github.com/TonyLianLong/websitev2">Tony Lian</a> for a version of the source code for this website.
-                </span>
+            <div class="col">
+                <p class="h1 mt-5 page-title">
+                    <img class="profile-img-small d-md-none" src="{{ '/assets/profile.jpg' | relative_url }}" />
+                    <span style="clear: right">Roi Vence Nogueira</span>
+                </p>
+                <p class="h4 section-title" style="clear: right">About</p>
+                {% capture bio %}{% include bio.md %}{% endcapture %}
+                <p>{{ bio | markdownify }}</p>
+                <div class="social-icons">
+                    <a href="mailto:roi.vence@gmail.com" title="Email"><i class="fas fa-envelope"></i></a>
+                    <a href="https://www.linkedin.com/in/roivence" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://github.com/RoidaVinci" title="GitHub"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+            <div class="col-auto d-none d-md-block">
+                <img class="profile-img" src="{{ '/assets/profile.jpg' | relative_url }}" />
             </div>
         </div>
-    </div>
-</footer>
-
-</main>
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-<style>
-    .social-icons {
-        margin-top: 10px;
-    }
-    .social-icons a {
-        margin: 0 10px;
-        color: #000;
-        font-size: 1.5rem;
-    }
-    .profile-img-small, .profile-img {
-        display: block;
-        margin: 0 auto 10px;
-    }
-</style>
+    </main>
+    <footer class="footer">
+        <div class="container-sm">
+            <div class="row">
+                <div class="col" style="text-align: center">
+                    <span class="text-muted small-text">
+                        Credits to <a href="https://github.com/TonyLianLong/websitev2">Tony Lian</a> for a version of the source code for this website.
+                    </span>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
 
