@@ -19,14 +19,6 @@ title: "Roi Vence Personal Website"
             <img class="profile-img" src="{{ '/assets/profile.jpg' | relative_url }}" />
         </div>
     </div>
-
-    
-Here are some articles I've written:
-
-- [My First Article](articles/thesisnn.md)
-- [My Second Article](articles/idis.md)
-</main>
-
 <footer class="footer">
     <div class="container-sm">
         <div class="row">
@@ -59,6 +51,14 @@ Here are some articles I've written:
   </table>
   <p>Overall Grade: Merit.</p>
 </div>
+    
+Here are some articles I've written:
+
+- [My First Article](articles/thesisnn.md)
+- [My Second Article](articles/idis.md)
+</main>
+
+
 
 <!-- Repeat similar structure for other sections -->
 
