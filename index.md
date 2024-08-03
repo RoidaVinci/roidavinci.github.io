@@ -22,7 +22,10 @@ title: "Roi Vence Personal Website"
     </div>
 
         
-Here are some articles I've written: [My First Article](articles/thesisnn.md),[My Second Article](articles/idis.md)
+Here are some articles I've written: 
+
+- [My First Article](articles/thesisnn.md)
+- [My Second Article](articles/idis.md)
 
 <footer class="footer">
     <div class="container-sm">
