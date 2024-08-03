@@ -13,8 +13,7 @@ title: "Roi Vence Personal Website"
             <p class="h4 section-title" style="clear: right">About</p>
             {% capture bio %}{% include bio.md %}{% endcapture %}
             <p>{{ bio | markdownify }}</p>
-            <a href="mailto:roi.vence@gmail.com">Email</a> 
-            <a href="https://www.linkedin.com/in/roivence">LinkedIn</a> / <a href="https://github.com/RoidaVinci">Github</a>
+            <a href="mailto:roi.vence@gmail.com">Email</a>    |    <a href="https://www.linkedin.com/in/roivence">LinkedIn</a>    |    <a href="https://github.com/RoidaVinci">Github</a>
         </div>
         <div class="col-auto d-none d-md-block">
             <img class="profile-img" src="{{ '/assets/profile.jpg' | relative_url }}" />
