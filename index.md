@@ -10,17 +10,17 @@ title: "Roi Vence Personal Website"
                 <img class="profile-img-small d-md-none" src="{{ '/assets/profile.jpg' | relative_url }}" />
                 <span style="clear: right">Roi Vence Nogueira</span>
             </p>
+            <div class="col-auto d-none d-md-block text-center">
+                <img class="profile-img" src="{{ '/assets/profile.jpg' | relative_url }}" />
+                <div class="social-icons">
+                    <a href="mailto:roi.vence@gmail.com" title="Email"><i class="fas fa-envelope"></i></a>
+                    <a href="https://www.linkedin.com/in/roivence" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://github.com/RoidaVinci" title="GitHub"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
             <p class="h4 section-title" style="clear: right">About</p>
             {% capture bio %}{% include bio.md %}{% endcapture %}
             <p>{{ bio | markdownify }}</p>
-            <div class="social-icons">
-                <a href="mailto:roi.vence@gmail.com" title="Email"><i class="fas fa-envelope"></i></a>
-                <a href="https://www.linkedin.com/in/roivence" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                <a href="https://github.com/RoidaVinci" title="GitHub"><i class="fab fa-github"></i></a>
-            </div>
-        </div>
-        <div class="col-auto d-none d-md-block">
-            <img class="profile-img" src="{{ '/assets/profile.jpg' | relative_url }}" />
         </div>
     </div>
 
@@ -49,3 +49,4 @@ title: "Roi Vence Personal Website"
         font-size: 1.5rem;
     }
 </style>
+
