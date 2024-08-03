@@ -33,4 +33,43 @@ title: "Roi Vence Personal Website"
     </div>
 </footer>
 
-<script src="scripts/main.js"></script>
+# My CV
+
+## Education
+
+<h4 class="toggle-section"><strong>Oct. 2023 - Jul. 2024: MASt in Applied Math. Part III, University of Cambridge</strong></h4>
+<div class="toggle-content">
+  <p>Funded by a 50000€ scholarship by Fundación Barrié de la Maza. Took the following courses:</p>
+  <table class="subject-table">
+    <tr>
+      <td>Advanced Probability</td>
+      <td class="grade">Distinction</td>
+    </tr>
+    <tr>
+      <td>Statistical Learning in Practice</td>
+      <td class="grade">Distinction</td>
+    </tr>
+    <!-- Add more rows as needed -->
+  </table>
+  <p>Overall Grade: Merit.</p>
+</div>
+
+<!-- Repeat similar structure for other sections -->
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const toggleSections = document.querySelectorAll(".toggle-section");
+
+  toggleSections.forEach(section => {
+    section.addEventListener("click", function() {
+      const content = this.nextElementSibling;
+      if (content.style.display === "block") {
+        content.style.display = "none";
+      } else {
+        content.style.display = "block";
+      }
+    });
+  });
+});
+</script>
+
