@@ -250,3 +250,5 @@ title: "Roi Vence Personal Website"
         </div>
     </div>
 </footer>
+
+<script src="scripts/main.js"></script>
