@@ -1,8 +1,6 @@
-sass:
     sass_dir: _sass
     style: compressed
 
-title: "Roi Vence Personal Website"
-description: "A personal website for Roi Vence Nogueira"
-baseurl: ""
-url: "https://roidavinci.github.io"
+collections:
+  publications:
+    output: false
