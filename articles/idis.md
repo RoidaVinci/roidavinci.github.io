@@ -72,7 +72,7 @@ Depending on the study, chemical properties of the components involved, and the 
 It is often useful to crop certain parts of the image to remove irrelevant information, measuring properties of the parts involved in a process. For instance, segmenting a person's brain to isolate an area affected by a hemorrhage, confirming the presence of the hemorrhage as described earlier.
 
 <p align="center">
-  <img src="../imaxes/segmentacionmanual.png" alt="Figure 4" style="max-width: 50%;">
+  <img src="../imaxes/segmentadomanual.png" alt="Figure 4" style="max-width: 50%;">
 </p>
 <p align="center">
   <em>Figure 4: Manual segmentation of the lesion shown in Figure 3.</em>
@@ -91,7 +91,7 @@ $$
 The process of setting up the neural network to analyze the IDIS images was the most challenging part. After configuring it, we found that the network, despite yielding results indicating good performance, required further adjustments to match the actual segmentation needs. I introduced images obtained from other laboratories, and these provided more satisfactory results, as shown in Figure 6.
 
 <p align="center">
-  <img src="../imaxes/segmentacionauto.png" alt="Figure 6" style="max-width: 50%;">
+  <img src="../imaxes/segmentadoauto.png" alt="Figure 6" style="max-width: 50%;">
 </p>
 <p align="center">
   <em>Figure 6: Automatic segmentation of the images from Figure 3 performed by the RatLesNetv2 neural network with training data from homogeneous/model-3. See [GitHub/jmlipman/RatLesNetv2](https://github.com/jmlipman/RatLesNetv2#3-training-and-evaluation).</em>
