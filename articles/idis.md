@@ -33,7 +33,7 @@ M_z(t)=M_0 (1-e^\frac{-t}{T_1}),
 
 where \( M_0 \) is the initial value of the net magnetization, greater with a stronger external magnetic field, and \( T_1 \) and \( T_2 \) are parameters dependent on the physico-chemical structure of the sample. The times \( T_1 \) and \( T_2 \) represent the time for the transverse components \( M_x \) and \( M_y \) and the longitudinal component \( M_z \) to return to \( 1-\frac{1}{e} \approx 0.63 \) of their equilibrium values. This process is crucial for subsequent MRI image analysis, as explained later.
 
-![Figure 1](imaxes/mxymz.png)
+![Figure 1](imaxes/mxymz.png){:style="max-width: 50%;"}
 *Figure 1: Illustration showing the tendency of net magnetization to return to the longitudinal axis, making the transverse magnetization null over time. Image from [source](#).*
 
 In practice, the transverse component \( M_x, M_y \) does not return to \( 1-\frac{1}{e} \) of the equilibrium value within \( T_2 \). Local chemical structure differences and magnetic field inhomogeneities cause this process to be faster. Hence, the observed decay time \( T_2^* \) is defined as:
@@ -54,7 +54,7 @@ MRI captures electromagnetic wave information, encapsulating all system data in 
 
 where \( \gamma \) is the gyromagnetic ratio, and \( G_x \) and \( G_y \) are the magnetic gradients. The K-space contains wave information for MRI data, allowing image reconstruction through inverse Fourier series, using methods like the Fast Fourier Transform. K-space data is often halved using theoretical central symmetry, accelerating reconstruction. For more details, see [source](#).
 
-![Figure 2](imaxes/kespacio.png)
+![Figure 2](imaxes/kespacio.png){:style="max-width: 50%;"}
 *Figure 2: K-space of an MRI of a human brain and associated image. Image from [source](#).*
 
 Depending on the type of analysis, we process and normalize the above information into \( T_1 \), \( T_2 \), and \( T_2^* \) maps, where each pixel has a value in the range \( [0,1] \) on a grayscale, more intense for longer \( T_1 \), \( T_2 \), or \( T_2^* \) times.
@@ -62,7 +62,7 @@ Depending on the type of analysis, we process and normalize the above informatio
 ### Analysis of MRI Images
 Depending on the study, chemical properties of the components involved, and the applied magnetic field, one of the aforementioned imaging methods may be more useful. After obtaining the desired map, either \( T_1 \), \( T_2 \), or \( T_2^* \), it must be analyzed to extract clinical information. Depending on the study, a wide range of parameters, cuts, or statistical information, such as the mean or variance of \( T_1 \), \( T_2 \), and \( T_2^* \) within an image or between images at different times, may be of interest. This helps to test hypotheses, such as whether \( T_2 \) remains unchanged after irradiating a rat's brain, thereby ruling out tumors or brain diseases due to radiation.
 
-![Figure 3](imaxes/scan.png)
+![Figure 3](imaxes/scan.png){:style="max-width: 50%;"}
 *Figure 3: \( T_2^* \) MRI of a rat's brain with 12 slices showing a small lesion in the right frontal area (whiter area).*
 
 It is often useful to crop certain parts of the image to remove irrelevant information, measuring properties of the parts involved in a process. For instance, segmenting a person's brain to isolate an area affected by a hemorrhage, confirming the presence of the hemorrhage as described earlier.
