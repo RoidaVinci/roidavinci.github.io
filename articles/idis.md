@@ -85,7 +85,7 @@ My initial days at IDIS were dedicated to familiarizing myself with the processe
 This problem has had satisfactory solutions for humans for a long time. Solutions for rat and mouse brains are more recent and still far from ideal, but currently provide better results in terms of the Sørensen-Dice coefficient (DICE), indicating overlap between two segmentations \( A,B\subset\mathbb{R}^2 \), defined as:
 
 $$
-\operatorname{DICE}(A,B):=\frac{2\operatorname{Area}(A\cap B)}{\operatorname{Area(A)+\operatorname{Area}(B)}},
+DICE(A,B):=\frac{2\operatorname{Area}(A\cap B)}{\operatorname{Area(A)+\operatorname{Area}(B)}},
 $$
 
 The process of setting up the neural network to analyze the IDIS images was the most challenging part. After configuring it, we found that the network, despite yielding results indicating good performance, required further adjustments to match the actual segmentation needs. I introduced images obtained from other laboratories, and these provided more satisfactory results, as shown in Figure 6.
