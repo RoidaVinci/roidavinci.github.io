@@ -52,12 +52,12 @@ Processed data are normalized into \( T_1 \), \( T_2 \), and \( T_2^* \) maps, w
 ### Analysis of MRI Images
 The type of analysis depends on the study and applied magnetic field. Parameters like mean or variance of \( T_1 \), \( T_2 \), and \( T_2^* \) are of interest, helping test hypotheses, such as the impact of radiation on a rat's brain.
 
-![Figure 3](../imaxes/scan.jpg){:style="max-width: 80%;"}
+![Figure 3](../imaxes/scan.png){:style="max-width: 80%;"}
 *Figure 3: \( T_2^* \) MRI of a rat's brain with 12 slices showing a small lesion in the right frontal area (whiter area).*
 
 It is often useful to crop parts of the image to remove irrelevant information, measuring properties of involved parts.
 
-![Figure 4](../imaxes/recorte1.jpg){:style="max-width: 80%;"}
+![Figure 4](../imaxes/segmentadomanual.png){:style="max-width: 80%;"}
 *Figure 4: Manual segmentation of the lesion shown in Figure 3.*
 
 ## Activities Performed
@@ -71,13 +71,18 @@ Processing a single rodent brain can take around 5 minutes for a skilled operato
 ### Proposed Solution
 Existing solutions for human brains do not fully apply to rodent brains. I explored artificial neural networks, focusing on the RatLesNetv2 convolutional neural network, due to its promising results. I updated its code for compatibility with Python 3.9 and adapted it for NOBEL's image formats.
 
-![Figure 5](../imaxes/comparativa.jpg){:style="max-width: 80%;"}
-*Figure 5: Comparison of segmentation methods for rodent brain lesions. Image from RatLesNetv2.*
-
 I tested the network with IDIS images, but results were unsatisfactory, likely due to differences in image acquisition between IDIS and training data from Charles River lab. Training the network with NOBEL images is necessary but time-consuming. The proposed solution remains available for future implementation.
 
-![Figure 6](../imaxes/architecture.png){:style="max-width: 80%;"}
+![Figure 6](../imaxes/ratlesnetv2.png){:style="max-width: 80%;"}
 *Figure 6: Architecture of the RatLesNetv2 convolutional neural network.*
 
 In conclusion, automating segmentation with a trained neural network could significantly reduce processing time and improve segmentation quality.
+
+ The process of setting up the neural network to analyze the IDIS images was the most challenging part. After configuring it, we found that the network, despite yielding results indicating good performance, did not align with the actual segmentation needs. Attempts to adjust the image formats from the lab and slightly modify the network structure did not improve the results. Consequently, I introduced images obtained from other laboratories. These images, while not perfect, provided more satisfactory results, as shown in Figure 6.
+
+![Figure 6](../imaxes/segmentadoauto.png){:style="max-width: 80%;"}
+*Figure 6: Automatic segmentation of the images from Figure 3 performed by the RatLesNetv2 neural network with training data from homogeneous/model-3. See [GitHub/jmlipman/RatLesNetv2](https://github.com/jmlipman/RatLesNetv2#3-training-and-evaluation).*
+
+The conclusion drawn from this was that there was likely a significant difference between the images obtained at IDIS and those obtained at the Charles River laboratory, where the RatLesNetv2 network was trained. This difference could stem from variations in magnetic fields, receivers, or scanner times, as well as the formats and standards used by the laboratory in terms of the number of slices or image resolutions. This greatly complicates the task, necessitating the neural network to be retrained from scratch with images from the NOBEL lab and their respective segmentations. Considering that this requires hundreds of images, it is a tremendously costly process that could not be completed during my internship. Despite this, the solution has been proposed and is available to the laboratory, which intends to implement it in the future with the necessary resources.
+
 
