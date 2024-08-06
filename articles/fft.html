@@ -1,23 +1,9 @@
 ---
 layout: article
-title: "Article 1"
+title: "Fast Fourier Transform for Convolutions"
 ---
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fast Fourier Transform for Convolutions</title>
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-   <link rel="stylesheet" href="{{ '/assets/article.css' | relative_url }}">
-</head>
-<body>
-    <header>
-        <!--#include virtual="../navbar.html" -->
-    </header>
-  <div class="container">
+<main role="main" class="container-sm" style="max-width: 1080px">
     <h1 class="page-title">Computational Cost and FFT</h1>
     <p>A convolution with \( F \) filters of size \( r \) requires, for each of the \( \prod_{j=1}^D d_j \) output pixels, a total of \( \prod_{j=1}^D r_j \) multiplications and \( \prod_{j=1}^D r_j - 1 \) additions if performed intuitively according to the definition. This adds to a complexity order of \( \mathcal{O}\left(F \cdot \prod_{j=1}^D d_j \cdot \prod_{j=1}^D r_j\right) \), which scales exponentially with the dimension. Although not prohibitive in many cases given the small dimensions of the most commonly used convolutional filters, it significantly hampers its execution. Therefore, different techniques are used in practice to significantly reduce this computational burden. This work will describe the multidimensional discrete Fourier transform [Duhamel] and detail the procedure for calculating convolutions using the convolution theorem. Some more recent works point to the existence of more advanced algorithms that surpass this efficiency for very small filters [Lavin et. al, 2015], but their content is beyond the scope of this work. There are techniques to reduce the multidimensional discrete Fourier transform to discrete Fourier transforms, such as the row-column algorithm. In fact, this approach is commonly used in practical implementations.</p>
 
@@ -79,7 +65,7 @@ title: "Article 1"
     \mathcal{F}(x)_{v + R \odot u} = \sum_{p \in [0, d/R - 1]} Y_{p,v} \prod_{j=1}^D \omega_{d_i}^{p_i v_i} \omega_{d_i/R_i}^{p_i u_i} = \sum_{p \in [0, d/R - 1]} Y'_{p,v} \prod_{j=1}^D \omega_{d_i/R_i}^{p_i u_i} = \mathcal{F}(Y[\cdot,v])_{u}.
     $$
     </p>
-    <p>This decomposition allows transforming a Fourier transform of an image of dimension \( d \) into \( N^{(1)) = \prod_{j=1}^D R_j \) Fourier transforms of dimension \( \frac{d}{R} \), with the cost of transforming the calculation of \( Y_{p,v} \), which are \( D \prod_{j=1}^D R_j \) multiplications and \( \prod_{j=1}^D R_j \) additions. Then, calling \( R^{(1)} = R \) and reiterating this decomposition procedure through successive divisors \( R^{(k)} | \frac{d}{R^{(k-1)}} \), obtaining in each iteration the problem of performing \( N^{(k)} = N{(k-1)} \prod_{j=1}^D R^{(k)}_j \) Fourier transforms of dimension \( \prod_{j=1}^D \frac{d_j}{\prod_{t=1}^k R^{(t)}} \), the computational complexity in iteration \( k \) is:</p>
+    <p>This decomposition allows transforming a Fourier transform of an image of dimension \( d \) into \( N^{(1)} = \prod_{j=1}^D R_j \) Fourier transforms of dimension \( \frac{d}{R} \), with the cost of transforming the calculation of \( Y_{p,v} \), which are \( D \prod_{j=1}^D R_j \) multiplications and \( \prod_{j=1}^D R_j \) additions. Then, calling \( R^{(1)} = R \) and reiterating this decomposition procedure through successive divisors \( R^{(k)} | \frac{d}{R^{(k-1)}} \), obtaining in each iteration the problem of performing \( N^{(k)} = N^{(k-1)} \prod_{j=1}^D R^{(k)}_j \) Fourier transforms of dimension \( \prod_{j=1}^D \frac{d_j}{\prod_{t=1}^k R^{(t)}} \), the computational complexity in iteration \( k \) is:</p>
     <p>
       $$
       C_k = N^{(k)} \prod_{j=1}^D \frac{d_j}{\prod_{t=1}^k R^{(t)}_j} \left( \frac{d_j}{\prod_{t=1}^k R^{(t)}_j} - 1 \right) + \sum_{t=1}^k (D + 1) N^{(k-1)} \prod_{j=1}^D R^{(t)}_j,
@@ -94,5 +80,5 @@ title: "Article 1"
     <p>If the \( d_j \) are highly factorable numbers, i.e., whose prime factorization can be done in very small primes, then the above complexity reduces further, reaching the optimal value when all \( d_j \) are the same power of 2. For example, if \( d_j = (2^n)_{j=1}^D \), the algorithm achieves a complexity of \( 2^{nD} + (D + 1)n 2^{nD} \in \mathcal{O}(nD 2^{nD}) = \mathcal{O}(k \log(k)) \) where \( k = 2^{nD} \) is the number of pixels in the image. For a clearer idea of the significant improvement this entails, note that for something as simple as computing the Fourier transform of a \( 2048 \times 2048 \) black-and-white image, the necessary operations are reduced from \( 1.7 \cdot 10^{13} \) to \( 2.7 \cdot 10^7 \), making execution approximately 630,000 times faster.</p>
     <p>The same idea can be exactly applied to the calculation of the inverse Fourier transform, so the above forms the indispensable basis for efficiently applying convolutions on a computer, and thus is indispensable for the applicability of large deep neural networks with thousands of filters applied to millions of images.</p>
   </div>
-</body>
-</html>
+</main>
+
