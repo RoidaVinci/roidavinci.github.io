@@ -101,10 +101,10 @@
     <p>Therefore, given that:</p>
     <p>
     $$
-    F \ast_{(d,r,s,p)} X = (\widehat{F} \ast \widehat{X}) \left[ s \odot [r - p, d - r + p] \right],
+    F \ast_{(d,r,s,p)} X = (\widehat{F} \ast \widehat{X}) \left[ s \odot [r - p, d - r + p] \right].
     $$
     </p>
-    <p>we have \( X = \mathcal{F}^{-1}\left( \left( \frac{\mathcal{F}(F \ast_{(d,r,s,p)} X)}{\mathcal{F}(F^*)} \right) \right) \).</p>
+    <p>We have \( X = \mathcal{F}^{-1}\left( \left( \frac{\mathcal{F}(F \ast_{(d,r,s,p)} X)}{\mathcal{F}(F^*)} \right) \right) \).</p>
     <p>Note that computing each component of the discrete Fourier transform requires approximately \( D \cdot \left( \prod_{j=1}^D d_j \right) \) multiplications and \( \prod_{j=1}^D d_j - 1 \) additions, resulting in a total complexity of \( \mathcal{O}\left( \prod_{j=1}^D d_j^2 \right) \). This scales extremely rapidly with the image size, being exponential in \( D \), making higher-order tensor transforms computationally expensive.</p>
     <p>An algorithm is said to be a <strong>fast Fourier transform (FFT)</strong> if it achieves a complexity order of \( \mathcal{O}(d \log(d)) \) in dimension \( d \). The first algorithms of this type were proposed in the 1960s by Cooley and Tukey, whose approach of dividing the transform problem into subproblems that regroup information is still used by most such algorithms today. There is no proof that this is the optimal complexity. We will present a family of algorithms known as <strong>vector-radix</strong>. The central idea is to decompose the large Fourier transform into a large number of small Fourier transforms, significantly reducing complexity. Based on the decomposition \( R_i | d_i \), \( n = p + q \odot \frac{d}{R} \), and \( k = v + R \odot u \) with \( u, p \in \left[0, \frac{d}{R} - 1\right] \) and \( v, q \in [0, R - 1] \):</p>
     <p>
