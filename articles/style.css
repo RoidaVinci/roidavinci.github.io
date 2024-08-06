@@ -1,24 +1,21 @@
 html, body {
   font-family: "Computer Modern Serif", "Palatino", "Perpetua", "Baskerville", "Lucida Console", "Florence", "Times New Roman", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important;
-}
-
-html {
-  margin-top: 1rem;
   text-align: justify !important;
+  margin: 0;
+  padding: 0;
 }
 
+.container {
+  width: 60%;
+  margin: 0 auto;
+  padding: 0 15px;
+}
 
 .footer {
   width: 100%;
   margin-top: 1rem;
   padding: 15px;
   background-color: #f5f5f5;
-}
-
-.container {
-  width: auto;
-  max-width: 680px;
-  padding: 0 15px;
 }
 
 .footnote {
@@ -48,6 +45,7 @@ html {
 .page-title {
   font-size: 2rem;
   font-weight: 500;
+  text-align: center;
 }
 
 @media (max-width: 575.98px) {
