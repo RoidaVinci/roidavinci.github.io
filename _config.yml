@@ -1,6 +1,3 @@
-baseurl: "" # Set this to the subpath if your site is not in the root of the domain
-
-    
     sass_dir: _sass
     style: compressed
 
