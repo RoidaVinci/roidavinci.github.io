@@ -1,5 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Latin+Modern+Roman:wght@400;700&display=swap');
+
 html, body {
-  font-family: "Computer Modern Serif", "Palatino", "Perpetua", "Baskerville", "Lucida Console", "Florence", "Times New Roman", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important;
+  font-family: 'Latin Modern Roman', serif !important;
   text-align: justify !important;
   margin: 0;
   padding: 0;
