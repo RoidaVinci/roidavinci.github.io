@@ -15,7 +15,7 @@
     // Function to include the navbar dynamically
     function includeNavbar() {
       var xhr = new XMLHttpRequest();
-      xhr.open('GET', '/_includes/navbar.html', true);
+      xhr.open('GET', '../_includes/navbar.html', true);
       xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
           document.getElementById('navbar').innerHTML = xhr.responseText;
