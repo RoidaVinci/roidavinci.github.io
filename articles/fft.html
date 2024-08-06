@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: none
 title: "Fast Fourier Transform for Convolutions"
 ---
 
@@ -8,11 +8,55 @@ title: "Fast Fourier Transform for Convolutions"
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ page.title }}</title>
-  <link rel="stylesheet" href="{{ site.baseurl }}/assets/article.css">
+  <title>Fast Fourier Transform for Convolutions</title>
+  <link rel="stylesheet" href="{{ '/assets/article.css' | relative_url }}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      MathJax.typesetPromise();
+    });
+  </script>
+  <style>
+    body {
+        font-family: "Computer Modern Serif", serif;
+    }
+    header {
+        background-color: #ffffff;
+        color: #000000;
+        text-align: center;
+        padding: 20px 0;
+        margin-bottom: 20px;
+    }
+    header nav ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+    header nav ul li {
+        display: inline;
+        margin: 0 10px;
+    }
+    header nav ul li a {
+        color: #000000;
+        text-decoration: none;
+        font-size: 1.2rem;
+    }
+    header nav ul li a:hover {
+        text-decoration: underline;
+    }
+    main {
+        max-width: 60%;
+        margin: 0 auto;
+        text-align: justify;
+    }
+    .container {
+        width: auto;
+        max-width: 680px;
+        padding: 0 15px;
+    }
+  </style>
 </head>
 <body>
   <header>
