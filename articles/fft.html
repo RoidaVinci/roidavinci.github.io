@@ -186,16 +186,16 @@
     \mathcal{F}(x)_{v + R \odot u} = \sum_{p \in [0, d/R - 1]} Y_{p,v} \prod_{j=1}^D \omega_{d_i}^{p_i v_i} \omega_{d_i/R_i}^{p_i u_i} = \sum_{p \in [0, d/R - 1]} Y'_{p,v} \prod_{j=1}^D \omega_{d_i/R_i}^{p_i u_i} = \mathcal{F}(Y[\cdot,v])_{u}.
     $$
     </p>
-    <p>This decomposition allows transforming a Fourier transform of an image of dimension \( d \) into \( \pw{N}{1} = \prod_{j=1}^D R_j \) Fourier transforms of dimension \( \frac{d}{R} \), with the cost of transforming the calculation of \( Y_{p,v} \), which are \( D \prod_{j=1}^D R_j \) multiplications and \( \prod_{j=1}^D R_j \) additions. Then, calling \( \pw{R}{1} = R \) and reiterating this decomposition procedure through successive divisors \( \pw{R}{k} | \frac{d}{\pw{R}{k - 1}} \), obtaining in each iteration the problem of performing \( \pw{N}{k} = \pw{N}{k - 1} \prod_{j=1}^D \pw{R}{k}_j \) Fourier transforms of dimension \( \prod_{j=1}^D \frac{d_j}{\prod_{t=1}^k \pw{R}{t}} \), the computational complexity in iteration \( k \) is:</p>
+    <p>This decomposition allows transforming a Fourier transform of an image of dimension \( d \) into \( N^{(1)) = \prod_{j=1}^D R_j \) Fourier transforms of dimension \( \frac{d}{R} \), with the cost of transforming the calculation of \( Y_{p,v} \), which are \( D \prod_{j=1}^D R_j \) multiplications and \( \prod_{j=1}^D R_j \) additions. Then, calling \( R^{(1)} = R \) and reiterating this decomposition procedure through successive divisors \( R^{(k)} | \frac{d}{R^{(k-1)}} \), obtaining in each iteration the problem of performing \( N^{(k)} = N{(k-1)} \prod_{j=1}^D R^{(k)}_j \) Fourier transforms of dimension \( \prod_{j=1}^D \frac{d_j}{\prod_{t=1}^k R^{(t)}} \), the computational complexity in iteration \( k \) is:</p>
     <p>
     $$
-    C_k = \pw{N}{k} \prod_{j=1}^D \frac{d_j}{\prod_{t=1}^k \pw{R}{t}_j} \left( \frac{d_j}{\prod_{t=1}^k \pw{R}{tj} \right) - 1 \right) + \sum_{t=1}^k (D + 1) \pw{N}{k - 1} \prod_{j=1}^D \pw{R}{t}_j,
+    C_k = N^{(k)} \prod_{j=1}^D \frac{d_j}{\prod_{t=1}^k R^{(t)}_j} \left( \frac{d_j}{\prod_{t=1}^k R^{(t)}_j\right) - 1 \right) + \sum_{t=1}^k (D + 1) N^{(k-1)} \prod_{j=1}^D R^{(t)}_j,
     $$
     </p>
-    <p>where the first term accounts for the computational complexity of performing the Fourier transform, and the second for the transformations. Note that \( \pw{N}{final} = \prod_{j=1}^D d_j \) and \( d_j = \prod_{t=1}^k \pw{R}{t}_j \), so:</p>
+    <p>where the first term accounts for the computational complexity of performing the Fourier transform, and the second for the transformations. Note that \( N^{(final)} = \prod_{j=1}^D d_j \) and \( d_j = \prod_{t=1}^k R^{(t)}_j \), so:</p>
     <p>
     $$
-    C_{final} = \prod_{j=1}^D d_j + (D + 1) \sum_{t=1}^{final} \pw{N}{t}.
+    C_{final} = \prod_{j=1}^D d_j + (D + 1) \sum_{t=1}^{final} N^{(t)}.
     $$
     </p>
     <p>If the \( d_j \) are highly factorable numbers, i.e., whose prime factorization can be done in very small primes, then the above complexity reduces further, reaching the optimal value when all \( d_j \) are the same power of 2. For example, if \( d_j = (2^n)_{j=1}^D \), the algorithm achieves a complexity of \( 2^{nD} + (D + 1)n 2^{nD} \in \mathcal{O}(nD 2^{nD}) = \mathcal{O}(k \log(k)) \) where \( k = 2^{nD} \) is the number of pixels in the image. For a clearer idea of the significant improvement this entails, note that for something as simple as computing the Fourier transform of a \( 2048 \times 2048 \) black-and-white image, the necessary operations are reduced from \( 1.7 \cdot 10^{13} \) to \( 2.7 \cdot 10^7 \), making execution approximately 630,000 times faster.</p>
