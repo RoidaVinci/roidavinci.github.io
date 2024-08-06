@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Final Report of the External Internship at IDIS</title>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1 class="page-title">Final Report of the External Internship at IDIS</h1>
+
+    <h2 class="section-title">Introduction</h2>
+    <p>The Health Research Institute (IDIS) conducts multiple types of preclinical studies (those carried out in animal models before being transferred to humans). During my stay in a particular lab of the IDIS, the primary focus involved tests on rodents, studying the effects on brain strokes after being inoculated substances over time. The ultimate goal is to extrapolate the results to relevant medical information about humans. Various stations are used, from image acquisition methods like magnetic resonance imaging to a computerized area for analysis and operating tables for rodents.</p>
+    <p>During my internship, I worked on obtaining brain maps of rodents through software processing of preclinical magnetic resonance imaging (MRI), for the subsequent extraction of relevant data and parameters for precise analysis.</p>
+
+    <h2 class="section-title">Magnetic Resonance Imaging</h2>
+    <p>Magnetic Resonance Imaging (MRI) is an advanced technique for obtaining images of objects that are not accessible through conventional lenses, such as internal organs in humans or animals. This technique relies on physical principles, where a magnetic field and subsequent transverse magnetic fields are used to acquire precise wave information about each point in space. This process allows for the reconstruction of two-dimensional images of the interiors of bodies.</p>
+
+    <h3 class="subsection-title">Principle of MRI</h3>
+    <p>When an external magnetic field is applied to an isolated system containing hydrogen nuclei, the spins of these nuclei align predominantly in the direction of the magnetic field. This alignment creates a net magnetization (\(M\)), which is the sum of the magnetic moments of all hydrogen nuclei in the system. Over time, this net magnetization can be described by the following equations:</p>
+    <p>
+    $$
+    \begin{cases}
+    M_x(t)=M_0 e^{-\frac{t}{T_2}} \sin(\omega t), \\
+    M_y(t)=M_0 e^{-\frac{t}{T_2}} \cos(\omega t), \\
+    M_z(t)=M_0 (1-e^{-\frac{t}{T_1}})
+    \end{cases}
+    $$
+    </p>
+    <p>where \( M_0 \) is the initial value of the net magnetization, which increases with a stronger external magnetic field. \( T_1 \) and \( T_2 \) are parameters that depend on the physico-chemical structure of the sample. These times represent the time for the transverse components (\( M_x \) and \( M_y \)) and the longitudinal component (\( M_z \)) to return to approximately 63% of their equilibrium values.</p>
+
+    <p align="center">
+      <img src="../imaxes/mxymz.png" alt="Figure 1" style="max-width: 50%;">
+    </p>
+    <p align="center">
+      <em>Figure 1: Illustration showing the tendency of net magnetization to return to the longitudinal axis, making the transverse magnetization null over time.</em>
+    </p>
+
+    <p>In practice, the transverse components (\( M_x \), \( M_y \)) do not return to 63% of the equilibrium value within \( T_2 \). Local chemical structure differences and magnetic field inhomogeneities cause this process to be faster. Hence, the observed decay time (\( T_2^* \)) is defined as:</p>
+    <p>
+    $$
+    T_2^* = \frac{1}{\frac{1}{T_2} + \gamma \Delta B_0}
+    $$
+    </p>
+    <p>where \( \gamma \) is the gyromagnetic ratio and \( \Delta B_0 \) is the magnetic field variation at the measurement point. \( T_2^* \) is the practical decay time of the transverse component to \( \frac{1}{e} \), often more useful and reliable for studies, requiring more uniform magnetic fields due to greater sensitivity to field irregularities.</p>
+    <p>Relaxation times \( T_1 \) and \( T_2 \), and thus \( T_2^* \), depend on the amount and size of water molecules and hydrophilic molecules (those tending to chemically combine with water). This theoretical and practical relationship is vital for creating images of living specimens.</p>
+    <p>MRI captures electromagnetic wave information, encapsulating all system data in the K-space (\( \mathbb{K} \)):</p>
+    <p>
+    $$
+    (k_x, k_y)(t) = \left( \int_{0}^{t} \gamma G_x(u) \, du, \int_{0}^{t} \gamma G_y(u) \, du \right) \in \mathbb{K}
+    $$
+    </p>
+    <p>where \( \gamma \) is the gyromagnetic ratio, and \( G_x \) and \( G_y \) are the magnetic gradients. The K-space contains wave information for MRI data, allowing image reconstruction through inverse Fourier series, using methods like the Fast Fourier Transform. K-space data is often halved using theoretical central symmetry, accelerating reconstruction.</p>
+
+    <p align="center">
+      <img src="../imaxes/kespacio.png" alt="Figure 2" style="max-width: 50%;">
+    </p>
+    <p align="center">
+      <em>Figure 2: K-space of an MRI of a human brain and associated image.</em>
+    </p>
+
+    <p>Depending on the type of analysis, we process and normalize the above information into \( T_1 \), \( T_2 \), and \( T_2^* \) maps, where each pixel has a value in the range \( [0, 1] \) on a grayscale, more intense for longer \( T_1 \), \( T_2 \), or \( T_2^* \) times.</p>
+
+    <h2 class="section-title">Analysis of MRI Images</h2>
+    <p>Depending on the study, chemical properties of the components involved, and the applied magnetic field, one of the aforementioned imaging methods may be more useful. After obtaining the desired map, either \( T_1 \), \( T_2 \), or \( T_2^* \), it must be analyzed to extract clinical information. Depending on the study, a wide range of parameters, cuts, or statistical information, such as the mean or variance of \( T_1 \), \( T_2 \), and \( T_2^* \) within an image or between images at different times, may be of interest. This helps to test hypotheses, such as whether \( T_2 \) remains unchanged after irradiating a rat's brain, thereby ruling out tumors or brain diseases due to radiation.</p>
+
+    <p align="center">
+      <img src="../imaxes/scan.png" alt="Figure 3" style="max-width: 50%;">
+    </p>
+    <p align="center">
+      <em>Figure 3: \( T_2^* \) MRI of a rat's brain with 12 slices showing a small lesion in the right frontal area (whiter area).</em>
+    </p>
+
+    <p>It is often useful to crop certain parts of the image to remove irrelevant information, measuring properties of the parts involved in a process. For instance, segmenting a person's brain to isolate an area affected by a hemorrhage, confirming the presence of the hemorrhage as described earlier.</p>
+
+    <p align="center">
+      <img src="../imaxes/segmentadomanual.png" alt="Figure 4" style="max-width: 50%;">
+    </p>
+    <p align="center">
+      <em>Figure 4: Manual segmentation of the lesion shown in Figure 3.</em>
+    </p>
+
+    <h2 class="section-title">Proposed Solution</h2>
+    <p>This problem has had satisfactory solutions for humans for a long time. Solutions for rat and mouse brains are more recent and still far from ideal, but currently provide better results. The measures both for fit and for training the model are made in terms of the Sørensen-Dice coefficient (DICE), which indicates overlap between two segmentations \( A,B\subset\mathbb{R}^2 \) and is defined mathematically as:</p>
+    <p>
+    $$
+    DICE(A,B):=\frac{2\operatorname{Area}(A\cap B)}{\operatorname{Area(A)+\operatorname{Area}(B)}},
+    $$
+    </p>
+
+    <p>The process of setting up the model to make predictions over IDIS images was the most challenging part. After configuring it, we found that the network, despite yielding results indicating good performance, required further adjustments to match the actual segmentation needs. Finally, we achieved a promising setting to adapt the data from the lab to the existing frameworks. Some examples of segmentations performed automatically by the model can be seen below.</p>
+
+    <p align="center">
+      <img src="../imaxes/segmentadoauto.png" alt="Figure 6" style="max-width: 50%;">
+    </p>
+    <p align="center">
+      <em>Figure 6: Automatic segmentation of the images from Figure 3 performed by the RatLesNetv2 neural network with training data from homogeneous/model-3. See <a href="https://github.com/jmlipman/RatLesNetv2#3-training-and-evaluation" target="_blank">GitHub/jmlipman/RatLesNetv2</a>.</em>
+    </p>
+
+  </div>
+</body>
+</html>
