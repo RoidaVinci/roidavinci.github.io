@@ -12,6 +12,19 @@
     document.addEventListener("DOMContentLoaded", function() {
       MathJax.typesetPromise();
     });
+    // Function to include the navbar dynamically
+    function includeNavbar() {
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', '/_includes/navbar.html', true);
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          document.getElementById('navbar').innerHTML = xhr.responseText;
+        }
+      };
+      xhr.send();
+    }
+    // Include the navbar after the page loads
+    window.onload = includeNavbar;
   </script>
   <style>
     body {
@@ -54,9 +67,9 @@
   </style>
 </head>
 <body>
-    <header>
-        {% include ../_includes/navbar.html %}
-    </header>
+<header id="navbar">
+        <!-- Navbar will be included here -->
+  </header>
 <main role="main" class="container-sm" style="max-width: 1080px">
     <h1 class="page-title">Computational Cost and FFT</h1>
     <p>A convolution with \( F \) filters of size \( r \) requires, for each of the \( \prod_{j=1}^D d_j \) output pixels, a total of \( \prod_{j=1}^D r_j \) multiplications and \( \prod_{j=1}^D r_j - 1 \) additions if performed intuitively according to the definition. This adds to a complexity order of \( \mathcal{O}\left(F \cdot \prod_{j=1}^D d_j \cdot \prod_{j=1}^D r_j\right) \), which scales exponentially with the dimension. Although not prohibitive in many cases given the small dimensions of the most commonly used convolutional filters, it significantly hampers its execution. Therefore, different techniques are used in practice to significantly reduce this computational burden. This work will describe the multidimensional discrete Fourier transform [Duhamel] and detail the procedure for calculating convolutions using the convolution theorem. Some more recent works point to the existence of more advanced algorithms that surpass this efficiency for very small filters [Lavin et. al, 2015], but their content is beyond the scope of this work. There are techniques to reduce the multidimensional discrete Fourier transform to discrete Fourier transforms, such as the row-column algorithm. In fact, this approach is commonly used in practical implementations.</p>
