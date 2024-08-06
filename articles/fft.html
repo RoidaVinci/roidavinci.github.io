@@ -7,121 +7,6 @@
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   <link rel="stylesheet" href="styles.css">
-  <style>
-    html, body {
-      font-family: "Computer Modern Serif", "Palatino", "Perpetua", "Baskerville", "Lucida Console", "Florence", "Times New Roman", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important;
-      text-align: justify !important;
-      margin: 0;
-      padding: 0;
-    }
-
-    .container {
-      width: 60%;
-      margin: 0 auto;
-      padding: 0 15px;
-    }
-
-    .footer {
-      width: 100%;
-      margin-top: 1rem;
-      padding: 15px;
-      background-color: #f5f5f5;
-    }
-
-    .footnote {
-      font-size: 1rem;
-      color: darkgrey;
-    }
-
-    .profile-img {
-      border-radius: 50%;
-      width: 100%;
-      max-width: 250px;
-      margin: 35px 0px 0px 15px;
-      text-align: left;
-    }
-
-    .profile-img-small {
-      border-radius: 50%;
-      float: right;
-      height: 100px;
-      width: 100px;
-      margin-top: -25px;
-      margin-right: 5px;
-      margin-left: 5px;
-      text-align: right;
-    }
-
-    .page-title {
-      font-size: 2rem;
-      font-weight: 500;
-      text-align: center;
-    }
-
-    @media (max-width: 575.98px) {
-      .page-title {
-        letter-spacing: -0.05em;
-      }
-    }
-
-    .section-title {
-      font-size: 1.5rem;
-      font-weight: 500;
-      margin: 1rem 0px;
-    }
-
-    .publication-title, .subsection-title {
-      font-size: 1.25rem;
-      margin: 0.5rem 0 0.25rem 0;
-    }
-
-    .publication-venue {
-      font-weight: 300;
-    }
-
-    .publication-venue p {
-      margin: 0.125rem 0 0.5rem 0;
-    }
-
-    .publication-authors {
-      margin: 0 0 0 0;
-    }
-
-    .publication-authors p {
-      margin: 0 0 0 0;
-    }
-
-    .publication-excerpt p {
-      margin: 0.5rem 0 0 0;
-    }
-
-    .publication-links {
-      margin: 0.125rem 0 1rem 0;
-    }
-
-    a:link, a:visited, a:hover, a:active {
-      text-decoration: none;
-    }
-
-    .align-self-center {
-      text-align: center;
-    }
-
-    .cover-image {
-      max-width: 100%;
-      max-height: 170px;
-      text-align: center;
-    }
-
-    .note {
-      margin: 10px 0;
-      color: #d4382a;
-    }
-
-    .small-text {
-      font-size: 0.6rem; /* Adjust the size as needed */
-    }
-  </style>
 </head>
 <body>
   <div class="container">
@@ -188,9 +73,9 @@
     </p>
     <p>This decomposition allows transforming a Fourier transform of an image of dimension \( d \) into \( N^{(1)) = \prod_{j=1}^D R_j \) Fourier transforms of dimension \( \frac{d}{R} \), with the cost of transforming the calculation of \( Y_{p,v} \), which are \( D \prod_{j=1}^D R_j \) multiplications and \( \prod_{j=1}^D R_j \) additions. Then, calling \( R^{(1)} = R \) and reiterating this decomposition procedure through successive divisors \( R^{(k)} | \frac{d}{R^{(k-1)}} \), obtaining in each iteration the problem of performing \( N^{(k)} = N{(k-1)} \prod_{j=1}^D R^{(k)}_j \) Fourier transforms of dimension \( \prod_{j=1}^D \frac{d_j}{\prod_{t=1}^k R^{(t)}} \), the computational complexity in iteration \( k \) is:</p>
     <p>
-    $$
-    C_k = N^{(k)} \prod_{j=1}^D \frac{d_j}{\prod_{t=1}^k R^{(t)}_j} \left( \frac{d_j}{\prod_{t=1}^k R^{(t)}_j\right) - 1 \right) + \sum_{t=1}^k (D + 1) N^{(k-1)} \prod_{j=1}^D R^{(t)}_j,
-    $$
+      $$
+      C_k = N^{(k)} \prod_{j=1}^D \frac{d_j}{\prod_{t=1}^k R^{(t)}_j} \left( \frac{d_j}{\prod_{t=1}^k R^{(t)}_j} - 1 \right) + \sum_{t=1}^k (D + 1) N^{(k-1)} \prod_{j=1}^D R^{(t)}_j,
+      $$
     </p>
     <p>where the first term accounts for the computational complexity of performing the Fourier transform, and the second for the transformations. Note that \( N^{(final)} = \prod_{j=1}^D d_j \) and \( d_j = \prod_{t=1}^k R^{(t)}_j \), so:</p>
     <p>
