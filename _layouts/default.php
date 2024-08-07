@@ -54,9 +54,7 @@
     </style>
 </head>
 <body>
-    <header>
-        <?php include '../_includes/navbar.php'; ?>
-    </header>
+{% include nav.html %}
     <main role="main" class="container-sm">
         {{ content }}
     </main>
