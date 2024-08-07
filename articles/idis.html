@@ -102,10 +102,10 @@
     <p>Image reconstruction from K-space involves applying the inverse Fast Fourier Transform (iFFT) to convert the frequency data back into the spatial domain, producing the final MRI image. The quality and accuracy of this reconstructed image depend on the completeness and resolution of the K-space data.</p>
 
    <h2 class="section-title">Obtaining Relaxation Times</h2>
-<p>The relaxation times \( T_1 \) and \( T_2 \) provide important information about tissue properties. The signal intensity \( S \) in MRI is directly proportional to the transverse magnetization components \( M_x \) and \( M_y \). Specifically, the signal intensity can be expressed as:</p>
+<p>The relaxation times \( T_1 \) and \( T_2 \) provide important information about tissue properties. The signal intensity \( S \) in MRI the magnitude of the vector \( (M_x, M_y) \):</p>
 <p>
 $$
-S(t) = \|\vec{M}_{xy}\| = \sqrt{M_x(t)^2 + M_y(t)^2}
+S(t) = \sqrt{M_x(t)^2 + M_y(t)^2}
 $$
 </p>
 <p>Here’s the procedure to calculate these relaxation times:</p>
@@ -120,12 +120,12 @@ $$
     <ul>
       <li>Apply 180-degree inversion pulse.</li>
       <li>Wait for \( TI_1 \), apply 90-degree excitation pulse, and measure the signal.</li>
-      <li>Repeat with different \( TI \) values (\( TI_2 \), \( TI_3 \), etc.).</li>
+      <li>Repeat with different \( TI \) values (\( TI_2 \), \( TI_3 \), etc.). That is, we repeat the experiment in a grid of timesteps, and in each instance of the experiment we just measure the signal after a different time lapse \( TI \).</li>
     </ul>
   </li>
   <li><strong>Fit the Recovery Curve:</strong>
     <ul>
-      <li>Fit the signal intensity data for each pixel to the exponential recovery function:
+      <li>After we measure the signal at different time lapses, we are in a good condition to obtain a dense estimation of the exponential recovery curve parameters \( S_0 \) and \( T_1 \):
         $$
         S(TI) = S_0 \left( 1 - e^{-\frac{TI}{T_1}} \right)
         $$
@@ -145,12 +145,12 @@ $$
     <ul>
       <li>Apply 90-degree excitation pulse.</li>
       <li>Wait for \( TE_1 \), apply 180-degree refocusing pulse, and measure the signal.</li>
-      <li>Repeat with different \( TE \) values (\( TE_2 \), \( TE_3 \), etc.).</li>
+      <li>Repeat with different \( TE \) values (\( TE_2 \), \( TE_3 \), etc.). That is, we repeat the experiment in a grid of timesteps, and in each instance of the experiment we just measure the signal after a different time lapse \( TE \).</li>
     </ul>
   </li>
   <li><strong>Fit the Decay Curve:</strong>
     <ul>
-      <li>Fit the signal intensity data for each pixel to the exponential decay function:
+      <li>After we measure the signal at different time lapses, we are in a good condition to obtain a dense estimation of the exponential decay curve parameters \( S_0 \) and \( T_2 \):
         $$
         S(TE) = S_0 e^{-\frac{TE}{T_2}}
         $$
