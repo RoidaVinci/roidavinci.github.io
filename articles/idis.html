@@ -3,38 +3,60 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Final Report of the External Internship at IDIS</title>
+  <title>Understanding Magnetic Resonance Imaging (MRI)</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="stylesheet" href="../assets/cmun-serif/cmun-serif.css">
   <link rel="stylesheet" href="../assets/article.css">
   <link rel="icon" type="image/x-icon" href="../favicon.ico">
   <link rel="shortcut icon" type="image/png" href="../favicon.png">
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      TeX: {
+        extensions: ["AMSmath.js", "AMSsymbols.js", "AMScd.js"],
+        equationNumbers: { autoNumber: "AMS" },
+        Macros: {
+          RR: "{\\mathbb{R}}",
+          bold: ["{\\bf #1}", 1]
+        }
+      },
+      "HTML-CSS": { availableFonts: ["TeX"] }
+    });
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", function() {
       MathJax.typesetPromise();
     });
   </script>
+  <style>
+    body {
+      font-family: "Computer Modern Serif", serif;
+    }
+    .theorem {
+      border: 1px solid #000;
+      padding: 10px;
+      margin: 20px 0;
+      background-color: #f9f9f9;
+    }
+    .theorem-title {
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
   <!-- Back Button -->
   <a href="javascript:history.back()" class="back-button">
-    <i class="fas fa-arrow-left"></i>
+    <i class="fas fa-arrow-left"></i> Back
   </a>
 <main role="main" class="container-sm" style="max-width: 1080px">
-    <h1 class="page-title">Final Report of the External Internship at IDIS</h1>
+    <h1 class="page-title">Understanding Magnetic Resonance Imaging (MRI)</h1>
 
     <h2 class="section-title">Introduction</h2>
-    <p>The Health Research Institute (IDIS) conducts multiple types of preclinical studies (those carried out in animal models before being transferred to humans). During my stay in a particular lab of the IDIS, the primary focus involved tests on rodents, studying the effects on brain strokes after being inoculated substances over time. The ultimate goal is to extrapolate the results to relevant medical information about humans. Various stations are used, from image acquisition methods like magnetic resonance imaging to a computerized area for analysis and operating tables for rodents.</p>
-    <p>During my internship, I worked on obtaining brain maps of rodents through software processing of preclinical magnetic resonance imaging (MRI), for the subsequent extraction of relevant data and parameters for precise analysis.</p>
+    <p>Magnetic Resonance Imaging (MRI) is a powerful and non-invasive imaging technique used to observe detailed internal structures. It is widely applied in both clinical and research settings to investigate the brain, muscles, heart, and other internal organs.</p>
 
-    <h2 class="section-title">Magnetic Resonance Imaging</h2>
-    <p>Magnetic Resonance Imaging (MRI) is an advanced technique for obtaining images of objects that are not accessible through conventional lenses, such as internal organs in humans or animals. This technique relies on physical principles, where a magnetic field and subsequent transverse magnetic fields are used to acquire precise wave information about each point in space. This process allows for the reconstruction of two-dimensional images of the interiors of bodies.</p>
-
-    <h3 class="subsection-title">Principle of MRI</h3>
-    <p>When an external magnetic field is applied to an isolated system containing hydrogen nuclei, the spins of these nuclei align predominantly in the direction of the magnetic field. This alignment creates a net magnetization (\(M\)), which is the sum of the magnetic moments of all hydrogen nuclei in the system. Over time, this net magnetization can be described by the following equations:</p>
+    <h2 class="section-title">Principle of MRI</h2>
+    <p>Magnetic Resonance Imaging (MRI) relies on the principles of nuclear magnetic resonance. When an external magnetic field is applied to a system containing hydrogen nuclei, the spins of these nuclei align predominantly in the direction of the magnetic field. This alignment creates a net magnetization (\(M\)), which can be described by the following equations:</p>
     <p>
     $$
     \begin{cases}
@@ -44,7 +66,7 @@
     \end{cases}
     $$
     </p>
-    <p>where \( M_0 \) is the initial value of the net magnetization, which increases with a stronger external magnetic field. \( T_1 \) and \( T_2 \) are parameters that depend on the physico-chemical structure of the sample. These times represent the time for the transverse components (\( M_x \) and \( M_y \)) and the longitudinal component (\( M_z \)) to return to approximately 63% of their equilibrium values.</p>
+    <p>where \( M_0 \) is the initial value of the net magnetization, which increases with a stronger external magnetic field. \( T_1 \) and \( T_2 \) are parameters that depend on the physico-chemical structure of the sample. These times represent the relaxation times for the transverse and longitudinal components of the magnetization, respectively.</p>
 
     <p align="center">
       <img src="../imaxes/mxymz.png" alt="Figure 1" style="max-width: 50%;">
@@ -79,7 +101,7 @@
     <p>Depending on the type of analysis, we process and normalize the above information into \( T_1 \), \( T_2 \), and \( T_2^* \) maps, where each pixel has a value in the range \( [0, 1] \) on a grayscale, more intense for longer \( T_1 \), \( T_2 \), or \( T_2^* \) times.</p>
 
     <h2 class="section-title">Analysis of MRI Images</h2>
-    <p>Depending on the study, chemical properties of the components involved, and the applied magnetic field, one of the aforementioned imaging methods may be more useful. After obtaining the desired map, either \( T_1 \), \( T_2 \), or \( T_2^* \), it must be analyzed to extract clinical information. Depending on the study, a wide range of parameters, cuts, or statistical information, such as the mean or variance of \( T_1 \), \( T_2 \), and \( T_2^* \) within an image or between images at different times, may be of interest. This helps to test hypotheses, such as whether \( T_2 \) remains unchanged after irradiating a rat's brain, thereby ruling out tumors or brain diseases due to radiation.</p>
+    <p>The analysis of MRI images involves extracting clinical and research-relevant information from the images. Various parameters and statistical information, such as the mean or variance of \( T_1 \), \( T_2 \), and \( T_2^* \) within an image or between images at different times, may be of interest. This helps in testing hypotheses and diagnosing conditions, such as tumors or brain diseases.</p>
 
     <p align="center">
       <img src="../imaxes/scan.png" alt="Figure 3" style="max-width: 50%;">
@@ -88,7 +110,7 @@
       <em>Figure 3: \( T_2^* \) MRI of a rat's brain with 12 slices showing a small lesion in the right frontal area (whiter area).</em>
     </p>
 
-    <p>It is often useful to crop certain parts of the image to remove irrelevant information, measuring properties of the parts involved in a process. For instance, segmenting a person's brain to isolate an area affected by a hemorrhage, confirming the presence of the hemorrhage as described earlier.</p>
+    <p>It is often useful to crop certain parts of the image to remove irrelevant information, measuring properties of the parts involved in a process. For instance, segmenting a brain to isolate an area affected by a hemorrhage, confirming the presence of the hemorrhage.</p>
 
     <p align="center">
       <img src="../imaxes/segmentadomanual.png" alt="Figure 4" style="max-width: 50%;">
@@ -98,22 +120,34 @@
     </p>
 
     <h2 class="section-title">Proposed Solution</h2>
-    <p>This problem has had satisfactory solutions for humans for a long time. Solutions for rat and mouse brains are more recent and still far from ideal, but currently provide better results. The measures both for fit and for training the model are made in terms of the Sørensen-Dice coefficient (DICE), which indicates overlap between two segmentations \( A,B\subset\mathbb{R}^2 \) and is defined mathematically as:</p>
-    <p>
-    $$
-    DICE(A,B):=\frac{2\operatorname{Area}(A\cap B)}{\operatorname{Area(A)+\operatorname{Area}(B)}},
-    $$
-    </p>
+    <p>Various advanced algorithms and techniques are used to enhance the efficiency of MRI analysis. For example, the Sørensen-Dice coefficient (DICE) is used to measure the overlap between two segmentations. It is defined mathematically as:</p>
+<p>
+$$
+DICE(A,B):=\frac{2\operatorname{Area}(A\cap B)}{\operatorname{Area}(A)+\operatorname{Area}(B)},
+$$
+</p>
 
-    <p>The process of setting up the model to make predictions over IDIS images was the most challenging part. After configuring it, we found that the network, despite yielding results indicating good performance, required further adjustments to match the actual segmentation needs. Finally, we achieved a promising setting to adapt the data from the lab to the existing frameworks. Some examples of segmentations performed automatically by the model can be seen below.</p>
+<p>The application of neural networks, such as RatLesNetv2, has shown promising results in automating the segmentation of MRI images. These models can be trained using datasets to identify and segment relevant areas in MRI scans, improving both speed and accuracy compared to manual segmentation.</p>
 
-    <p align="center">
-      <img src="../imaxes/segmentadoauto.png" alt="Figure 6" style="max-width: 50%;">
-    </p>
-    <p align="center">
-      <em>Figure 6: Automatic segmentation of the images from Figure 3 performed by the RatLesNetv2 neural network with training data from homogeneous/model-3. See <a href="https://github.com/jmlipman/RatLesNetv2#3-training-and-evaluation" target="_blank">GitHub/jmlipman/RatLesNetv2</a>.</em>
-    </p>
+<p align="center">
+  <img src="../imaxes/segmentadoauto.png" alt="Figure 6" style="max-width: 50%;">
+</p>
+<p align="center">
+  <em>Figure 6: Automatic segmentation of the images from Figure 3 performed by the RatLesNetv2 neural network with training data from homogeneous/model-3. See <a href="https://github.com/jmlipman/RatLesNetv2#3-training-and-evaluation" target="_blank">GitHub/jmlipman/RatLesNetv2</a>.</em>
+</p>
+
+<h2 class="section-title">References</h2>
+<p>
+  [1] Cooley, J. W., & Tukey, J. W. (1965). An algorithm for the machine calculation of complex Fourier series. <em>Mathematics of Computation, 19</em>(90), 297-301.
+</p>
+<p>
+  [2] Duhamel, P. (1990). Algorithms meeting the lower bounds on the multiplicative complexity of length-2n DFTs and their connection with practical algorithms. <em>IEEE Transactions on Acoustics, Speech, and Signal Processing, 38</em>(9), 1504-1511.
+</p>
+<p>
+  [3] Lavin, A., & Gray, S. (2016). Fast algorithms for convolutional neural networks. In Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (pp. 4013-4021).
+</p>
 
 </main>
 </body>
 </html>
+
