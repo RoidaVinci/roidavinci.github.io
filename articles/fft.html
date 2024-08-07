@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ page.title }}</title>
-  <link rel="stylesheet" href="{{ '/assets/style.css' | relative_url }}">
+  <title>Fast Fourier Transform for Convolutions</title>
+  <link rel="stylesheet" href="/assets/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -12,64 +12,51 @@
     document.addEventListener("DOMContentLoaded", function() {
       MathJax.typesetPromise();
     });
-    // Function to include the navbar dynamically
-    function includeNavbar() {
-      var xhr = new XMLHttpRequest();
-      xhr.open('GET', '../_includes/navbar.html', true);
-      xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-          document.getElementById('navbar').innerHTML = xhr.responseText;
-        }
-      };
-      xhr.send();
-    }
-    // Include the navbar after the page loads
-    window.onload = includeNavbar;
   </script>
   <style>
     body {
-        font-family: "Computer Modern Serif", serif;
+      font-family: "Computer Modern Serif", serif;
     }
     header {
-        background-color: #ffffff;
-        color: #000000;
-        text-align: center;
-        padding: 20px 0;
-        margin-bottom: 20px;
+      background-color: #ffffff;
+      color: #000000;
+      text-align: center;
+      padding: 20px 0;
+      margin-bottom: 20px;
     }
     header nav ul {
-        list-style-type: none;
-        padding: 0;
-        margin: 0;
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
     }
     header nav ul li {
-        display: inline;
-        margin: 0 10px;
+      display: inline;
+      margin: 0 10px;
     }
     header nav ul li a {
-        color: #000000;
-        text-decoration: none;
-        font-size: 1.2rem;
+      color: #000000;
+      text-decoration: none;
+      font-size: 1.2rem;
     }
     header nav ul li a:hover {
-        text-decoration: underline;
+      text-decoration: underline;
     }
     main {
-        max-width: 60%;
-        margin: 0 auto;
-        text-align: justify;
+      max-width: 60%;
+      margin: 0 auto;
+      text-align: justify;
     }
     .container {
-        width: auto;
-        max-width: 680px;
-        padding: 0 15px;
+      width: auto;
+      max-width: 680px;
+      padding: 0 15px;
     }
   </style>
 </head>
 <body>
-<header id="navbar">
-        <!-- Navbar will be included here -->
-  </header>
+    <header>
+        <?php include '../_includes/navbar.php'; ?>
+    </header>
 <main role="main" class="container-sm" style="max-width: 1080px">
     <h1 class="page-title">Computational Cost and FFT</h1>
     <p>A convolution with \( F \) filters of size \( r \) requires, for each of the \( \prod_{j=1}^D d_j \) output pixels, a total of \( \prod_{j=1}^D r_j \) multiplications and \( \prod_{j=1}^D r_j - 1 \) additions if performed intuitively according to the definition. This adds to a complexity order of \( \mathcal{O}\left(F \cdot \prod_{j=1}^D d_j \cdot \prod_{j=1}^D r_j\right) \), which scales exponentially with the dimension. Although not prohibitive in many cases given the small dimensions of the most commonly used convolutional filters, it significantly hampers its execution. Therefore, different techniques are used in practice to significantly reduce this computational burden. This work will describe the multidimensional discrete Fourier transform [Duhamel] and detail the procedure for calculating convolutions using the convolution theorem. Some more recent works point to the existence of more advanced algorithms that surpass this efficiency for very small filters [Lavin et. al, 2015], but their content is beyond the scope of this work. There are techniques to reduce the multidimensional discrete Fourier transform to discrete Fourier transforms, such as the row-column algorithm. In fact, this approach is commonly used in practical implementations.</p>
