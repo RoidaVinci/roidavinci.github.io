@@ -1,5 +1,3 @@
----
----
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,6 +18,28 @@
     document.addEventListener("DOMContentLoaded", function() {
       MathJax.typesetPromise();
     });
+  </script>
+    <script>
+    // Function to include HTML
+    function includeHTML() {
+      const elements = document.querySelectorAll('[data-include-html]');
+      elements.forEach(el => {
+        const file = el.getAttribute('data-include-html');
+        if (file) {
+          fetch(file)
+            .then(response => response.text())
+            .then(data => {
+              el.innerHTML = data;
+              el.removeAttribute('data-include-html');
+              includeHTML(); // Recursive call to include nested files
+            })
+            .catch(error => console.error('Error loading the file:', error));
+        }
+      });
+    }
+
+    // Run includeHTML on page load
+    document.addEventListener('DOMContentLoaded', includeHTML);
   </script>
   <style>
     body {
@@ -62,7 +82,7 @@
   </style>
 </head>
 <body>
-  {% include nav.html %}
+<div data-include-html="nav.html"></div>
 <main role="main" class="container-sm" style="max-width: 1080px">
     <h1 class="page-title">Final Report of the External Internship at IDIS</h1>
 
