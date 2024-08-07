@@ -101,15 +101,74 @@
 
     <p>Image reconstruction from K-space involves applying the inverse Fast Fourier Transform (iFFT) to convert the frequency data back into the spatial domain, producing the final MRI image. The quality and accuracy of this reconstructed image depend on the completeness and resolution of the K-space data.</p>
 
-    <h2 class="section-title">Obtaining Relaxation Times</h2>
-    <p>The \( T_1 \), \( T_2 \), and \( T_2^* \) relaxation times are derived from the reconstructed images using various MRI pulse sequences and data processing techniques:</p>
-    <ul>
-      <li><strong>\( T_1 \) Mapping:</strong> Achieved through inversion recovery sequences, where the recovery of longitudinal magnetization is measured after a 180-degree inversion pulse.</li>
-      <li><strong>\( T_2 \) Mapping:</strong> Obtained using spin echo sequences, which measure the decay of transverse magnetization after a 90-degree excitation pulse and subsequent 180-degree refocusing pulses.</li>
-      <li><strong>\( T_2^* \) Mapping:</strong> Acquired using gradient echo sequences, which are sensitive to magnetic field inhomogeneities and provide the effective transverse relaxation time.</li>
-    </ul>
+   <h2 class="section-title">Obtaining Relaxation Times</h2>
+<p>The relaxation times \( T_1 \) and \( T_2 \) provide important information about tissue properties. The signal intensity \( S \) in MRI is directly proportional to the transverse magnetization components \( M_x \) and \( M_y \). Specifically, the signal intensity can be expressed as:</p>
+<p>
+$$
+S(t) = \|\vec{M}_{xy}\| = \sqrt{M_x(t)^2 + M_y(t)^2}
+$$
+</p>
+<p>Here’s the procedure to calculate these relaxation times:</p>
 
-    <p>These relaxation maps provide valuable insights into the tissue properties and are critical for various diagnostic and research applications.</p>
+<h3 class="subsection-title">Calculating \( T_1 \) Relaxation Time</h3>
+<ol>
+  <li><strong>Initial Excitation (Inversion Pulse):</strong> Apply a 180-degree inversion pulse to invert the net magnetization.</li>
+  <li><strong>Recovery Periods (Inversion Times, \( TI \)):</strong> Allow the magnetization to recover for various inversion times (\( TI \)).</li>
+  <li><strong>Secondary Excitation (Excitation Pulse):</strong> Apply a 90-degree excitation pulse after each \( TI \) to flip the recovered magnetization into the transverse plane.</li>
+  <li><strong>Signal Measurement:</strong> Capture the signal (image) after the 90-degree pulse at each \( TI \).</li>
+  <li><strong>Repeat for Multiple Inversion Times:</strong>
+    <ul>
+      <li>Apply 180-degree inversion pulse.</li>
+      <li>Wait for \( TI_1 \), apply 90-degree excitation pulse, and measure the signal.</li>
+      <li>Repeat with different \( TI \) values (\( TI_2 \), \( TI_3 \), etc.).</li>
+    </ul>
+  </li>
+  <li><strong>Fit the Recovery Curve:</strong>
+    <ul>
+      <li>Fit the signal intensity data for each pixel to the exponential recovery function:
+        $$
+        S(TI) = S_0 \left( 1 - e^{-\frac{TI}{T_1}} \right)
+        $$
+      </li>
+    </ul>
+  </li>
+  <li><strong>Calculate \( T_1 \):</strong> Determine \( T_1 \) for each pixel based on the fitted curve.</li>
+</ol>
+
+<h3 class="subsection-title">Calculating \( T_2 \) Relaxation Time</h3>
+<ol>
+  <li><strong>Initial Excitation (90-Degree Pulse):</strong> Apply a 90-degree excitation pulse to flip the net magnetization into the transverse plane.</li>
+  <li><strong>Decay Periods (Echo Times, \( TE \)):</strong> Allow the transverse magnetization to decay for various echo times (\( TE \)).</li>
+  <li><strong>Refocusing Pulses (180-Degree Pulse):</strong> Apply a 180-degree refocusing pulse at each \( TE \) to refocus the decaying magnetization.</li>
+  <li><strong>Signal Measurement:</strong> Capture the signal (echo) at each \( TE \). The signal intensity \( S \) is proportional to the transverse magnetization \( \|\vec{M}_{xy}\| \).</li>
+  <li><strong>Repeat for Multiple Echo Times:</strong>
+    <ul>
+      <li>Apply 90-degree excitation pulse.</li>
+      <li>Wait for \( TE_1 \), apply 180-degree refocusing pulse, and measure the signal.</li>
+      <li>Repeat with different \( TE \) values (\( TE_2 \), \( TE_3 \), etc.).</li>
+    </ul>
+  </li>
+  <li><strong>Fit the Decay Curve:</strong>
+    <ul>
+      <li>Fit the signal intensity data for each pixel to the exponential decay function:
+        $$
+        S(TE) = S_0 e^{-\frac{TE}{T_2}}
+        $$
+      </li>
+    </ul>
+  </li>
+  <li><strong>Calculate \( T_2 \):</strong> Determine \( T_2 \) for each pixel based on the fitted curve.</li>
+</ol>
+
+<h3 class="subsection-title">Calculating \( T_2^* \) Relaxation Time</h3>
+<p>To determine \( T_2^* \) relaxation times, the process involves correcting for magnetic field inhomogeneities using the following formula:</p>
+<p>
+$$
+\frac{1}{T_2^*} = \frac{1}{T_2} + \gamma \Delta B_0
+$$
+</p>
+<p>where \( \gamma \) is the gyromagnetic ratio and \( \Delta B_0 \) is the magnetic field variation at the measurement point. This formula allows us to derive the effective transverse relaxation time \( T_2^* \) from the \( T_2 \) values.</p>
+
 
     <h2 class="section-title">Analysis of MRI Images</h2>
     <p>The analysis of MRI images involves extracting clinical and research-relevant information from the images. Various parameters and statistical information, such as the mean or variance of \( T_1 \), \( T_2 \), and \( T_2^* \) within an image or between images at different times, may be of interest. This helps in testing hypotheses and diagnosing conditions, such as tumors or brain diseases.</p>
