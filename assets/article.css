@@ -164,3 +164,13 @@ a:link, a:visited, a:hover, a:active {
 .small-text {
   font-size: 0.6rem; /* Adjust the size as needed */
 }
+
+.theorem {
+      border: 1px solid #000;
+      padding: 10px;
+      margin: 20px 0;
+      background-color: #f9f9f9;
+    }
+    .theorem-title {
+      font-weight: bold;
+    }
