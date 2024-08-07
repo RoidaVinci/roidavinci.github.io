@@ -66,7 +66,7 @@
     \end{cases}
     $$
     </p>
-    <p>where \( M_0 \) is the initial value of the net magnetization, which increases with a stronger external magnetic field. \( T_1 \) and \( T_2 \) are parameters that depend on the physico-chemical structure of the sample. These times represent the relaxation times for the transverse and longitudinal components of the magnetization, respectively.</p>
+    <p>where \( M_0 \) is the initial value of the net magnetization, which increases with a stronger external magnetic field. \( T_1 \) and \( T_2 \) are parameters that depend on the physico-chemical structure of the sample. These times represent the relaxation times for the transverse and longitudinal components of the magnetization, meaning that they decreases by a factor of \(1-e^{-1}\approx 63\% \) after \( T_2 \).</p>
 
     <p align="center">
       <img src="../imaxes/mxymz.png" alt="Figure 1" style="max-width: 50%;">
@@ -83,13 +83,14 @@
     </p>
     <p>where \( \gamma \) is the gyromagnetic ratio and \( \Delta B_0 \) is the magnetic field variation at the measurement point. \( T_2^* \) is the practical decay time of the transverse component to \( \frac{1}{e} \), often more useful and reliable for studies, requiring more uniform magnetic fields due to greater sensitivity to field irregularities.</p>
     <p>Relaxation times \( T_1 \) and \( T_2 \), and thus \( T_2^* \), depend on the amount and size of water molecules and hydrophilic molecules (those tending to chemically combine with water). This theoretical and practical relationship is vital for creating images of living specimens.</p>
-    <p>MRI captures electromagnetic wave information, encapsulating all system data in the K-space (\( \mathbb{K} \)):</p>
+   <h2 class="section-title">K-Space and Image Reconstruction</h2>
+    <p>MRI captures electromagnetic wave information, encapsulating all system data in the K-space (\( \mathbb{K} \)). K-space is a data matrix where each point contains spatial frequency information obtained during the MRI scan. The coordinates of K-space are related to the gradient fields applied during scanning. The K-space data is collected over time as the gradients are varied.</p>
     <p>
     $$
     (k_x, k_y)(t) = \left( \int_{0}^{t} \gamma G_x(u) \, du, \int_{0}^{t} \gamma G_y(u) \, du \right) \in \mathbb{K}
     $$
     </p>
-    <p>where \( \gamma \) is the gyromagnetic ratio, and \( G_x \) and \( G_y \) are the magnetic gradients. The K-space contains wave information for MRI data, allowing image reconstruction through inverse Fourier series, using methods like the Fast Fourier Transform. K-space data is often halved using theoretical central symmetry, accelerating reconstruction.</p>
+    <p>where \( \gamma \) is the gyromagnetic ratio, and \( G_x \) and \( G_y \) are the magnetic gradients. The K-space contains wave information for MRI data, allowing image reconstruction through inverse Fourier series, using methods like the Fast Fourier Transform (FFT). For more detailed information about FFT, check my article on <a href="articles/fft.html">Fast Fourier Transforms</a>.</p>
 
     <p align="center">
       <img src="../imaxes/kespacio.png" alt="Figure 2" style="max-width: 50%;">
@@ -98,7 +99,17 @@
       <em>Figure 2: K-space of an MRI of a human brain and associated image.</em>
     </p>
 
-    <p>Depending on the type of analysis, we process and normalize the above information into \( T_1 \), \( T_2 \), and \( T_2^* \) maps, where each pixel has a value in the range \( [0, 1] \) on a grayscale, more intense for longer \( T_1 \), \( T_2 \), or \( T_2^* \) times.</p>
+    <p>Image reconstruction from K-space involves applying the inverse Fast Fourier Transform (iFFT) to convert the frequency data back into the spatial domain, producing the final MRI image. The quality and accuracy of this reconstructed image depend on the completeness and resolution of the K-space data.</p>
+
+    <h2 class="section-title">Obtaining Relaxation Times</h2>
+    <p>The \( T_1 \), \( T_2 \), and \( T_2^* \) relaxation times are derived from the reconstructed images using various MRI pulse sequences and data processing techniques:</p>
+    <ul>
+      <li><strong>\( T_1 \) Mapping:</strong> Achieved through inversion recovery sequences, where the recovery of longitudinal magnetization is measured after a 180-degree inversion pulse.</li>
+      <li><strong>\( T_2 \) Mapping:</strong> Obtained using spin echo sequences, which measure the decay of transverse magnetization after a 90-degree excitation pulse and subsequent 180-degree refocusing pulses.</li>
+      <li><strong>\( T_2^* \) Mapping:</strong> Acquired using gradient echo sequences, which are sensitive to magnetic field inhomogeneities and provide the effective transverse relaxation time.</li>
+    </ul>
+
+    <p>These relaxation maps provide valuable insights into the tissue properties and are critical for various diagnostic and research applications.</p>
 
     <h2 class="section-title">Analysis of MRI Images</h2>
     <p>The analysis of MRI images involves extracting clinical and research-relevant information from the images. Various parameters and statistical information, such as the mean or variance of \( T_1 \), \( T_2 \), and \( T_2^* \) within an image or between images at different times, may be of interest. This helps in testing hypotheses and diagnosing conditions, such as tumors or brain diseases.</p>
