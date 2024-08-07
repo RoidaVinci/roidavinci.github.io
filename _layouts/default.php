@@ -53,6 +53,7 @@
         }
     </style>
 </head>
+    
 <body>
 {% include nav.html %}
     <main role="main" class="container-sm">
