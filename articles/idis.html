@@ -170,34 +170,38 @@ $$
 <p>where \( \gamma \) is the gyromagnetic ratio and \( \Delta B_0 \) is the magnetic field variation at the measurement point. This formula allows us to derive the effective transverse relaxation time \( T_2^* \) from the \( T_2 \) values.</p>
 
 
-    <h2 class="section-title">Analysis of MRI Images</h2>
-    <p>The analysis of MRI images involves extracting clinical and research-relevant information from the images. Various parameters and statistical information, such as the mean or variance of \( T_1 \), \( T_2 \), and \( T_2^* \) within an image or between images at different times, may be of interest. This helps in testing hypotheses and diagnosing conditions, such as tumors or brain diseases.</p>
+<h2 class="section-title">Analysis of MRI Images</h2>
+<p>The analysis of MRI images involves extracting clinical and research-relevant information from the images. Various parameters and statistical information, such as the mean or variance of \( T_1 \), \( T_2 \), and \( T_2^* \) within an image or between images at different times, may be of interest. These relaxation times provide insights into tissue properties and are critical for diagnosing and understanding various conditions.</p>
 
-    <p align="center">
-      <img src="../imaxes/scan.png" alt="Figure 3" style="max-width: 50%;">
-    </p>
-    <p align="center">
-      <em>Figure 3: \( T_2^* \) MRI of a rat's brain with 12 slices showing a small lesion in the right frontal area (whiter area).</em>
-    </p>
+<p>For instance, in preclinical studies of strokes, \( T_1 \) and \( T_2 \) times can help assess the extent of brain damage and monitor recovery over time. \( T_2^* \) imaging is particularly useful in detecting hemorrhages due to its sensitivity to magnetic field inhomogeneities caused by blood deposits.</p>
 
-    <p>It is often useful to crop certain parts of the image to remove irrelevant information, measuring properties of the parts involved in a process. For instance, segmenting a brain to isolate an area affected by a hemorrhage, confirming the presence of the hemorrhage.</p>
-
-    <p align="center">
-      <img src="../imaxes/segmentadomanual.png" alt="Figure 4" style="max-width: 50%;">
-    </p>
-    <p align="center">
-      <em>Figure 4: Manual segmentation of the lesion shown in Figure 3.</em>
-    </p>
-
-    <h2 class="section-title">Proposed Solution</h2>
-    <p>Various advanced algorithms and techniques are used to enhance the efficiency of MRI analysis. For example, the Sørensen-Dice coefficient (DICE) is used to measure the overlap between two segmentations. It is defined mathematically as:</p>
-<p>
-$$
-DICE(A,B):=\frac{2\operatorname{Area}(A\cap B)}{\operatorname{Area}(A)+\operatorname{Area}(B)},
-$$
+<p align="center">
+  <img src="../imaxes/scan.png" alt="Figure 3" style="max-width: 50%;">
+</p>
+<p align="center">
+  <em>Figure 3: \( T_2^* \) MRI of a rat's brain with 12 slices showing a small lesion in the right frontal area (whiter area).</em>
 </p>
 
-<p>The application of neural networks, such as RatLesNetv2, has shown promising results in automating the segmentation of MRI images. These models can be trained using datasets to identify and segment relevant areas in MRI scans, improving both speed and accuracy compared to manual segmentation.</p>
+<p>It is often useful to crop certain parts of the image to remove irrelevant information, measuring properties of the parts involved in a process. For instance, segmenting a brain to isolate an area affected by a hemorrhage can confirm the presence and extent of the hemorrhage.</p>
+
+<p align="center">
+  <img src="../imaxes/segmentadomanual.png" alt="Figure 4" style="max-width: 50%;">
+</p>
+<p align="center">
+  <em>Figure 4: Manual segmentation of the lesion shown in Figure 3.</em>
+</p>
+
+<h2 class="section-title">Automation of the Segmentation</h2>
+<p>The process of segmenting relevant parts of MRI images of brains involves manually processing several images per animal, often with measurements of interest being made at different time points to track changes. This task is resource-intensive in many labs conducting MRI-related experiments. However, recent advancements show a promising future in using neural networks for automatic segmentation.</p>
+
+The application of neural networks, such as RatLesNetv2, has shown promising results in automating the segmentation of MRI images. These models can be trained using datasets to identify and segment relevant areas in MRI scans, improving both speed and accuracy compared to manual segmentation. During the training stage, the loss function often used is the Sørensen-Dice coefficient (DICE), which measures the overlap between two segmentations: the labeled one and the model output. It is defined mathematically as:</p>
+<p>
+$$
+DICE(A,B) := \frac{2 \cdot \operatorname{Area}(A \cap B)}{\operatorname{Area}(A) + \operatorname{Area}(B)}
+$$
+</p>
+<p>Automating segmentation not only accelerates the processing time but also reduces human error and variability, providing more consistent and reproducible results. This is particularly beneficial in preclinical studies for strokes, where precise and accurate segmentation of brain lesions is crucial for assessing the efficacy of treatments and understanding the progression of brain damage and recovery.</p>
+
 
 <p align="center">
   <img src="../imaxes/segmentadoauto.png" alt="Figure 6" style="max-width: 50%;">
