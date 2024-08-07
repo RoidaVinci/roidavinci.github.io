@@ -5,7 +5,6 @@ permalink: /cv/
 ---
 
 # CV
-
 {{ "
 Here are some articles I've written:
 
