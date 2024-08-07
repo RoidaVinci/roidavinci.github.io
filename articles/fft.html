@@ -98,6 +98,7 @@
       X = \mathcal{F}^{-1}\left( \left( \frac{\mathcal{F}(Z)}{\mathcal{F}(Y^*)} \right) \right).
       $$
       </p>
+      </div>
       <p>Therefore, given that:</p>
       <p>
       $$
@@ -132,7 +133,6 @@
       </p>
       <p>If the \( d_j \) are highly factorable numbers, i.e., whose prime factorization can be done in very small primes, then the above complexity reduces further, reaching the optimal value when all \( d_j \) are the same power of 2. For example, if \( d_j = (2^n)_{j=1}^D \), the algorithm achieves a complexity of \( 2^{nD} + (D + 1)n 2^{nD} \in \mathcal{O}(nD 2^{nD}) = \mathcal{O}(k \log(k)) \) where \( k = 2^{nD} \) is the number of pixels in the image. For a clearer idea of the significant improvement this entails, note that for something as simple as computing the Fourier transform of a \( 2048 \times 2048 \) black-and-white image, the necessary operations are reduced from \( 1.7 \cdot 10^{13} \) to \( 2.7 \cdot 10^7 \), making execution approximately 630,000 times faster.</p>
       <p>The same idea can be exactly applied to the calculation of the inverse Fourier transform, so the above forms the indispensable basis for efficiently applying convolutions on a computer, and thus is indispensable for the applicability of large deep neural networks with thousands of filters applied to millions of images.</p>
-    </div>
 
     <h2 class="section-title">References</h2>
     <p>
