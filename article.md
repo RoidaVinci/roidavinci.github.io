@@ -7,7 +7,7 @@ permalink: /article/
 <main role="main" class="container-sm" style="max-width: 1080px">
     <div class="row">
         <div class="col">
-            <p class="h4 section-title" style="clear: right">Articles</p>
+            <p class="h2 section-title" style="clear: right">Articles</p>
             <div>
                 <p>
                     Here are some articles I've written:
