@@ -55,22 +55,25 @@
       max-width: 680px;
       padding: 0 15px;
     }
-    .back-button {
-      display: flex;
-      align-items: center;
-      padding: 10px 20px;
-      background-color: #007bff;
-      color: white;
-      text-decoration: none;
-      border-radius: 5px;
-      margin-bottom: 20px;
-    }
-    .back-button i {
-      margin-right: 10px;
-    }
-    .back-button:hover {
-      background-color: #0056b3;
-    }
+.back-button {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: transparent;
+  color: #000000; /* Adjust the color to match your text color */
+  text-decoration: none;
+  border: 2px solid #000000; /* Adjust the border color to match your text color */
+  border-radius: 5px;
+  margin-bottom: 20px;
+  transition: background-color 0.3s, color 0.3s;
+}
+.back-button i {
+  margin-right: 10px;
+}
+.back-button:hover {
+  background-color: #000000; /* Adjust this color to your desired hover background color */
+  color: #ffffff; /* Adjust this color to your desired hover text color */
+}
   </style>
 </head>
 <body>
