@@ -10,7 +10,7 @@ permalink: /article/
             <p class="h1 section-title" style="clear: right">Articles</p>
             <div>
                 <p>
-                    Here are some articles I've written:
+                    Here are some articles I've written. Some of them are part of a broader work I did during some research projects, while others are just topics I was                              interested in.
                 </p>
                 <ul>
                     <li><a href="../articles/tfg.html">Neural Networks and Applications (Undergraduate's Thesis)</a></li>
