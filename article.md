@@ -13,6 +13,7 @@ permalink: /article/
                     Here are some articles I've written:
                 </p>
                 <ul>
+                    <li><a href="../articles/tfg.html">Neural Networks and Applications (Undergraduate's Thesis)</a></li>
                     <li><a href="../articles/idis.html">Rodent Brain Segmentation with Fully Convolutional Networks</a></li>
                     <li><a href="../articles/fft.html">Fast Fourier Transform for Convolutions</a></li>
                 </ul>
