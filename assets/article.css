@@ -206,20 +206,21 @@ a:link, a:visited, a:hover, a:active {
       box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
       border-radius: 3px;
     }
-.show-solution {
-      display: inline-block;
-      padding: 10px 20px;
-      margin-top: 20px;
-      font-size: 1rem;
-      font-weight: bold;
-      color: #fff;
-      background-color: #007bff;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      text-align: center;
-    }
+.show-solution-container {
+  margin: 20px 0;
+  text-align: center;
+}
 
-    .show-solution:hover {
-      background-color: #0056b3;
-    }
+.show-solution-container a {
+  font-size: 16px;
+  padding: 10px 20px;
+  text-decoration: none;
+  color: #fff;
+  background-color: #007bff;
+  border-radius: 5px;
+  display: inline-block;
+}
+
+.show-solution-container a:hover {
+  background-color: #0056b3;
+}
