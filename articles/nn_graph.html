@@ -80,14 +80,14 @@
     <div class="definition">
       <div class="definition-title">Definition: Multilayer Perceptron</div>
       <p>
-        A multilayer perceptron is said to be a neural network \( \mathcal{PM} = (\mathcal{N}, \mathcal{A}, (\mathbb{R})_{g \in \mathcal{N}}, (\text{act}_l, (\pw{W}{l}_{i}|\pw{b}{l}_i))_{i \in \{1, \ldots, n_l\}, l \in \{1, \ldots L\}}) \) where:
+        A multilayer perceptron is said to be a neural network \( \mathcal{PM} = (\mathcal{N}, \mathcal{A}, (\mathbb{R})_{g \in \mathcal{N}}, (\text{act}_l, (W^{(l)}_{i}|b^{(l)}_i))_{i \in \{1, \ldots, n_l\}, l \in \{1, \ldots L\}}) \) where:
       </p>
       <ul>
-        <li><strong>(Graph).</strong> \( (\mathcal{N}, \mathcal{A}) \) is a directed and labeled acyclic graph with nodes \( \mathcal{N} = \cup_{l=0}^L \pw{\mathcal{N}}{l} \) distributed in \( L+1 \) layers \( \pw{\mathcal{N}}{l} = \{\pw{g}{l}_i : i \in \{1, \ldots, n_L\}\} \) and edges \( \mathcal{A} = \cup_{l=1}^{L} \pw{\mathcal{A}}{l} \) where \( \pw{\mathcal{A}}{l} \subset \pw{\mathcal{N}}{l-1} \times \pw{\mathcal{N}}{l} \)<sup><small>3</small></sup> are the <strong>connections</strong> between layer \( l \) and \( l+1 \). In particular, if \( \mathcal{A} = \cup_{l=1}^L \pw{\mathcal{N}}{l-1} \times \pw{\mathcal{N}}{l} \), it will be called a <strong>fully connected</strong> perceptron.</li>
-        <li><strong>(Computational).</strong> The <strong>valuation sets</strong> of all nodes are \( \mathbb{R} \), and the functions \( f_{\pw{g}{l}_i} = : \pw{f}{l}_i \) are a composition of an activation function \( \text{act}_l \) after an affine function over the nodes of the previous layer. Therefore, the operations across layers can be expressed by simple linear operations as \( (\pw{f}{l}_1, \ldots, \pw{f}{l}_{n_l}) = \text{act}_l(\pw{W}{l}|\pw{b}{l}) \) where \( \pw{W}{l} \in \mathbb{R}^{(n_l, n_{l-1})} \) are <strong>weight matrices</strong> and \( \pw{b}{l} \in \mathbb{R}^{n_l} \) are <strong>bias vectors</strong>, verifying the <strong>connection</strong> condition, that is, if \( (\pw{g}{l}_i, \pw{g}{l}_j) \notin \mathcal{A} \) then \( \pw{W}{l}_{ij} = 0 \).</li>
+        <li><strong>(Graph).</strong> \( (\mathcal{N}, \mathcal{A}) \) is a directed and labeled acyclic graph with nodes \( \mathcal{N} = \cup_{l=0}^L \mathcal{N}^{(l)} \) distributed in \( L+1 \) layers \( \mathcal{N}^{(l)} = \{g^{(l)}_i : i \in \{1, \ldots, n_L\}\} \) and edges \( \mathcal{A} = \cup_{l=1}^{L} \mathcal{A}^{(l)} \) where \( \mathcal{A}^{(l)} \subset \mathcal{N}^{(l-1)} \times \mathcal{N}^{(l)} \)<sup><small>3</small></sup> are the <strong>connections</strong> between layer \( l \) and \( l+1 \). In particular, if \( \mathcal{A} = \cup_{l=1}^L \mathcal{N}^{(l-1)} \times \mathcal{N}^{(l)} \), it will be called a <strong>fully connected</strong> perceptron.</li>
+        <li><strong>(Computational).</strong> The <strong>valuation sets</strong> of all nodes are \( \mathbb{R} \), and the functions \( f_{g^{(l)}_i} = : f^{(l)}_i \) are a composition of an activation function \( \text{act}_l \) after an affine function over the nodes of the previous layer. Therefore, the operations across layers can be expressed by simple linear operations as \( (f^{(l)}_1, \ldots, f^{(l)}_{n_l}) = \text{act}_l(W^{(l)}|b^{(l)}) \) where \( W^{(l)} \in \mathbb{R}^{(n_l, n_{l-1})} \) are <strong>weight matrices</strong> and \( b^{(l)} \in \mathbb{R}^{n_l} \) are <strong>bias vectors</strong>, verifying the <strong>connection</strong> condition, that is, if \( (g^{(l)}_i, g^{(l)}_j) \notin \mathcal{A} \) then \( W^{(l)}_{ij} = 0 \).</li>
       </ul>
       <p>
-        It will be written for simplicity in notation that \( (\mathcal{N}, \mathcal{A}, (\text{act}_l)_{l=1}^L, (\pw{W}{l}|\pw{b}{l}))_{l=1}^L := \mathcal{PM} \)<sup><small>4</small></sup>, and that \( (\mathcal{N}, \mathcal{A}, (\text{act}_{l=1}^L)) \) is the <strong>network architecture</strong> whose parameters are called <strong>hyperparameters</strong>.
+        It will be written for simplicity in notation that \( (\mathcal{N}, \mathcal{A}, (\text{act}_l)_{l=1}^L, (W^{(l)}|b^{(l)}))_{l=1}^L := \mathcal{PM} \)<sup><small>4</small></sup>, and that \( (\mathcal{N}, \mathcal{A}, (\text{act}_{l=1}^L)) \) is the <strong>network architecture</strong> whose parameters are called <strong>hyperparameters</strong>.
       </p>
     </div>
 
@@ -101,13 +101,13 @@
     <div class="notation">
       <div class="notation-title">Notation:</div>
       <p>
-        It is convenient to detail the notation given for general neural networks in the previous section for this case, given the particularities that can greatly reduce computational complexity. Given a vector \( x \in \mathbb{R}^{n_0} \) and a multilayer perceptron \( \mathcal{PM} = (\mathcal{N}, \mathcal{A}, (\text{act})_{l=1}^L, (\pw{W}{l}|\pw{b}{l}))_{l=1}^L) \), for \( l \in \{1, \ldots, L\} \) it will be denoted:
+        It is convenient to detail the notation given for general neural networks in the previous section for this case, given the particularities that can greatly reduce computational complexity. Given a vector \( x \in \mathbb{R}^{n_0} \) and a multilayer perceptron \( \mathcal{PM} = (\mathcal{N}, \mathcal{A}, (\text{act})_{l=1}^L, (W^{(l)}|b^{(l)}))_{l=1}^L) \), for \( l \in \{1, \ldots, L\} \) it will be denoted:
       </p>
       <p>
-        $$ \pw{z}{l}(x) = \pw{W}{l} \pw{a}{l-1} + \pw{b}{l}, \ \ \pw{a}{l}(x) = \text{act}_l(\pw{z}{l}(x)) \in \mathbb{R}^{n_l}, $$
+        $$ z^{(l)}(x) = W^{(l)} a^{(l-1)} + b^{(l)}, \ \ a^{(l)}(x) = \text{act}_l(z^{(l)}(x)) \in \mathbb{R}^{n_l}, $$
       </p>
       <p>
-        the pre-activated and post-activated valuations of the network with input \( x \), understanding both valuations as vectors whose \( i \)-th component corresponds to the node \( \pw{g}{l}_i \). Particularly, \( y(x) = \pw{a}{L}(x) \) will also denote the network's output. Likewise, when dealing with a data sample \( \mathcal{D} = \{(\pw{x}{j}, \pw{y}{j})\}_{j=1}^N \), \( {^j \pw{a}{l}} \) and \( {^j \pw{z}{l}} \) will denote the previous values associated with input \( \pw{x}{j} \).
+        the pre-activated and post-activated valuations of the network with input \( x \), understanding both valuations as vectors whose \( i \)-th component corresponds to the node \( g^{(l)}_i \). Particularly, \( y(x) = a^{(L)}(x) \) will also denote the network's output. Likewise, when dealing with a data sample \( \mathcal{D} = \{(x^{(j)}, y^{(j)})\}_{j=1}^N \), \( a^{(l)}_j \) and \( z^{(l)}_j \) will denote the previous values associated with input \( x^{(j)} \).
       </p>
     </div>
 
@@ -128,7 +128,7 @@
     <p>
       $$ \begin{split}
         &\mathcal{M}_{(\mathcal{N}, \mathcal{A}, (\text{act})_{l=1}^L)} : \prod_{l=1}^{L} \mathbb{R}^{(n_{l}, n_{l-1})} \times \mathbb{R}^{n_l}  \longrightarrow \mathcal{PM}(\mathcal{N}, \mathcal{A}, (\text{act}_l)_{l=1}^L)\\
-        &\mathcal{M}_{(\mathcal{N}, \mathcal{A}, (\text{act})_{l=1}^L)}((\pw{W}{l}, \pw{b}{l})_{l=1}^L) = (\mathcal{N}, \mathcal{A}, (\text{act}_l)_{l=1}^L, (\pw{W}{l}, \pw{b}{l})_{l=1}^L)
+        &\mathcal{M}_{(\mathcal{N}, \mathcal{A}, (\text{act})_{l=1}^L)}((W^{(l)}, b^{(l)})_{l=1}^L) = (\mathcal{N}, \mathcal{A}, (\text{act}_l)_{l=1}^L, (W^{(l)}, b^{(l)})_{l=1}^L)
       \end{split} $$
     </p>
 
@@ -144,3 +144,4 @@
   </main>
 </body>
 </html>
+
