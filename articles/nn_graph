@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Artificial Neural Networks</title>
+  <script src="https://cdn.jsdelivr.net/gh/jquery/jquery@3.6.1/dist/jquery.slim.min.js" integrity="sha256-w8CvhFs7iHNVUtnSP0YKEg00p9Ih13rlL9zGqvLdePA=" crossorigin="anonymous"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="../assets/cmun-serif/cmun-serif.css">
+  <link rel="stylesheet" href="../assets/article.css">
+  <link rel="icon" type="image/x-icon" href="../favicon.ico">
+  <link rel="shortcut icon" type="image/png" href="../favicon.png">
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      TeX: {
+        extensions: ["AMSmath.js", "AMSsymbols.js", "AMScd.js"],
+        equationNumbers: { autoNumber: "AMS" },
+        Macros: {
+          RR: "{\\mathbb{R}}",
+          bold: ["{\\bf #1}", 1]
+        }
+      },
+      "HTML-CSS": { availableFonts: ["TeX"] }
+    });
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      MathJax.typesetPromise();
+    });
+  </script>
+  <style>
+    body {
+      font-family: "Computer Modern Serif", serif;
+    }
+    .theorem, .definition, .remark {
+      border-left: 5px solid #000;
+      padding: 10px 15px;
+      margin: 20px 0;
+      background-color: transparent;
+      position: relative;
+    }
+    .theorem-title, .definition-title, .remark-title {
+      font-weight: bold;
+      font-size: 1.1em;
+      padding: 2px 8px;
+      background-color: #fff;
+      display: inline-block;
+      position: absolute;
+      top: -10px;
+      left: 15px;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Back Button -->
+  <a href="javascript:history.back()" class="back-button">
+    <i class="fas fa-arrow-left"></i>
+  </a>
+
+  <main role="main" class="container-sm" style="max-width: 1080px">
+    <h1 class="page-title">Artificial Neural Networks</h1>
+
+    <h2 class="section-title">Introduction</h2>
+    <p>
+      Artificial neural networks are a model that, in their most rudimentary version, aimed to explain the functioning of the brain through the synaptic transmission of information between neurons <cite>rosenblatt1958perceptron</cite>. Over time, these models evolved to become important in their own right due to their effectiveness in machine learning tasks. Attempts to explain brain activity through these models continue, although most researchers in the field create increasingly powerful models without referring to neurological reality in any way. It is very convenient and natural to define, therefore, artificial neural networks in the form of a <strong>computational graph</strong> whose nodes represent the <strong>neurons</strong>, and the edges represent the <strong>synaptic connections</strong>.
+    </p>
+
+    <div class="definition">
+      <div class="definition-title">Definition: Artificial Neural Network</div>
+      <p>
+        An artificial neural network is a quadruple \( \mathcal{RN}=(\mathcal{N},\mathcal{A},(\mathcal{S}_g)_{g \in \mathcal{N}},(f_{g})_{g \in \mathcal{N}}) \) where:
+      </p>
+      <ul>
+        <li><strong>(Graph).</strong> \( (\mathcal{N},\mathcal{A}) \) is a directed acyclic graph<sup><small>1</small></sup> whose nodes are usually called <strong>neurons</strong>. It will be denoted by \( e_g = \{g' : (g', g) \in \mathcal{A}\} \) and \( s_g = \{g' : (g, g') \in \mathcal{A}\} \) the incoming and outgoing neurons of the node \( g \) respectively. It will be said that \( \mathcal{N}_e := \{g \in \mathcal{N} : e_g = \emptyset\} \) is the <strong>set of input neurons</strong> and \( \mathcal{N}_s = \{g \in \mathcal{N} : s_g = \emptyset\} \) the <strong>set of output neurons</strong>. Neurons that are neither input nor output are called <strong>hidden</strong>.</li>
+        <li><strong>(Computational).</strong> For each \( g \in \mathcal{N} \), \( \mathcal{S}_g \) is a set called the <strong>valuation set</strong> of node \( g \) and \( f_{g} : \prod_{g' \in e_g} \mathcal{S}_{g'} \longrightarrow \mathcal{S}_{g} \) is a function that determines the valuation of \( g \) from the previous ones.</li>
+      </ul>
+      <p>
+        An <strong>input to the network</strong> is an element \( e \in \prod_{g \in \mathcal{N}_e} \mathcal{S}_g \). The <strong>valuation of node \( g \)</strong> can then be iteratively calculated as \( a_g(e) = f_g((a_{g'}(e))_{g' \in e_g}) \) successively for nodes \( g \) such that the valuation has already been calculated for all its incoming nodes \( e_g \).<sup><small>2</small></sup>
+        The <strong>output of the network</strong> associated is defined as \( \mathcal{RN}(e) = (f_{g}(e))_{g \in \mathcal{N}_s} \).
+      </p>
+    </div>
+
+    <h2 class="section-title">General Overview</h2>
+    <p>
+      The previous definition is general enough to capture the essence of the upcoming classes of networks to be described: the multilayer perceptron, convolutional neural networks, and adversarial networks. Likewise, others that will be set aside in this work for brevity can also be studied from the previous perspective: Boltzmann networks, Hopfield networks, recurrent neural networks, or LSTM, among many others. When using the neural network as a statistical model and not just as a descriptive neurological model, the \( (f_g)_{g \in \mathcal{N}} \in \{(h^{\theta_g}_g)_{g \in \mathcal{N}} : \theta_g \in \Theta\} \) usually belong to a parametric family dependent on a series of parameters, and the optimal of this family of parameters will be sought according to the appropriate criteria. In the next section, more concreteness will be given regarding these parameter families and the search for their optimal in a specific case of a neural network.
+    </p>
+
+    <div class="definition">
+      <div class="definition-title">Definition: Subnet</div>
+      <p>
+        Given a neural network \( (\mathcal{N}, \mathcal{A}, (\mathcal{S}_g)_{g \in \mathcal{N}}, (f_g)_{g \in \mathcal{N}}) \), we will say that a network \( (\widehat{\mathcal{N}}, \widehat{\mathcal{A}}, (\mathcal{S}_g)_{g \in \widehat{\mathcal{N}}}, (f|_{\widehat{\mathcal{N}}})_{g \in \widehat{\mathcal{N}}}) \) is a subnet if \( \widehat{\mathcal{N}} \subset \mathcal{N} \), \( \widehat{\mathcal{A}} \subset \mathcal{A} \).
+      </p>
+    </div>
+
+    <h2 class="section-title">The Multilayer Perceptron</h2>
+    <p>
+      Next, the multilayer perceptron will be redefined from the perspective of the underlying graph, thus refining the relatively unmanageable definition given in the previous chapter. This will not only achieve a level of understanding of its operation, but it will also provide enough flexibility to describe some modifications of the network simply and elegantly and will allow the description of a training algorithm that was essentially what enabled them to achieve the efficiency for which they are now the basis of many known applications.
+    </p>
+
+    <div class="definition">
+      <div class="definition-title">Definition: Multilayer Perceptron</div>
+      <p>
+        A multilayer perceptron is said to be a neural network \( \mathcal{PM} = (\mathcal{N}, \mathcal{A}, (\mathbb{R})_{g \in \mathcal{N}}, (\text{act}_l, (\pw{W}{l}_{i}|\pw{b}{l}_i))_{i \in \{1, \ldots, n_l\}, l \in \{1, \ldots L\}}) \) where:
+      </p>
+      <ul>
+        <li><strong>(Graph).</strong> \( (\mathcal{N}, \mathcal{A}) \) is a directed and labeled acyclic graph with nodes \( \mathcal{N} = \cup_{l=0}^L \pw{\mathcal{N}}{l} \) distributed in \( L+1 \) layers \( \pw{\mathcal{N}}{l} = \{\pw{g}{l}_i : i \in \{1, \ldots, n_L\}\} \) and edges \( \mathcal{A} = \cup_{l=1}^{L} \pw{\mathcal{A}}{l} \) where \( \pw{\mathcal{A}}{l} \subset \pw{\mathcal{N}}{l-1} \times \pw{\mathcal{N}}{l} \)<sup><small>3</small></sup> are the <strong>connections</strong> between layer \( l \) and \( l+1 \). In particular, if \( \mathcal{A} = \cup_{l=1}^L \pw{\mathcal{N}}{l-1} \times \pw{\mathcal{N}}{l} \), it will be called a <strong>fully connected</strong> perceptron.</li>
+        <li><strong>(Computational).</strong> The <strong>valuation sets</strong> of all nodes are \( \mathbb{R} \), and the functions \( f_{\pw{g}{l}_i} = : \pw{f}{l}_i \) are a composition of an activation function \( \text{act}_l \) after an affine function over the nodes of the previous layer. Therefore, the operations across layers can be expressed by simple linear operations as \( (\pw{f}{l}_1, \ldots, \pw{f}{l}_{n_l}) = \text{act}_l(\pw{W}{l}|\pw{b}{l}) \) where \( \pw{W}{l} \in \mathbb{R}^{(n_l, n_{l-1})} \) are <strong>weight matrices</strong> and \( \pw{b}{l} \in \mathbb{R}^{n_l} \) are <strong>bias vectors</strong>, verifying the <strong>connection</strong> condition, that is, if \( (\pw{g}{l}_i, \pw{g}{l}_j) \notin \mathcal{A} \) then \( \pw{W}{l}_{ij} = 0 \).</li>
+      </ul>
+      <p>
+        It will be written for simplicity in notation that \( (\mathcal{N}, \mathcal{A}, (\text{act}_l)_{l=1}^L, (\pw{W}{l}|\pw{b}{l}))_{l=1}^L := \mathcal{PM} \)<sup><small>4</small></sup>, and that \( (\mathcal{N}, \mathcal{A}, (\text{act}_{l=1}^L)) \) is the <strong>network architecture</strong> whose parameters are called <strong>hyperparameters</strong>.
+      </p>
+    </div>
+
+    <div class="remark">
+      <div class="remark-title">Remark:</div>
+      <p>
+        In a fully connected architecture, the sets \( \mathcal{N} \), \( \mathcal{A} \), and \( (\mathcal{S}_g)_{g \in \mathcal{N}} \) provide redundant information since it is really enough to know the number of layers \( L \), the number of nodes per layer \( (n_0, \ldots, n_L) \in \mathbb{N}^{L+1} \) and the activation functions \( (\text{act}_1, \ldots, \text{act}_L) \) to know the architecture. Therefore, the set of all fully connected multilayer perceptrons will be denoted by \( \mathcal{FC}((n_0, \ldots, n_L), (\text{act}_1, \ldots, \text{act}_L)) \).
+      </p>
+    </div>
+
+    <div class="notation">
+      <div class="notation-title">Notation:</div>
+      <p>
+        It is convenient to detail the notation given for general neural networks in the previous section for this case, given the particularities that can greatly reduce computational complexity. Given a vector \( x \in \mathbb{R}^{n_0} \) and a multilayer perceptron \( \mathcal{PM} = (\mathcal{N}, \mathcal{A}, (\text{act})_{l=1}^L, (\pw{W}{l}|\pw{b}{l}))_{l=1}^L) \), for \( l \in \{1, \ldots, L\} \) it will be denoted:
+      </p>
+      <p>
+        $$ \pw{z}{l}(x) = \pw{W}{l} \pw{a}{l-1} + \pw{b}{l}, \ \ \pw{a}{l}(x) = \text{act}_l(\pw{z}{l}(x)) \in \mathbb{R}^{n_l}, $$
+      </p>
+      <p>
+        the pre-activated and post-activated valuations of the network with input \( x \), understanding both valuations as vectors whose \( i \)-th component corresponds to the node \( \pw{g}{l}_i \). Particularly, \( y(x) = \pw{a}{L}(x) \) will also denote the network's output. Likewise, when dealing with a data sample \( \mathcal{D} = \{(\pw{x}{j}, \pw{y}{j})\}_{j=1}^N \), \( {^j \pw{a}{l}} \) and \( {^j \pw{z}{l}} \) will denote the previous values associated with input \( \pw{x}{j} \).
+      </p>
+    </div>
+
+    <figure>
+      <img src="../figuras/perceptron_activacion.pdf" alt="Perceptron Activation" class="img-fluid">
+      <img src="../figuras/perceptron.pdf" alt="Perceptron Structure" class="img-fluid">
+      <figcaption>The underlying graph structure of a multilayer perceptron is shown, as well as a particular activation of it.</figcaption>
+    </figure>
+
+    <p>
+      On many occasions, the term network and network architecture will be used interchangeably, and a multilayer perceptron will be discussed without mentioning its weights. This is because the training process of a network usually involves modifying its weights to improve its initial performance. Therefore, a slight abuse of language leads to saying that the network is the same before and after training, regardless of its weights.
+    </p>
+
+    <p>
+      Given a network architecture \( (\mathcal{N}, \mathcal{A}, (\text{act})_{l=1}^L) \), the <strong>weight assignment operator</strong> is:
+    </p>
+
+    <p>
+      $$ \begin{split}
+        &\mathcal{M}_{(\mathcal{N}, \mathcal{A}, (\text{act})_{l=1}^L)} : \prod_{l=1}^{L} \mathbb{R}^{(n_{l}, n_{l-1})} \times \mathbb{R}^{n_l}  \longrightarrow \mathcal{PM}(\mathcal{N}, \mathcal{A}, (\text{act}_l)_{l=1}^L)\\
+        &\mathcal{M}_{(\mathcal{N}, \mathcal{A}, (\text{act})_{l=1}^L)}((\pw{W}{l}, \pw{b}{l})_{l=1}^L) = (\mathcal{N}, \mathcal{A}, (\text{act}_l)_{l=1}^L, (\pw{W}{l}, \pw{b}{l})_{l=1}^L)
+      \end{split} $$
+    </p>
+
+    <h2 class="section-title">Summary</h2>
+    <p>
+      In summary, artificial neural networks, specifically the multilayer perceptron, represent a powerful computational model that has evolved significantly from its initial inspiration drawn from biological neural networks. The model is based on a directed acyclic graph structure, where each node represents a neuron and each edge represents a synaptic connection. The multilayer perceptron is a specialized type of neural network characterized by fully connected layers and specific activation functions applied across these layers.
+    </p>
+
+    <p>
+      The concept of subnets and the ability to define specific network architectures with weight assignment operators adds flexibility and adaptability to the model, allowing for various configurations and optimizations in different applications. As we delve further into the specifics of neural networks, we will explore how these models can be trained effectively, leveraging algorithms like backpropagation to minimize empirical risk and enhance performance.
+    </p>
+
+  </main>
+</body>
+</html>
