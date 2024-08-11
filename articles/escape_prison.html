@@ -57,11 +57,14 @@
       Two prisoners want to escape from Teixeiro. They play a game by correspondence on a chessboard \(8 \times 8\) where each square has a piece that is white on one side and black on the other. The guard who carries the board between the cells of the two prisoners forgot the key to the second prisoner's cell in one of the squares on the board, and the first prisoner knows where it is. With just one move consisting of flipping one of the 64 pieces, the first prisoner must inform the second of where the key is hidden. The configuration of the board before the move is random, but the prisoners can agree in advance on how the second should decode the board to find the key.
     </p>
 
-    <!-- Button to Show Solution -->
-    <div class="show-solution" onclick="toggleSolution()">Show Solution</div>
+    <div class="show-solution-container">
+  <a href="javascript:void(0)" class="btn btn-primary" onclick="toggleSolution()">
+    <i class="fas fa-eye"></i> Show Solution
+  </a>
+</div>
 
-    <div class="solution" id="solution">
-      <div class="solution-title">Solution:</div>
+  <!-- Solution Content -->
+  <div class="solution" id="solution" style="display:none;">
       <p>
         Essentially, this problem consists of finding a way to encode and decode the board's information with the following properties:
       </p>
@@ -105,19 +108,19 @@
       </p>
     </div>
 
-    <script>
-      function toggleSolution() {
-        var solutionDiv = document.getElementById("solution");
-        var solutionButton = document.querySelector(".show-solution");
-        if (solutionDiv.style.display === "none" || solutionDiv.style.display === "") {
-          solutionDiv.style.display = "block";
-          solutionButton.textContent = "Hide Solution";
-        } else {
-          solutionDiv.style.display = "none";
-          solutionButton.textContent = "Show Solution";
-        }
-      }
-    </script>
+<script>
+  function toggleSolution() {
+    var solutionDiv = document.getElementById("solution");
+    var solutionButton = document.querySelector(".show-solution-container a");
+    if (solutionDiv.style.display === "none" || solutionDiv.style.display === "") {
+      solutionDiv.style.display = "block";
+      solutionButton.innerHTML = '<i class="fas fa-eye-slash"></i> Hide Solution';
+    } else {
+      solutionDiv.style.display = "none";
+      solutionButton.innerHTML = '<i class="fas fa-eye"></i> Show Solution';
+    }
+  }
+</script>
 
   </main>
 </body>
