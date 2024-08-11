@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Riddle: An uncountable set with no middle points</title>
+  <title>Uncountable Set with No Middle Points</title>
   <script src="https://cdn.jsdelivr.net/gh/jquery/jquery@3.6.1/dist/jquery.slim.min.js" integrity="sha256-w8CvhFs7iHNVUtnSP0YKEg00p9Ih13rlL9zGqvLdePA=" crossorigin="anonymous"></script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
   <link rel="stylesheet" href="../assets/cmun-serif/cmun-serif.css">
@@ -30,7 +30,7 @@
     });
   </script>
   <style>
-    .solution-content {
+    .solution-content, .nested-solution-content {
       max-height: 300px;
       overflow-y: auto;
       padding: 10px;
@@ -38,7 +38,7 @@
       margin-top: 15px;
       display: none;
     }
-    .show-solution {
+    .show-solution, .show-nested-solution {
       cursor: pointer;
       margin-top: 20px;
     }
@@ -52,35 +52,52 @@
   </a>
 
   <main role="main" class="container-sm" style="max-width: 1080px">
-    <h1 class="page-title">Mathematical Exercises</h1>
-
-    <p><strong>Exercise 1:</strong> Let \( X := \left\lbrace \sum_{k\in U}2^{-k} : U\subset 2\mathbb{N}-1\right\rbrace \).</p>
-    <p><em>Observation:</em> If \( x \in X \) and \( x = 0.x_1x_2x_3\dots_{(2)} = \sum_{n=0}^\infty x_n \cdot 2^{-k} \) with \( x_n \in \{0,1\} \) for all \( n \in \mathbb{N} \) is the binary expression of \( x \), then by the definition of \( X \), we have \( x_{2k} = 0 \) for all \( k \in \mathbb{N} \), that is, the even positions in the binary expression of \( x \) are all 0.</p>
-
-    <ol>
-      <li>Prove that there is a bijection between \( X \) and \( \mathbb{R} \).</li>
-      <li>Give an explicit bijection between \( X \) and \( [0,1) \).</li>
-      <li>Prove that if \( x, y \in X \) and \( x \neq y \), then \( \frac{x+y}{2} \not\in X \).</li>
-    </ol>
+    <h1 class="page-title">Uncountable Set with No Middle Points</h1>
+    
+    <p>
+      Consider the problem of finding an uncountable set within \( \mathbb{R} \) that contains no middle points. In other words, find a set \( X \subset \mathbb{R} \) such that for any two distinct points \( x, y \in X \), the point \( \frac{x+y}{2} \) does not belong to \( X \), and yet \( X \) is uncountable.
+    </p>
 
     <!-- Button to Show Solution -->
-    <div class="show-solution btn btn-primary" onclick="toggleSolution()">Show Solutions</div>
+    <div class="show-solution btn btn-primary" onclick="toggleSolution()">Show Solution</div>
 
     <div class="solution-content" id="solution-content">
-      <div class="solution-title"><strong>Solutions:</strong></div>
-      <p><strong>Solution to Exercise 1:</strong></p>
-
-      <p><strong>Solution 1:</strong> We will directly solve the second part since it immediately proves the first. To do this, we define the function:</p>
+      <div class="solution-title"><strong>Solution:</strong></div>
       <p>
-        $$ \kappa: U \in \mathcal{P}(2\mathbb{N}-1) \longmapsto \kappa(U) = \left\{\dfrac{n+1}{2}: n \in U\right\} \in \mathcal{P}(\mathbb{N}) $$
+        Consider the set \( X := \left\lbrace \sum_{k \in U} 2^{-k} : U \subset 2\mathbb{N} - 1 \right\rbrace \).
       </p>
-      <p>It is evident that \( \kappa \) is a bijection between \( \mathcal{P}(2\mathbb{N}-1) \) and \( \mathcal{P}(\mathbb{N}) \). Therefore, it follows clearly that the following function is a bijection:</p>
-      <p>
-        $$ \xi: x = \sum_{k \in U} 2^{-k} \in X \longmapsto \xi(x) = \sum_{k \in \kappa(U)} 2^{-k} \in \left\lbrace \sum_{k \in V} 2^{-k} : V \subset \mathbb{N} \right\rbrace := Y $$
-      </p>
-      <p>Since \( Y \) is the set of all binary expressions of the numbers in the interval \( [0,1) \), it follows that \( Y = [0,1) \) and therefore \( \xi \) is the bijection sought.</p>
 
-      <p><strong>Solution 2:</strong> Let \( x, y \in X, x \neq y \); without loss of generality, assume \( x \) has a 1 in a position (odd) where \( y \) has a 0 (otherwise all their digits would be the same and \( x = y \)). When summing them in base 2, that 1 remains in the same odd position, and when divided by two, it moves to the next position, which is even, and thus \( \frac{x+y}{2} \not\in X \).</p>
+      <!-- Button to Show Nested Solution -->
+      <div class="show-nested-solution btn btn-secondary" onclick="toggleNestedSolution()">Prove Uncountability and No Middle Points</div>
+
+      <div class="nested-solution-content" id="nested-solution-content">
+        <div class="nested-solution-title"><strong>Proof:</strong></div>
+
+        <p><strong>Uncountability:</strong></p>
+        <p>
+          We will prove that \( X \) is uncountable by providing a bijection between \( X \) and the interval \( [0,1) \).
+        </p>
+        <p>
+          Define the function:
+        </p>
+        <p>
+          $$ \kappa: U \in \mathcal{P}(2\mathbb{N} - 1) \longmapsto \kappa(U) = \left\{\dfrac{n+1}{2}: n \in U \right\} \in \mathcal{P}(\mathbb{N}) $$
+        </p>
+        <p>
+          It is evident that \( \kappa \) is a bijection between \( \mathcal{P}(2\mathbb{N} - 1) \) and \( \mathcal{P}(\mathbb{N}) \). Therefore, the function:
+        </p>
+        <p>
+          $$ \xi : x = \sum_{k \in U} 2^{-k} \in X \longmapsto \xi(x) = \sum_{k \in \kappa(U)} 2^{-k} \in [0,1) $$
+        </p>
+        <p>
+          is a bijection, showing that \( X \) is uncountable.
+        </p>
+
+        <p><strong>No Middle Points:</strong></p>
+        <p>
+          Let \( x, y \in X \) and \( x \neq y \). Without loss of generality, assume \( x \) has a 1 in an odd position where \( y \) has a 0. When summing them in base 2, that 1 remains in the same odd position, and when divided by two, it moves to the next even position. Thus, \( \frac{x+y}{2} \not\in X \).
+        </p>
+      </div>
     </div>
 
     <script>
@@ -89,10 +106,22 @@
         var solutionButton = document.querySelector(".show-solution");
         if (solutionContent.style.display === "none" || solutionContent.style.display === "") {
           solutionContent.style.display = "block";
-          solutionButton.textContent = "Hide Solutions";
+          solutionButton.textContent = "Hide Solution";
         } else {
           solutionContent.style.display = "none";
-          solutionButton.textContent = "Show Solutions";
+          solutionButton.textContent = "Show Solution";
+        }
+      }
+
+      function toggleNestedSolution() {
+        var nestedSolutionContent = document.getElementById("nested-solution-content");
+        var nestedSolutionButton = document.querySelector(".show-nested-solution");
+        if (nestedSolutionContent.style.display === "none" || nestedSolutionContent.style.display === "") {
+          nestedSolutionContent.style.display = "block";
+          nestedSolutionButton.textContent = "Hide Proof";
+        } else {
+          nestedSolutionContent.style.display = "none";
+          nestedSolutionButton.textContent = "Prove Uncountability and No Middle Points";
         }
       }
     </script>
