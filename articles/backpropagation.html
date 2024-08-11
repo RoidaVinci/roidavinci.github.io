@@ -30,20 +30,6 @@
       MathJax.typesetPromise();
     });
   </script>
-  <style>
-    body {
-      font-family: "Computer Modern Serif", serif;
-    }
-    .theorem {
-      border: 1px solid #000;
-      padding: 10px;
-      margin: 20px 0;
-      background-color: #f9f9f9;
-    }
-    .theorem-title {
-      font-weight: bold;
-    }
-  </style>
 </head>
 <body>
   <!-- Back Button -->
@@ -56,7 +42,7 @@
     
     <h2 class="section-title">Introduction</h2>
     <p>
-      In the previous section, the minimization of empirical risk concerning each of the weights was presented through gradient descent methods as the paradigm under which to train neural networks. At first glance, the task is inconceivable given that neural networks are a very long composition of functions whose result is a very complex function. However, by applying the chain rule, it is possible to calculate:
+      In  <li><a href="../articles/nn_graph.html">Neural Networks as Graphs</a></li>, I presented a way to define Neural Networks as graphs with certain properties and operations. One of the most popular algorithms, if not the most, in mathematical optimization is gradient descent. It turns out that all of the theoretical assumptions do not hold in a typical Neural Network setting, the algorithm is still very effective to train (optimize weights) of Neural Networks. This article deals with some concepts that are part of a more broad field called automatic differentiation, and that are the theoretical backbone of all of the Deep Learning frameworks such as Pytorch or Tensorflow. I will present first the problem solution in great generality, and then obtain some particularly and famously known equations for simple Feed-Forward Neural Networks. However, the generality is not just a curiosity but a need when we want to introduce some trainable parameters that do not follow the layered and fully connected organization of the simple Neural Networks. This can be Recurrent Neural Networks (RNN), Convolutional Neural Networks (CNN), Transformers, but it is also useful for as simple things as for trainable parameters in Layer or Batch Normalization, or for connecting weights between distant layers such as in ResNets or other very deep Neural Networks. By applying the chain rule, it is possible to calculate:
     </p>
 
     <p>
