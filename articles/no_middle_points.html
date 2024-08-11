@@ -75,22 +75,22 @@
 
         <p><strong>Uncountability:</strong></p>
         <p>
-          We will prove that \( X \) is uncountable by providing a bijection between \( X \) and the interval \( [0,1) \).
+          We will prove that \( X \) is uncountable by providing a one to one map between \( X \) and the interval \( [0,1) \).
         </p>
         <p>
-          Define the function:
+          We efine the function:
         </p>
         <p>
           $$ \kappa: U \in \mathcal{P}(2\mathbb{N} - 1) \longmapsto \kappa(U) = \left\{\dfrac{n+1}{2}: n \in U \right\} \in \mathcal{P}(\mathbb{N}) $$
         </p>
         <p>
-          It is evident that \( \kappa \) is a bijection between \( \mathcal{P}(2\mathbb{N} - 1) \) and \( \mathcal{P}(\mathbb{N}) \). Therefore, the function:
+           \( \kappa \) is an one to one map between \( \mathcal{P}(2\mathbb{N} - 1) \) and \( \mathcal{P}(\mathbb{N}) \). Therefore, the composition:
         </p>
         <p>
           $$ \xi : x = \sum_{k \in U} 2^{-k} \in X \longmapsto \xi(x) = \sum_{k \in \kappa(U)} 2^{-k} \in [0,1) $$
         </p>
         <p>
-          is a bijection, showing that \( X \) is uncountable.
+          is a one to one map, showing that \( X \) is uncountable. More clearly, this function maps every real number in the unit interval to its shortest binary expansion, which is one to one as every number has an unique shortest binary representation. This is mapped to the number that results from setting even positions of the binary expansion to zero, which is one to one because of \( \kappa \) being one to one.
         </p>
 
         <p><strong>No Middle Points:</strong></p>
@@ -99,14 +99,15 @@
         </p>
       </div>
     </div>
-
-    <script>
+    
+ <script>
       function toggleSolution() {
         var solutionContent = document.getElementById("solution-content");
         var solutionButton = document.querySelector(".show-solution");
         if (solutionContent.style.display === "none" || solutionContent.style.display === "") {
           solutionContent.style.display = "block";
           solutionButton.textContent = "Hide Solution";
+          solutionContent.style.maxHeight = "none"; // Remove the max-height constraint
         } else {
           solutionContent.style.display = "none";
           solutionButton.textContent = "Show Solution";
@@ -119,6 +120,7 @@
         if (nestedSolutionContent.style.display === "none" || nestedSolutionContent.style.display === "") {
           nestedSolutionContent.style.display = "block";
           nestedSolutionButton.textContent = "Hide Proof";
+          nestedSolutionContent.style.maxHeight = "none"; // Remove the max-height constraint
         } else {
           nestedSolutionContent.style.display = "none";
           nestedSolutionButton.textContent = "Prove Uncountability and No Middle Points";
