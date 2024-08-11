@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gradient Backpropagation</title>
+  <script src="https://cdn.jsdelivr.net/gh/jquery/jquery@3.6.1/dist/jquery.slim.min.js" integrity="sha256-w8CvhFs7iHNVUtnSP0YKEg00p9Ih13rlL9zGqvLdePA=" crossorigin="anonymous"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="../assets/cmun-serif/cmun-serif.css">
+  <link rel="stylesheet" href="../assets/article.css">
+  <link rel="icon" type="image/x-icon" href="../favicon.ico">
+  <link rel="shortcut icon" type="image/png" href="../favicon.png">
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      TeX: {
+        extensions: ["AMSmath.js", "AMSsymbols.js", "AMScd.js"],
+        equationNumbers: { autoNumber: "AMS" },
+        Macros: {
+          RR: "{\\mathbb{R}}",
+          bold: ["{\\bf #1}", 1]
+        }
+      },
+      "HTML-CSS": { availableFonts: ["TeX"] }
+    });
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      MathJax.typesetPromise();
+    });
+  </script>
+  <style>
+    body {
+      font-family: "Computer Modern Serif", serif;
+    }
+    .theorem {
+      border: 1px solid #000;
+      padding: 10px;
+      margin: 20px 0;
+      background-color: #f9f9f9;
+    }
+    .theorem-title {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <!-- Back Button -->
+  <a href="javascript:history.back()" class="back-button">
+    <i class="fas fa-arrow-left"></i>
+  </a>
+
+  <main role="main" class="container-sm" style="max-width: 1080px">
+    <h1 class="page-title">Gradient Backpropagation</h1>
+    
+    <h2 class="section-title">Introduction</h2>
+    <p>
+      In the previous section, the minimization of empirical risk concerning each of the weights was presented through gradient descent methods as the paradigm under which to train neural networks. At first glance, the task is inconceivable given that neural networks are a very long composition of functions whose result is a very complex function. However, by applying the chain rule, it is possible to calculate:
+    </p>
+
+    <p>
+      $$ \frac{\partial \mathcal{R}_\mathcal{D}}{\partial W_{g_0}} = \frac{\partial \mathcal{R}_\mathcal{D}}{\partial \mathcal{RN}} \frac{\partial \mathcal{RN}}{\partial a_{g_0}} \frac{\partial a_{g_0}}{\partial W_{g_0}} $$ 
+    </p>
+
+    <p>
+      where \( W_{g_0} \) is a parameter of the function \( f_{g_0} \) that is being updated, and \( \mathcal{RN} = (a_{g_s})_{g_s \in \mathcal{N}_s} \) is the output of the network. In this line, the calculation of the partial derivatives of an output valuation \( a_{g_s} \) with respect to a particular valuation \( a_{g_0} \) can be performed as:
+    </p>
+
+    <p>
+      $$ \frac{\partial a_{g_s}}{\partial a_{g_0}} = \sum_{(g_0, g_1, \ldots, g_s) \in \mathcal{PATH}(g_0, g_s)} \prod_{j=1}^{s} \frac{\partial a_{g_{j}}}{\partial a_{g_{j-1}}} $$
+    </p>
+
+    <p>
+      where \( \mathcal{PATH}(g_0, g_s) \) denotes the set of all paths in the graph \( (\mathcal{N}, \mathcal{A}) \) between nodes \( g_0 \) and \( g_s \).
+    </p>
+
+    <p>
+      By direct application of this formula, the number of gradients to be calculated at each node scales very quickly with the path length. For example, in the case of a fully connected multilayer perceptron with \( L \) layers and uniform width \( (n, \ldots, n) \), calculating a gradient of the output with respect to an activation at layer \( l \) would require calculating \( n^{L-l} \) partial derivatives. Therefore, calculating all partial derivatives of the network with respect to the network inputs would require calculating:
+    </p>
+
+    <p>
+      $$ \sum_{l=0}^{L-1} n^{L+1-l} = n^{L+1} \frac{1-\frac{1}{n^L}}{1-\frac{1}{n}} = \frac{n^{L+2} - n^2}{n-1} $$
+    </p>
+
+    <p>
+      gradients, which is exponential with the network depth. However, it can be observed that each path over which derivatives are calculated in the previous equation is merely the union of two paths \( (g_0, g_1) \) and \( (g_1, \ldots, g_s) \). Therefore, once the partial derivatives \( \frac{\partial a_{g_s}}{\partial a_{g_1}} \) have been calculated and stored for all nodes \( g_1 \in s_{g_0} \), the following recurrence relation is given:
+    </p>
+
+    <p>
+      $$ \frac{\partial a_{g_s}}{\partial a_{g_0}} = \sum_{g_1 \in s_{g_0}} \left(\sum_{(g_1, \ldots, g_s) \in \mathcal{PATH}(g_1, g_s)} \prod_{j=2}^{s} \frac{\partial a_{g_{j}}}{\partial a_{g_{j-1}}}\right) \frac{\partial a_{g_1}}{\partial a_{g_0}} = \sum_{g_1 \in s_{g_0}} \frac{\partial a_{g_s}}{\partial a_{g_1}} \frac{\partial a_{g_1}}{\partial a_{g_0}}. $$
+    </p>
+
+    <p>
+      For example, in the previous multilayer perceptron, the complexity is reduced to the computation of \( n \) partial derivatives per layer in \( L \) layers, i.e., \( nL \) partial derivatives for the entire network, reducing the previously enormous number. As a slight trade-off, memory consumption increases as the \( n \) partial derivatives calculated in the previous layer must be stored. All of the above together provides the following <strong>error backpropagation algorithm</strong> for calculating the desired partial derivatives:
+    </p>
+
+    <p>
+      $$ \frac{\partial \mathcal{R}_\mathcal{D}}{\partial W_{g_0}} = \sum_{g_1 \in s_{g_0}} \frac{\partial \mathcal{R}_\mathcal{D}}{\partial a_{g_1}} \frac{\partial a_{g_1}}{\partial a_{g_0}} \frac{\partial a_{g_0}}{\partial W_{g_0}}. $$
+    </p>
+
+    <h2 class="section-title">Matrix Form and Further Efficiency</h2>
+
+    <p>
+      In what follows, the exposition will focus on gradient calculations for the multilayer perceptron. In addition to the benefits provided by the described recurrence, the affine nature of the perceptron's transformations allows us to go further in terms of efficiency by applying the chain rule in matrix form, consequently increasing calculation speed.
+    </p>
+
+    <p>
+      Observe that in equation \eqref{retropropagacion: auxiliar}, substituting we get:<sup><small>1</small></sup>
+    </p>
+
+    <p>
+      $$ \frac{\partial a^{(L)}_i}{\partial a^{(l)}_{j}} = \sum_{k=1}^{n_{l+1}} \frac{\partial a^{(L)}_i}{\partial a^{(l+1)}_k} \frac{\partial a^{(l+1)}_k}{\partial a^{(l)}_j} = \left(\frac{\partial a^{(L)}_i}{\partial a^{(l+1)}_k}\right)_{k=1}^{n_{l+1}} \cdot \left(\frac{\partial a^{(l)}_k}{\partial a^{(l)}_j}\right)_{k=1}^{n_{l+1}} = \left(\frac{\partial a^{(L)}}{\partial a^{(l+1)}}\right)^{\text{row} i} \cdot \left(\frac{\partial a^{(L)}}{\partial a^{(l+1)}}\right)^{\text{col} j}, $$
+    </p>
+
+    <p>
+      from which the more general matrix expression is deduced:
+    </p>
+
+    <p>
+      $$ \frac{\partial a^{(L)}}{\partial a^{(l)}} = \frac{\partial a^{(L)}}{\partial a^{(l+1)}} \frac{\partial a^{(l+1)}}{\partial a^{(l)}}. $$
+    </p>
+
+    <h2 class="section-title">Lemma and Recurrence Relations</h2>
+
+    <div class="theorem">
+      <div class="theorem-title">Lemma:</div>
+      <p>In a multilayer perceptron, the following hold:</p>
+      <p>
+      $$ \frac{\partial z^{l+1}}{\partial a^{l}} = W^{(l+1)}, \ \ \frac{\partial a^{(l)}}{\partial z^{(l)}} = \nabla \text{act}_{l}(z^{(l)}), \ \ \frac{\partial z^{(l)}}{\partial W^{(l)}_{ij}} = a^{(l-1)}_j e_i, \ \ \frac{\partial z^{(l)}}{\partial b^{(l)}_{i}} = e_i. $$
+      </p>
+    </div>
+
+    <p>
+      Now, the following complete and detailed algorithm can be described for obtaining the partial derivative of the empirical risk concerning any weight of the network, in an iterative process performed backward through the network layers:
+    </p>
+
+    <div class="theorem">
+      <div class="theorem-title">Proposition: Backpropagation algorithm for multilayer perceptrons</div>
+      <p>Given a multilayer perceptron \( \mathcal{P} = (\mathcal{N}, \mathcal{A}, \mathcal{P}, \{ \text{act}_l \}_{l=1}^L, (W, b)) \), a training set \( \mathcal{D} = \{ (x_i, y_i) \}_{i=1}^N \), and a loss function \( L : \mathbb{R}^m \times \mathbb{R}^m \longrightarrow \mathbb{R} \), inducing an empirical risk \( \mathcal{R}_\mathcal{D} \). Let:</p>
+      <p>
+      $$ G^{(L)} = \frac{1}{N} \sum_{(x, y) \in \mathcal{D}} \partial_1 L(a^{(L)}(x), y) \ \nabla \text{act}_L(z^{(L)}(x)) \in \mathbb{R}^{(1, n_L)}, $$
+      </p>
+      <p>
+      $$ G^{(l)} = \frac{1}{N} \sum_{(x, y) \in \mathcal{D}} G^{(l+1)} \ W^{(l+1)} \ \nabla \text{act}_l(z^{(l)}) \in \mathbb{R}^{(1, n_l)}. $$
+      </p>
+      <p>If each \( \text{act}_l \) is differentiable in a neighborhood of \( z^{(l)} \), then:</p>
+      <p>
+      $$ \frac{\partial \mathcal{R}_{\mathcal{D}}}{\partial W^{(l)}_{ij}}(W) = \frac{1}{N} \sum_{(x, y) \in \mathcal{D}} G^{(l)}_i a^{(l-1)}_j(x) \in \mathbb{R}, \ \ \ \frac{\partial \mathcal{R}_{\mathcal{D}}}{\partial b^{(l)}_i} = G^{(l)}_i \in \mathbb{R}. $$
+      </p>
+    </div>
+
+    <h2 class="section-title">Conclusion</h2>
+
+    <p>
+      The backpropagation algorithm, as described, significantly reduces the computational complexity of training multilayer perceptrons by leveraging the chain rule and matrix calculus. By breaking down the gradients into manageable components and using recurrence relations, the algorithm ensures that the gradients are computed efficiently and accurately, paving the way for the successful training of deep neural networks.
+    </p>
+
+  </main>
+</body>
+</html>
