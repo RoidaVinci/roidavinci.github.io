@@ -42,7 +42,15 @@
     
     <h2 class="section-title">Introduction</h2>
     <p>
-      In  <li><a href="../articles/nn_graph.html">Neural Networks as Graphs</a></li>, I presented a way to define Neural Networks as graphs with certain properties and operations. One of the most popular algorithms, if not the most, in mathematical optimization is gradient descent. It turns out that all of the theoretical assumptions do not hold in a typical Neural Network setting, the algorithm is still very effective to train (optimize weights) of Neural Networks. This article deals with some concepts that are part of a more broad field called automatic differentiation, and that are the theoretical backbone of all of the Deep Learning frameworks such as Pytorch or Tensorflow. I will present first the problem solution in great generality, and then obtain some particularly and famously known equations for simple Feed-Forward Neural Networks. However, the generality is not just a curiosity but a need when we want to introduce some trainable parameters that do not follow the layered and fully connected organization of the simple Neural Networks. This can be Recurrent Neural Networks (RNN), Convolutional Neural Networks (CNN), Transformers, but it is also useful for as simple things as for trainable parameters in Layer or Batch Normalization, or for connecting weights between distant layers such as in ResNets or other very deep Neural Networks. By applying the chain rule, it is possible to calculate:
+      In the article <a href="../articles/nn_graph.html">Neural Networks as Graphs</a> we explored how neural networks can be represented as graphs, with nodes corresponding to neurons and edges representing synaptic connections. One of the most crucial algorithms in the training of these networks is gradient descent, a fundamental tool in mathematical optimization. Despite the theoretical assumptions often not holding in typical neural network settings, gradient descent remains remarkably effective for training (i.e., optimizing the weights of) neural networks.
+    </p>
+    <p>
+      This article delves into concepts that are part of the broader field of automatic differentiation, which serves as the theoretical foundation for popular deep learning frameworks like PyTorch and TensorFlow. We will first present the problem and its solution in a general context and then derive the well-known equations for simple feed-forward neural networks. This generality is not merely academic; it is essential when dealing with complex models like Recurrent Neural Networks (RNNs), Convolutional Neural Networks (CNNs), and Transformers, as well as when handling trainable parameters in Layer or Batch Normalization, or connecting weights between distant layers as in ResNets or other deep networks.
+    </p>
+
+    <h2 class="section-title">Gradient Calculation and the Chain Rule</h2>
+    <p>
+      The chain rule is a fundamental tool that allows us to compute gradients efficiently, even in complex network structures. By applying the chain rule, it is possible to calculate:
     </p>
 
     <p>
@@ -50,7 +58,7 @@
     </p>
 
     <p>
-      where \( W_{g_0} \) is a parameter of the function \( f_{g_0} \) that is being updated, and \( \mathcal{RN} = (a_{g_s})_{g_s \in \mathcal{N}_s} \) is the output of the network. In this line, the calculation of the partial derivatives of an output valuation \( a_{g_s} \) with respect to a particular valuation \( a_{g_0} \) can be performed as:
+      Here, \( W_{g_0} \) represents a parameter of the function \( f_{g_0} \) that is being updated, and \( \mathcal{RN} = (a_{g_s})_{g_s \in \mathcal{N}_s} \) is the output of the network. The partial derivatives of an output \( a_{g_s} \) with respect to a particular activation \( a_{g_0} \) can be expressed as:
     </p>
 
     <p>
@@ -61,8 +69,9 @@
       where \( \mathcal{PATH}(g_0, g_s) \) denotes the set of all paths in the graph \( (\mathcal{N}, \mathcal{A}) \) between nodes \( g_0 \) and \( g_s \).
     </p>
 
+    <h2 class="section-title">Scalability and Efficiency</h2>
     <p>
-      By direct application of this formula, the number of gradients to be calculated at each node scales very quickly with the path length. For example, in the case of a fully connected multilayer perceptron with \( L \) layers and uniform width \( (n, \ldots, n) \), calculating a gradient of the output with respect to an activation at layer \( l \) would require calculating \( n^{L-l} \) partial derivatives. Therefore, calculating all partial derivatives of the network with respect to the network inputs would require calculating:
+      Directly applying the formula above, the number of gradients to be calculated at each node grows rapidly with the length of the paths. For instance, in a fully connected multilayer perceptron with \( L \) layers and uniform width \( (n, \ldots, n) \), computing a gradient of the output with respect to an activation at layer \( l \) would require calculating \( n^{L-l} \) partial derivatives. Therefore, calculating all partial derivatives of the network with respect to the inputs would require:
     </p>
 
     <p>
@@ -70,15 +79,15 @@
     </p>
 
     <p>
-      gradients, which is exponential with the network depth. However, it can be observed that each path over which derivatives are calculated in the previous equation is merely the union of two paths \( (g_0, g_1) \) and \( (g_1, \ldots, g_s) \). Therefore, once the partial derivatives \( \frac{\partial a_{g_s}}{\partial a_{g_1}} \) have been calculated and stored for all nodes \( g_1 \in s_{g_0} \), the following recurrence relation is given:
+      This number is exponential with the network's depth. However, by recognizing that each path in the previous equation can be decomposed into two smaller paths \( (g_0, g_1) \) and \( (g_1, \ldots, g_s) \), we can store and reuse partial derivatives efficiently. Specifically, after computing the partial derivatives \( \frac{\partial a_{g_s}}{\partial a_{g_1}} \) for all nodes \( g_1 \in s_{g_0} \), we can apply the following recurrence relation:
     </p>
 
     <p>
-      $$ \frac{\partial a_{g_s}}{\partial a_{g_0}} = \sum_{g_1 \in s_{g_0}} \left(\sum_{(g_1, \ldots, g_s) \in \mathcal{PATH}(g_1, g_s)} \prod_{j=2}^{s} \frac{\partial a_{g_{j}}}{\partial a_{g_{j-1}}}\right) \frac{\partial a_{g_1}}{\partial a_{g_0}} = \sum_{g_1 \in s_{g_0}} \frac{\partial a_{g_s}}{\partial a_{g_1}} \frac{\partial a_{g_1}}{\partial a_{g_0}}. $$
+      $$ \frac{\partial a_{g_s}}{\partial a_{g_0}} = \sum_{g_1 \in s_{g_0}} \frac{\partial a_{g_s}}{\partial a_{g_1}} \frac{\partial a_{g_1}}{\partial a_{g_0}}. $$
     </p>
 
     <p>
-      For example, in the previous multilayer perceptron, the complexity is reduced to the computation of \( n \) partial derivatives per layer in \( L \) layers, i.e., \( nL \) partial derivatives for the entire network, reducing the previously enormous number. As a slight trade-off, memory consumption increases as the \( n \) partial derivatives calculated in the previous layer must be stored. All of the above together provides the following <strong>error backpropagation algorithm</strong> for calculating the desired partial derivatives:
+      This reduces the complexity to the computation of \( n \) partial derivatives per layer in \( L \) layers, resulting in \( nL \) partial derivatives for the entire network. The trade-off is increased memory consumption, as the partial derivatives must be stored. Nonetheless, this provides a powerful algorithm for gradient backpropagation:
     </p>
 
     <p>
@@ -86,13 +95,12 @@
     </p>
 
     <h2 class="section-title">Matrix Form and Further Efficiency</h2>
-
     <p>
-      In what follows, the exposition will focus on gradient calculations for the multilayer perceptron. In addition to the benefits provided by the described recurrence, the affine nature of the perceptron's transformations allows us to go further in terms of efficiency by applying the chain rule in matrix form, consequently increasing calculation speed.
+      In what follows, we focus on gradient calculations specifically for the multilayer perceptron. In addition to the benefits provided by the described recurrence, the affine nature of the perceptron's transformations allows us to further enhance efficiency by applying the chain rule in matrix form. This approach significantly accelerates computation, particularly in deep networks with many layers.
     </p>
 
     <p>
-      Observe that in equation \eqref{retropropagacion: auxiliar}, substituting we get:<sup><small>1</small></sup>
+      Consider the earlier recurrence relation. By substituting and applying the chain rule in matrix notation, we arrive at:
     </p>
 
     <p>
@@ -100,7 +108,7 @@
     </p>
 
     <p>
-      from which the more general matrix expression is deduced:
+      which leads to the more general matrix expression:
     </p>
 
     <p>
@@ -108,7 +116,6 @@
     </p>
 
     <h2 class="section-title">Lemma and Recurrence Relations</h2>
-
     <div class="theorem">
       <div class="theorem-title">Lemma:</div>
       <p>In a multilayer perceptron, the following hold:</p>
@@ -118,7 +125,7 @@
     </div>
 
     <p>
-      Now, the following complete and detailed algorithm can be described for obtaining the partial derivative of the empirical risk concerning any weight of the network, in an iterative process performed backward through the network layers:
+      With this understanding, we can now describe a complete and detailed algorithm for computing the partial derivative of the empirical risk with respect to any weight in the network, iteratively calculated backward through the network layers:
     </p>
 
     <div class="theorem">
@@ -137,11 +144,27 @@
     </div>
 
     <h2 class="section-title">Conclusion</h2>
-
     <p>
-      The backpropagation algorithm, as described, significantly reduces the computational complexity of training multilayer perceptrons by leveraging the chain rule and matrix calculus. By breaking down the gradients into manageable components and using recurrence relations, the algorithm ensures that the gradients are computed efficiently and accurately, paving the way for the successful training of deep neural networks.
+      The backpropagation algorithm, as described, significantly reduces the computational complexity of training multilayer perceptrons by leveraging the chain rule and matrix calculus. By breaking down the gradients into manageable components and using recurrence relations, the algorithm ensures that gradients are computed efficiently and accurately, making it possible to train deep neural networks effectively.
+    </p>
+    <p>
+      This general approach to backpropagation is not only applicable to simple feed-forward networks but also extends to more complex architectures such as recurrent neural networks, convolutional neural networks, and transformers. As deep learning models continue to evolve and grow in complexity, understanding the underlying principles of backpropagation remains essential for developing efficient and scalable machine learning solutions.
+    </p>
+    <p>
+      To explore more about how neural networks can be conceptualized and analyzed as computational graphs, please refer to our previous article on <a href="../articles/nn_graph.html">Neural Networks as Graphs</a>.
     </p>
 
+    <h2 class="section-title">References</h2>
+    <p>
+      <strong>[1]</strong> Rumelhart, D. E., Hinton, G. E., & Williams, R. J. (1986). Learning representations by back-propagating errors. Nature, 323(6088), 533-536.
+    </p>
+    <p>
+      <strong>[2]</strong> Goodfellow, I., Bengio, Y., & Courville, A. (2016). Deep learning. MIT Press.
+    </p>
+    <p>
+      <strong>[3]</strong> LeCun, Y., Bengio, Y., & Hinton, G. (2015). Deep learning. Nature, 521(7553), 436-444.
+    </p>
   </main>
 </body>
 </html>
+
