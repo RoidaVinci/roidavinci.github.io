@@ -19,7 +19,7 @@ permalink: /article/
                     <li><a href="../articles/idis.html">Rodent Brain Segmentation with Fully Convolutional Networks</a></li>
                     <li><a href="../articles/fft.html">Fast Fourier Transform for Convolutions</a></li>
                     <li><a href="../articles/escape_prison.html">Riddle: Two Prisoners and a Chessboard</a></li>
-                    <li><a href="../articles/escape_prison.html">Riddle: Uncountable Set with no Middle Points</a></li>
+                    <li><a href="../articles/no_middle_points.html">Riddle: Uncountable Set with no Middle Points</a></li>
                 </ul>
             </div>
         </div>
