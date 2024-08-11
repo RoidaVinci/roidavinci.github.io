@@ -166,11 +166,22 @@ a:link, a:visited, a:hover, a:active {
 }
 
 .theorem {
-      border: 1px solid #000;
-      padding: 10px;
-      margin: 20px 0;
-      background-color: #f9f9f9;
-    }
-    .theorem-title {
-      font-weight: bold;
-    }
+    border-left: 5px solid #000;
+    padding: 10px 15px;
+    margin: 20px 0;
+    background-color: transparent;
+    position: relative;
+}
+
+.theorem-title {
+    font-weight: bold;
+    font-size: 1.1em;
+    padding: 2px 8px;
+    background-color: #fff;
+    display: inline-block;
+    position: absolute;
+    top: -10px;
+    left: 15px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+}
