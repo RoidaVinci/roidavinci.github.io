@@ -18,6 +18,7 @@ permalink: /article/
                     <li><a href="../articles/backpropagation.html">Backpropagation Algorithm in Neural Network Graphs</a></li>
                     <li><a href="../articles/idis.html">Rodent Brain Segmentation with Fully Convolutional Networks</a></li>
                     <li><a href="../articles/fft.html">Fast Fourier Transform for Convolutions</a></li>
+                    <li><a href="../articles/escape_prison.html">Riddle: Two Prisoners and a Chessboard</a></li>
                 </ul>
             </div>
         </div>
