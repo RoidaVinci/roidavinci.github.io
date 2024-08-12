@@ -14,7 +14,6 @@ title: "Roi Vence Personal Website"
             {% capture bio %}{% include bio.md %}{% endcapture %}
             <p>{{ bio | markdownify }}</p>
         </div>
-        </div>
         <div class="col-auto d-none d-md-block text-center">
             <img class="profile-img" src="{{ '/assets/profile.jpg' | relative_url }}" />
             <div class="social-icons">
@@ -23,6 +22,7 @@ title: "Roi Vence Personal Website"
                 <a href="https://github.com/RoidaVinci" title="GitHub"><i class="fab fa-github"></i></a>
             </div>
         </div>
+    </div>
     
         <div class="row">
         <div class="col">
