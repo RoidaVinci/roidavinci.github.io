@@ -62,35 +62,7 @@ permalink: /article/
         </div>
     </div>
 </main>
-<style>
-    .article-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr); /* Tres artículos por línea */
-        gap: 20px; /* Espacio entre los artículos */
-    }
 
-    .article-item {
-        position: relative;
-        overflow: hidden;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        aspect-ratio: 1; /* Mantener los artículos cuadrados */
-    }
-
-    .article-item:hover {
-        transform: scale(1.05);
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    .article-item img {
-        width: 100%;
-        height: 100%;
-        object-fit: contain; /* Asegurar que la imagen cubra todo el contenedor */
-    }
-
-    .article-title {
-        position: adiv>
-            </div>
-</main>
 <style>
     .article-grid {
         display: grid;
