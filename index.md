@@ -23,7 +23,7 @@ title: "Roi Vence Personal Website"
                 <a href="https://github.com/RoidaVinci" title="GitHub"><i class="fab fa-github"></i></a>
             </div>
         </div>
-    </div>
+    
         <div class="row">
         <div class="col">
             <p class="h1 section-title" style="clear: right">Featured Articles</p>
