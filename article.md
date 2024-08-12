@@ -11,43 +11,43 @@ permalink: /article/
             <div class="article-grid">
                 <div class="article-item">
                     <a href="../articles/tfg.html">
-                        <img src="../imaxes/tfg_thumbnail.jpg" alt="Neural Networks and Applications">
+                        <img src="../thumbnail/perceptron.jpg alt="Neural Networks and Applications">
                         <div class="article-title">Neural Networks and Applications</div>
                     </a>
                 </div>
                 <div class="article-item">
                     <a href="../articles/nn_graph.html">
-                        <img src="../imaxes/nn_graph_thumbnail.jpg" alt="Neural Networks as Graphs">
+                        <img src="../thumbnail/perceptron_activacion.jpg" alt="Neural Networks as Graphs">
                         <div class="article-title">Neural Networks as Graphs</div>
                     </a>
                 </div>
                 <div class="article-item">
                     <a href="../articles/backpropagation.html">
-                        <img src="../imaxes/backpropagation_thumbnail.jpg" alt="Backpropagation Algorithm">
+                        <img src="../thumbnail/backpropagation.jpg alt="Backpropagation Algorithm">
                         <div class="article-title">Backpropagation Algorithm</div>
                     </a>
                 </div>
                 <div class="article-item">
                     <a href="../articles/idis.html">
-                        <img src="../imaxes/idis_thumbnail.jpg" alt="Rodent Brain Segmentation">
+                        <img src="../thumbnail/nn_graph_thumbnail.jpg alt="Rodent Brain Segmentation">
                         <div class="article-title">Rodent Brain Segmentation</div>
                     </a>
                 </div>
                 <div class="article-item">
                     <a href="../articles/fft.html">
-                        <img src="../imaxes/fft_thumbnail.jpg" alt="Fast Fourier Transform">
+                        <img src="../thumbnail/convolucion.jpg alt="Fast Fourier Transform">
                         <div class="article-title">Fast Fourier Transform</div>
                     </a>
                 </div>
                 <div class="article-item">
                     <a href="../articles/escape_prison.html">
-                        <img src="../imaxes/escape_prison_thumbnail.jpg" alt="Two Prisoners and a Chessboard">
+                        <img src="../thumbnail/prisoners.jpg alt="Two Prisoners and a Chessboard">
                         <div class="article-title">Two Prisoners and a Chessboard</div>
                     </a>
                 </div>
                 <div class="article-item">
                     <a href="../articles/no_middle_points.html">
-                        <img src="../imaxes/no_middle_points_thumbnail.jpg" alt="Uncountable Set with no Middle Points">
+                        <img src="../thumbnail/uncountable.jpg" alt="Uncountable Set with no Middle Points">
                         <div class="article-title">Uncountable Set with no Middle Points</div>
                     </a>
                 </div>
