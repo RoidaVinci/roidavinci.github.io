@@ -66,7 +66,7 @@ title: "Roi Vence Personal Website"
                 </div>
             </div>
             <div class="view-all-button-container">
-                <a href="articles.md" class="btn btn-primary view-all-btn">
+                <a href="article.md" class="btn btn-primary view-all-btn">
                     <i class="fas fa-book-open"></i> View All Articles
                 </a>
             </div>
@@ -144,12 +144,14 @@ title: "Roi Vence Personal Website"
     }
 
     .view-all-button-container {
-        display: flex;
-        justify-content: center;
+        grid-column: span 3; /* Span the button across all three columns */
+        text-align: center;
+        margin-top: 20px;
     }
 
-    .view-all-btn {
-        width: 60%; /* Same width as three articles */
-        text-align: center;
+    .view-all-button-container .btn {
+        width: 100%;
+        padding: 15px 0;
+        font-size: 1.2em;
     }
 </style>
