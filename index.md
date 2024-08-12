@@ -98,5 +98,58 @@ title: "Roi Vence Personal Website"
         display: block;
         margin: 0 auto 10px;
     }
+    
+    .article-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr); /* Tres artículos por línea */
+        gap: 20px; /* Espacio entre los artículos */
+        margin-top: 20px;
+    }
+
+    .article-item {
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        aspect-ratio: 1; /* Mantener los artículos cuadrados */
+    }
+
+    .article-item:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .article-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain; /* Ajusta la imagen para que entre en el contenedor sin escalarla */
+    }
+
+    .article-title {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        text-align: center;
+        padding: 10px 0;
+        font-size: 1em;
+        transition: background-color 0.3s ease;
+    }
+
+    .article-item:hover .article-title {
+        background-color: rgba(0, 0, 0, 0.9);
+    }
+
+    .view-all-button-container {
+        margin-top: 20px;
+        grid-column: span 3; /* Hace que el botón ocupe el ancho de 3 columnas */
+        text-align: center;
+    }
+
+    .view-all-button-container .btn {
+        width: 100%; /* Hace que el botón ocupe todo el ancho del contenedor */
+        font-size: 1.2em;
+        padding: 10px 0;
+    }
 </style>
 
