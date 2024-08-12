@@ -30,37 +30,37 @@ title: "Roi Vence Personal Website"
             <div class="article-grid">
                 <div class="article-item">
                     <a href="../articles/tfg.html">
-                        <img src="../thumbnail/perceptron.jpg" alt="Neural Networks and Applications">
+                        <img src="/thumbnail/perceptron.jpg" alt="Neural Networks and Applications">
                         <div class="article-title">Neural Networks and Applications</div>
                     </a>
                 </div>
                 <div class="article-item">
                     <a href="../articles/nn_graph.html">
-                        <img src="../thumbnail/perceptron_activacion.jpg" alt="Neural Networks as Graphs">
+                        <img src="/thumbnail/perceptron_activacion.jpg" alt="Neural Networks as Graphs">
                         <div class="article-title">Neural Networks as Graphs</div>
                     </a>
                 </div>
                 <div class="article-item">
                     <a href="../articles/backpropagation.html">
-                        <img src="../thumbnail/backpropagation.jpg" alt="Backpropagation Algorithm">
+                        <img src="/thumbnail/backpropagation.jpg" alt="Backpropagation Algorithm">
                         <div class="article-title">Backpropagation Algorithm</div>
                     </a>
                 </div>
                 <div class="article-item">
                     <a href="../articles/idis.html">
-                        <img src="../thumbnail/segmentadoauto.png" alt="Rodent Brain Segmentation">
+                        <img src="/thumbnail/segmentadoauto.png" alt="Rodent Brain Segmentation">
                         <div class="article-title">Rodent Brain Segmentation</div>
                     </a>
                 </div>
                 <div class="article-item">
                     <a href="../articles/fft.html">
-                        <img src="../thumbnail/convolucion.jpg" alt="Fast Fourier Transform">
+                        <img src="/thumbnail/convolucion.jpg" alt="Fast Fourier Transform">
                         <div class="article-title">Fast Fourier Transform</div>
                     </a>
                 </div>
                 <div class="article-item">
                     <a href="../articles/escape_prison.html">
-                        <img src="../thumbnail/chessboard.png" alt="Two Prisoners and a Chessboard">
+                        <img src="/thumbnail/chessboard.png" alt="Two Prisoners and a Chessboard">
                         <div class="article-title">Two Prisoners and a Chessboard</div>
                     </a>
                 </div>
