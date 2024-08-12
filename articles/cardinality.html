@@ -68,7 +68,7 @@
   <div class="exercise-list">
     <p>In mathematics there is a very interesting concept called cardinality, which is essentially refered to the size of the set. This is very natural when we talk about finite sets, and for example we say the sets \( \{0,1\}\) or \( \{a,b\} \) have both cardinality 2 because they have two elements. In general, the cardinality of a finite set is its number of elements. However, when a set has infinite elements this concept must be carefully treated. Rather than saying a set has a certain cardinality, many times we establish cardinality by comparing sets. For example we say a set has the same cardinality as the natural numbers \( \mathbb{N}=\{1,2,3,\ldots\} \) or the same as the real numbers. There are even bigger sets than this, in fact one can prove that there is no upper bound to the size of the set. Whenever we have a set \( S \) we can build a set \( \mathcal{P}(S)\) formed by all the subsets of that set, which has stricly bigger cardinality than \( S \). In fact, according to the <a href="https://en.wikipedia.org/wiki/Continuum_hypothesis">Continuum Hypothesis</a>, the set \(\mathcal{P}(S)\) has exactly one order of cardinality more than \( S \) and there is no intermediate cardinality between \(S \) and \(\mathcal{P}(S)\). This would imply that the real numbers are exactly one order bigger in cardinality than the natural numbers, as we will prove later that \(\mathcal{P}(\mathbb{N})\) and \(\mathbb{R}\) have the same cardinality. When someone talks about different sizes of infinty, they usually refer to this concept. </p>
     <p>However, most of the common sets in mathematics have at most cardinality \(\mathcal{P}(\mathbb{R})\) and exceptionally \(\mathcal{P}(\mathcal{P}(\mathbb{R}))\), which means they are two or at most three orders of magnitude bigger than the natural numbers, the smallest infinite set. Essentially, the condition for us to say two sets have the same cardinality is that there exists an one to one map between them, which means that we can assign each element of a set to exactly one element of the other and viceversa. For example, \(\{0,1\}\) and \( \{a,b\}\) have the same cardinality because one can map \( 0\mapsto a\) and \(1\mapsto b\). In this article I will put some examples I've worked through before that I found particularly interesting. The answers are not checked out except in the first famous examples, so please reach me if you find any mistake. Many of the answers require the previous ones, as one can build one to one maps by composing two one to one maps and this makes it very easy to deal with many of the examples. </p>
-    <p>In order to solve the problems it is good to know the famous <a href='https://en.wikipedia.org/wiki/Schr%C3%B6der%E2%80%93Bernstein_theorem'>Cantor-Bernstein-Schröder theorem </a> that states that if one can give an injective map (mapping different elements to different elements) between \(A \) and \(B\) and other between \(B\) and \(A\), then one can find a one to one map between them. In our language this means that if \(B\) is bigger than \(A\) and \(A\) is bigger than \(B\), then they are the same, which makes a lot of sense in the finit case. Also it is good to understand that given two sets \(A\) and \(B\), \(A^B\) represents the set of functions or maps from \(B\) to \(A\). A particular case of this is the set \(2^A\), which is the set of all functions between \(A\) and a set of two elements such as \(\{0,1\}\). This allows for a very natural interpretation, as each map \(f\) in \(2^A\) can be interpreted as deciding which elements \(a\) form part of a set (\(f(a)=1\) ) or not (\(f(a)=0\) ). Therefore each map in \(2^A\) defines a subset in \(\mathcal{P}(A)\) and viceversa. For this reason, these two sets are usually identified and many times one or other notation is used without notice.</p>
+    <p>In order to solve the problems it is good to know the famous <a href='https://en.wikipedia.org/wiki/Schr%C3%B6der%E2%80%93Bernstein_theorem'>Cantor-Bernstein-Schröder theorem </a> that states that if one can give an injective map (mapping different elements to different elements) between \(A \) and \(B\) and other between \(B\) and \(A\), then one can find a one to one map between them. In our language this means that if \(B\) is bigger than \(A\) and \(A\) is bigger than \(B\), then they are the same, which makes a lot of sense in the finite case. Also it is good to understand that given two sets \(A\) and \(B\), \(A^B\) represents the set of functions or maps from \(B\) to \(A\). A particular case of this is the set \(2^A\), which is the set of all functions between \(A\) and a set of two elements such as \(\{0,1\}\). This allows for a very natural interpretation, as each map \(f\) in \(2^A\) can be interpreted as deciding which elements \(a\) form part of a set (\(f(a)=1\) ) or not (\(f(a)=0\) ). Therefore each map in \(2^A\) defines a subset in \(\mathcal{P}(A)\) and viceversa. For this reason, these two sets are usually identified and many times one or other notation is used without notice.</p>
     <p>Now I list the examples, with the solutions hidden.</p>
   <div class="exercise">
     <h3>\( \mathbb{Z} \simeq \mathbb{N} \)</h3>
@@ -137,10 +137,9 @@
   </div>
 
   <div class="exercise">
-    <h3>Power Sets and Set Cardinality</h3>
+    <h3>If \( A\simeq B \), then \( \mathcal{P}(A)\simeq \mathcal{P}(B) \)</h3>
     <button class="show-solution-btn" onclick="toggleSolution('solution4')">Show Solution</button>
     <div class="solution" id="solution4">
-      <p>If \( A\simeq B \), then \( \mathcal{P}(A)\simeq \mathcal{P}(B) \).</p>
       <p>Given \( A \simeq B \), there is a one to one map \( j: A \longrightarrow B \). Then the function:</p>
       <div>
         $$
@@ -295,7 +294,7 @@
   </div>
 
   <div class="exercise">
-    <h3>\( \mathbb{R}^\mathbb{R} \simeq \mathcal{P}(\mathbb{R}\)</h3>
+    <h3>\( \mathbb{R}^\mathbb{R} \simeq \mathcal{P}(\mathbb{R})\)</h3>
     <button class="show-solution-btn" onclick="toggleSolution('solution14')">Show Solution</button>
     <div class="solution" id="solution14">
       <p>The function:</p>
@@ -408,7 +407,7 @@
   </div>
 
   <div class="exercise">
-    <h3>Cardinality of Open Sets in \( \mathbb{R} \)</h3>
+    <h3>Open Sets in \( \mathbb{R} \)</h3>
     <button class="show-solution-btn" onclick="toggleSolution('solution23')">Show Solution</button>
     <div class="solution" id="solution23">
       <p>Let X be the set of all open sets in the usual real topology. We prove that every open set in \( \mathbb{R} \) is a countable union of open intervals. The function:</p>
@@ -422,7 +421,7 @@
   </div>
 
   <div class="exercise">
-    <h3>Cardinality of Closed Sets in \( \mathbb{R} \)</h3>
+    <h3>Closed sets in \( \mathbb{R} \)</h3>
     <button class="show-solution-btn" onclick="toggleSolution('solution24')">Show Solution</button>
     <div class="solution" id="solution24">
       <p>By the relationship between open and closed sets in \( \mathbb{R} \), the function:</p>
