@@ -73,18 +73,6 @@ title: "Roi Vence Personal Website"
         </div>
     </div>
 
-<footer class="footer">
-    <div class="container-sm">
-        <div class="row">
-            <div class="col" style="text-align: center">
-                <span class="text-muted small-text">
-                    Different versions of this layout can be found <a href="https://github.com/TonyLianLong/websitev2">here</a> or at my <a href="https://github.com/RoidaVinci/web/">own repository</a>.
-                </span>
-            </div>
-        </div>
-    </div>
-</footer>
-
 </main>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
