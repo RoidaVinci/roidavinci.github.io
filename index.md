@@ -14,51 +14,6 @@ title: "Roi Vence Personal Website"
             {% capture bio %}{% include bio.md %}{% endcapture %}
             <p>{{ bio | markdownify }}</p>
         </div>
-                    <p class="h4 section-title mt-5">Recent Articles</p>
-            <div class="article-grid">
-                <div class="article-item">
-                    <a href="../articles/tfg.html">
-                        <img src="../imaxes/perceptron.jpg" alt="Neural Networks and Applications">
-                        <div class="article-title">Neural Networks and Applications</div>
-                    </a>
-                </div>
-                <div class="article-item">
-                    <a href="../articles/nn_graph.html">
-                        <img src="../imaxes/perceptron_activacion.jpg" alt="Neural Networks as Graphs">
-                        <div class="article-title">Neural Networks as Graphs</div>
-                    </a>
-                </div>
-                <div class="article-item">
-                    <a href="../articles/backpropagation.html">
-                        <img src="../imaxes/backpropagation.jpg" alt="Backpropagation Algorithm">
-                        <div class="article-title">Backpropagation Algorithm</div>
-                    </a>
-                </div>
-                <div class="article-item">
-                    <a href="../articles/idis.html">
-                        <img src="../imaxes/segmentadoauto.png" alt="Rodent Brain Segmentation">
-                        <div class="article-title">Rodent Brain Segmentation</div>
-                    </a>
-                </div>
-                <div class="article-item">
-                    <a href="../articles/fft.html">
-                        <img src="../imaxes/convolucion.png" alt="Fast Fourier Transform">
-                        <div class="article-title">Fast Fourier Transform</div>
-                    </a>
-                </div>
-                <div class="article-item">
-                    <a href="../articles/escape_prison.html">
-                        <img src="../imaxes/chessboard.png" alt="Two Prisoners and a Chessboard">
-                        <div class="article-title">Two Prisoners and a Chessboard</div>
-                    </a>
-                </div>
-            </div>
-
-            <div class="view-all-button-container">
-                <a href="../articles/" class="btn btn-primary">
-                    <i class="fas fa-book-open"></i> View All Articles
-                </a>
-            </div>
         </div>
         <div class="col-auto d-none d-md-block text-center">
             <img class="profile-img" src="{{ '/assets/profile.jpg' | relative_url }}" />
@@ -69,6 +24,25 @@ title: "Roi Vence Personal Website"
             </div>
         </div>
     </div>
+    <div class="row">
+        <p class="h4 section-title mt-5">Recent Articles</p>
+                <div class="article-grid">
+                    {% for post in site.articles limit:6 %}
+                    <div class="article-item">
+                        <a href="{{ post.url }}">
+                            <img src="{{ article.image }}" alt="{{ article.title }}">
+                            <div class="article-title">{{ article.title }}</div>
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+    
+                <div class="view-all-button-container">
+                    <a href="{{ '/articles/' | relative_url }}" class="btn btn-primary">
+                        <i class="fas fa-book-open"></i> View All Articles
+                    </a>
+                </div>
+        </div>
 
 <footer class="footer">
     <div class="container-sm">
