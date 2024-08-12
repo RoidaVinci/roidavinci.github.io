@@ -59,8 +59,8 @@ permalink: /article/
                     </div>
                     <div class="article-item">
                         <a href="../articles/cardinality.html">
-                            <img src="../thumbnail/uncountable.jpg" alt="Cardinality">
-                            <div class="article-title">Cardinality of some sets</div>
+                            <img src="../thumbnail/cardinality.jpg" alt="Cardinality">
+                            <div class="article-title">The Sizes of Infinity: Cardinality</div>
                         </a>
                     </div>
                     
