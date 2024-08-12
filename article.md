@@ -8,6 +8,11 @@ permalink: /article/
     <div class="row">
         <div class="col">
             <p class="h1 section-title" style="clear: right">Articles</p>
+            <div>
+                <p>
+                    Here are some articles I've written. Some of them are part of a broader work I did during some research projects, while others are just topics I was                              interested in.
+                </p>
+                <ul>
             <div class="article-grid">
                 <div class="article-item">
                     <a href="../articles/tfg.html">
