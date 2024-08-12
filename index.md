@@ -24,25 +24,54 @@ title: "Roi Vence Personal Website"
             </div>
         </div>
     </div>
-    <div class="row">
-        <p class="h4 section-title mt-5">Recent Articles</p>
-                <div class="article-grid">
-                    {% for post in site.articles limit:6 %}
-                    <div class="article-item">
-                        <a href="{{ post.url }}">
-                            <img src="{{ article.image }}" alt="{{ article.title }}">
-                            <div class="article-title">{{ article.title }}</div>
-                        </a>
-                    </div>
-                    {% endfor %}
-                </div>
-    
-                <div class="view-all-button-container">
-                    <a href="{{ '/articles/' | relative_url }}" class="btn btn-primary">
-                        <i class="fas fa-book-open"></i> View All Articles
+        <div class="row">
+        <div class="col">
+            <p class="h1 section-title" style="clear: right">Featured Articles</p>
+            <div class="article-grid">
+                <div class="article-item">
+                    <a href="../articles/tfg.html">
+                        <img src="../thumbnail/perceptron.jpg" alt="Neural Networks and Applications">
+                        <div class="article-title">Neural Networks and Applications</div>
                     </a>
                 </div>
+                <div class="article-item">
+                    <a href="../articles/nn_graph.html">
+                        <img src="../thumbnail/perceptron_activacion.jpg" alt="Neural Networks as Graphs">
+                        <div class="article-title">Neural Networks as Graphs</div>
+                    </a>
+                </div>
+                <div class="article-item">
+                    <a href="../articles/backpropagation.html">
+                        <img src="../thumbnail/backpropagation.jpg" alt="Backpropagation Algorithm">
+                        <div class="article-title">Backpropagation Algorithm</div>
+                    </a>
+                </div>
+                <div class="article-item">
+                    <a href="../articles/idis.html">
+                        <img src="../thumbnail/segmentadoauto.png" alt="Rodent Brain Segmentation">
+                        <div class="article-title">Rodent Brain Segmentation</div>
+                    </a>
+                </div>
+                <div class="article-item">
+                    <a href="../articles/fft.html">
+                        <img src="../thumbnail/convolucion.jpg" alt="Fast Fourier Transform">
+                        <div class="article-title">Fast Fourier Transform</div>
+                    </a>
+                </div>
+                <div class="article-item">
+                    <a href="../articles/escape_prison.html">
+                        <img src="../thumbnail/chessboard.png" alt="Two Prisoners and a Chessboard">
+                        <div class="article-title">Two Prisoners and a Chessboard</div>
+                    </a>
+                </div>
+            </div>
+            <div class="view-all-button-container">
+                <a href="../articles.md" class="btn btn-primary view-all-btn">
+                    <i class="fas fa-book-open"></i> View All Articles
+                </a>
+            </div>
         </div>
+    </div>
 
 <footer class="footer">
     <div class="container-sm">
@@ -75,16 +104,16 @@ title: "Roi Vence Personal Website"
     
     .article-grid {
         display: grid;
-        grid-template-columns: repeat(3, 1fr); /* Tres artículos por línea */
-        gap: 20px; /* Espacio entre los artículos */
-        margin-top: 20px;
+        grid-template-columns: repeat(3, 1fr); /* Three articles per row */
+        gap: 20px; /* Space between articles */
+        margin-bottom: 20px;
     }
 
     .article-item {
         position: relative;
         overflow: hidden;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
-        aspect-ratio: 1; /* Mantener los artículos cuadrados */
+        aspect-ratio: 1; /* Keep articles square */
     }
 
     .article-item:hover {
@@ -95,7 +124,7 @@ title: "Roi Vence Personal Website"
     .article-item img {
         width: 100%;
         height: 100%;
-        object-fit: contain; /* Ajusta la imagen para que entre en el contenedor sin escalarla */
+        object-fit: contain; /* Ensure the image fits within the container */
     }
 
     .article-title {
@@ -115,15 +144,12 @@ title: "Roi Vence Personal Website"
     }
 
     .view-all-button-container {
-        margin-top: 20px;
-        grid-column: span 3; /* Hace que el botón ocupe el ancho de 3 columnas */
+        display: flex;
+        justify-content: center;
+    }
+
+    .view-all-btn {
+        width: 60%; /* Same width as three articles */
         text-align: center;
     }
-
-    .view-all-button-container .btn {
-        width: 100%; /* Hace que el botón ocupe todo el ancho del contenedor */
-        font-size: 1.2em;
-        padding: 10px 0;
-    }
 </style>
-
