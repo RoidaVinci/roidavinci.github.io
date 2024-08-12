@@ -66,7 +66,7 @@ title: "Roi Vence Personal Website"
                 </div>
             </div>
             <div class="view-all-button-container">
-                <a href="article.md" class="btn btn-primary view-all-btn">
+                <a href="article" class="btn btn-primary view-all-btn">
                     <i class="fas fa-book-open"></i> View All Articles
                 </a>
             </div>
