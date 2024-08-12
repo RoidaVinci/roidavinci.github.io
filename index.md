@@ -131,15 +131,16 @@ title: "Roi Vence Personal Website"
         background-color: rgba(0, 0, 0, 0.9);
     }
 
-    .view-all-button-container {
-        grid-column: span 3; /* Span the button across all three columns */
-        text-align: center;
-        margin-top: 20px;
-    }
+.view-all-button-container {
+    grid-column: span 3; /* Span the button across all three columns */
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 40px; /* Added margin to create space below the button */
+}
 
-    .view-all-button-container .btn {
-        width: 100%;
-        padding: 15px 0;
-        font-size: 1.2em;
-    }
+.view-all-button-container .btn {
+    width: 100%;
+    padding: 15px 0;
+    font-size: 1.2em;
+}
 </style>
