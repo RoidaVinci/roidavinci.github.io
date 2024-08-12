@@ -41,8 +41,8 @@ permalink: /article/
                     </div>
                     <div class="article-item">
                         <a href="../articles/fft.html">
-                            <img src="../thumbnail/convolucion.jpg" alt="Fast Fourier Transform">
-                            <div class="article-title">Fast Fourier Transform</div>
+                            <img src="../thumbnail/convolucion.jpg" alt="Fast Fourier Transform and Convolutions">
+                            <div class="article-title">Fast Fourier Transform and Convolutions</div>
                         </a>
                     </div>
                     <div class="article-item">
