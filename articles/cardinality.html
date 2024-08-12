@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cardinality of some sets</title>
-  <script src="https://cdn.jsdelivr.net/gh/jquery/jquery@3.6.1/dist/jquery.slim.min.js" integrity="sha256-w8CvhFs7iHNVUtnSP0YKEg00p9Ih13rlL9zGqvLdePA=" crossorigin="anonymous"></script>
+  <title>Cardinality of Some Sets</title>
+  <script src="https://cdn.jsdelivr.net/gh/jquery/jquery@3.6.1/dist/jquery.slim.min.js" integrity="sha256-w8CvhFs7iHNVUtnSP0YKEg00p9Ih13rlL9zGqvZ6jIW3" crossorigin="anonymous"></script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="stylesheet" href="../assets/cmun-serif/cmun-serif.css">
@@ -29,7 +29,36 @@
     document.addEventListener("DOMContentLoaded", function() {
       MathJax.typesetPromise();
     });
+    function toggleSolution(solutionId) {
+      var solutionDiv = document.getElementById(solutionId);
+      if (solutionDiv.style.display === "none" || solutionDiv.style.display === "") {
+        solutionDiv.style.display = "block";
+      } else {
+        solutionDiv.style.display = "none";
+      }
+    }
   </script>
+  <style>
+    .solution {
+      display: none;
+      max-height: 300px;
+      overflow-y: auto;
+      margin-top: 10px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      background-color: #f9f9f9;
+    }
+    .show-solution-btn {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 5px 10px;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+      border-radius: 5px;
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
 
@@ -42,11 +71,9 @@
   </div>
 
   <div class="exercise">
-    <h3>Exercise 1: \( \mathbb{Z} \)</h3>
-    <p>Prove that the set of integers \( \mathbb{Z} \) has the same cardinality as \( \mathbb{N} \).</p>
-    <button onclick="toggleSolution('solution1')">Show Solution</button>
-    <div class="solution" id="solution1" style="display:none;">
-      <h4>Solution:</h4>
+    <h3>\( \mathbb{Z} \) and \( \mathbb{N} \)</h3>
+    <button class="show-solution-btn" onclick="toggleSolution('solution1')">Show Solution</button>
+    <div class="solution" id="solution1">
       <p>The function:</p>
       <pre>
 \( f:\mathbb{Z} \rightarrow \mathbb{N} \)
@@ -57,11 +84,9 @@
   </div>
 
   <div class="exercise">
-    <h3>Exercise 2: \( \mathbb{N} \times \mathbb{N} \)</h3>
-    <p>Prove that the Cartesian product of natural numbers \( \mathbb{N} \times \mathbb{N} \) has the same cardinality as \( \mathbb{N} \).</p>
-    <button onclick="toggleSolution('solution2')">Show Solution</button>
-    <div class="solution" id="solution2" style="display:none;">
-      <h4>Solution:</h4>
+    <h3>\( \mathbb{N} \times \mathbb{N} \) and \( \mathbb{N} \)</h3>
+    <button class="show-solution-btn" onclick="toggleSolution('solution2')">Show Solution</button>
+    <div class="solution" id="solution2">
       <p>The functions:</p>
       <pre>
 \( \theta:\mathbb{N} \times \mathbb{N} \rightarrow \mathbb{N} \)
@@ -75,11 +100,9 @@
   </div>
 
   <div class="exercise">
-    <h3>Exercise 3: \( \mathbb{Q} \)</h3>
-    <p>Prove that the set of rational numbers \( \mathbb{Q} \) has the same cardinality as \( \mathbb{N} \).</p>
-    <button onclick="toggleSolution('solution3')">Show Solution</button>
-    <div class="solution" id="solution3" style="display:none;">
-      <h4>Solution:</h4>
+    <h3>\( \mathbb{Q} \) and \( \mathbb{N} \)</h3>
+    <button class="show-solution-btn" onclick="toggleSolution('solution3')">Show Solution</button>
+    <div class="solution" id="solution3">
       <p>To ensure the following function is well-defined, let \( \frac{p}{q} \in \mathbb{Q} \) with \( p \in \mathbb{Z} \) and \( q \in \mathbb{N} \setminus \{0\} \) be an irreducible fraction uniquely characterizing a rational number. Then:</p>
       <pre>
 \( f:\mathbb{Q} \rightarrow \mathbb{N} \)
@@ -94,9 +117,293 @@
     </div>
   </div>
 
-  <!-- Repeat similar structure for the remaining exercises and solutions -->
+  <div class="exercise">
+    <h3>Power Sets and Set Cardinality</h3>
+    <button class="show-solution-btn" onclick="toggleSolution('solution4')">Show Solution</button>
+    <div class="solution" id="solution4">
+      <p>If \( |A| = |B| \), then \( |\mathcal{P}(A)| = |\mathcal{P}(B)| \).</p>
+      <p>Given \( |A| = |B| \), there is a bijection \( j: A \longrightarrow B \). Then the function:</p>
+      <pre>
+\( r: \mathcal{P}(A) \rightarrow \mathcal{P}(B) \)
+\( S \mapsto r(S) := \{j(s) : s \in S\} \in \mathcal{P}(B) \)
+      </pre>
+      <p>is also a bijection between \( \mathcal{P}(A) \) and \( \mathcal{P}(B) \).</p>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <h3>\( 2^A \) and \( \mathcal{P}(A) \)</h3>
+    <button class="show-solution-btn" onclick="toggleSolution('solution5')">Show Solution</button>
+    <div class="solution" id="solution5">
+      <p>The set \( 2^A = \{f:A\longrightarrow\{0,1\}\} \) is bijective to \( \mathcal{P}(A) \). The function:</p>
+      <pre>
+\( l: 2^A \longrightarrow \mathcal{P}(A) \)
+\( f \mapsto l(f):=f^{-1}(1) \in \mathcal{P}(A) \)
+      </pre>
+      <p>is a bijection. To prove injectivity, consider \( f, g \in 2^A \) such that \( l(f) = l(g) \). Therefore, \( f(a) = g(a) \) for all \( a \in A \). For surjectivity, consider any \( S \in \mathcal{P}(A) \); the function \( f \in 2^A \) defined by \( f(s) = 1 \) if \( s \in S \) and \( f(s) = 0 \) if \( s \in A \setminus S \) satisfies \( l(f) = S \). Thus, \( l \) is a bijection.</p>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <h3>Cardinality of \( (A^B)^C \) and \( A^{B \times C} \)</h3>
+    <button onclick="toggleSolution('solution4')">Show Solution</button>
+    <div class="solution" id="solution4" style="display:none;">
+      <p>Consider the function:</p>
+      <pre>
+        \(\eta : (A^B)^C \rightarrow A^{B \times C}\)
+        \(\eta(h)(b, c) = h(c)(b)\)
+      </pre>
+      <p>This function is a bijection because it is both injective and surjective, as shown by proving that \( h = t \) whenever \( \eta(h) = \eta(t) \), and for every \( g \in A^{B \times C} \), there exists \( h \in (A^B)^C \) such that \( \eta(h) = g \).</p>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <h3>Cardinality of \( A^A \) and \( 2^A \)</h3>
+    <button onclick="toggleSolution('solution5')">Show Solution</button>
+    <div class="solution" id="solution5" style="display:none;">
+      <p>Clearly, \( |A^A| \leq |(2^A)^A| \). Using the previous result \( |(2^A)^A| = |2^{A \times A}| \), we find \( |A^A| \leq |2^A| \). On the other hand, \( |2^A| \leq |A^A| \), so \( |A^A| = |2^A| \).</p>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <h3>Cardinality of \( \mathcal{P}(\mathbb{N}) \)</h3>
+    <button onclick="toggleSolution('solution6')">Show Solution</button>
+    <div class="solution" id="solution6" style="display:none;">
+      <p>We know that \( |\mathcal{P}(\mathbb{Q})| = |\mathcal{P}(\mathbb{N})| \). Consider the injection:</p>
+      <pre>
+        \( s : \mathbb{R} \rightarrow \mathcal{P}(\mathbb{Q}) \)
+        \( x \mapsto s(x) = \{ q < x : q \in \mathbb{Q} \} \)
+      </pre>
+      <p>This injective function shows \( |\mathbb{R}| \leq |\mathcal{P}(\mathbb{Q})| = |\mathcal{P}(\mathbb{N})| \). Conversely, consider the injection:</p>
+      <pre>
+        \( \sigma(f) = 0.f(1)f(2)f(3)\ldots_2 \in [0,1] \)
+      </pre>
+      <p>This shows \( |\mathcal{P}(\mathbb{N})| = |\mathbb{R}| \), so \( |\mathcal{P}(\mathbb{N})| = |\mathbb{R}| \).</p>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <h3>Cardinality of \( (0,1) \subset \mathbb{R} \)</h3>
+    <button onclick="toggleSolution('solution7')">Show Solution</button>
+    <div class="solution" id="solution7" style="display:none;">
+      <p>The function:</p>
+      <pre>
+        \( \rho(x) = \tan\left(\pi \cdot \left(x - \frac{1}{2}\right)\right) \)
+      </pre>
+      <p>is a bijection between \( (0,1) \) and \( \mathbb{R} \).</p>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <h3>Cardinality of \( [0,1] \subset \mathbb{R} \)</h3>
+    <button onclick="toggleSolution('solution8')">Show Solution</button>
+    <div class="solution" id="solution8" style="display:none;">
+      <p>The function:</p>
+      <pre>
+        \( \omega(x) = \begin{cases}
+          \frac{1}{2} & \text{if } x = 0 \\
+          \frac{1}{n+1} & \text{if } x = \frac{1}{n}, n \in \mathbb{N} \setminus \{1\} \\
+          1 - \frac{1}{3} & \text{if } x = 1 \\
+          1 - \frac{1}{n+1} & \text{if } x = 1 - \frac{1}{n}, n \in \mathbb{N} \setminus \{1,2\} \\
+          x & \text{otherwise}
+        \end{cases} \)
+      </pre>
+      <p>is a bijection between \( [0,1] \) and \( (0,1) \).</p>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <h3>Cardinality of \( \{0,1,\ldots,9\}^\mathbb{N} \)</h3>
+    <button onclick="toggleSolution('solution9')">Show Solution</button>
+    <div class="solution" id="solution9" style="display:none;">
+      <p>Consider the function:</p>
+      <pre>
+        \( \sigma(f) = 0.f(1)f(2)f(3)\ldots_{10} \in [0,1] \)
+      </pre>
+      <p>This surjective function shows \( |\{0,1,\ldots,9\}^\mathbb{N}| \leq |\mathbb{R}| \). Furthermore, the function \( \sigma \) injects the set \( \{f : \mathbb{N} \rightarrow \{0,1,\ldots,9\}\} \) into \( [0,1] \), demonstrating the desired cardinality.</p>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <h3>Cardinality of \( \mathbb{Q}^\mathbb{N} \)</h3>
+    <button onclick="toggleSolution('solution10')">Show Solution</button>
+    <div class="solution" id="solution10" style="display:none;">
+      <p>We have \( |2^\mathbb{N}| = |\mathbb{R}| \). Therefore, \( |\mathbb{Q}^\mathbb{N}| \geq |\mathbb{R}| \). On the other hand:</p>
+      <pre>
+        \( |\mathbb{Q}^\mathbb{N}| \leq |(2^\mathbb{Q})^\mathbb{Q}| = |2^{\mathbb{N} \times \mathbb{Q}}| = |\mathbb{R}| \)
+      </pre>
+      <p>Thus, \( |\mathbb{Q}^\mathbb{N}| = |\mathbb{R}| \).</p>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <h3>Cardinality of \( \mathbb{R}^\mathbb{N} \)</h3>
+    <button onclick="toggleSolution('solution11')">Show Solution</button>
+    <div class="solution" id="solution11" style="display:none;">
+      <p>The cardinality \( |\mathbb{R}^\mathbb{N}| \) is equal to \( |\mathbb{R}| \), as shown by:</p>
+      <pre>
+        \( |\mathbb{R}^\mathbb{N}| = |(2^\mathbb{N})^\mathbb{N}| = |2^{\mathbb{N} \times \mathbb{N}}| = |\mathbb{R}| \)
+      </pre>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <h3>Cardinality of \( \mathbb{R}^\mathbb{R} \)</h3>
+    <button onclick="toggleSolution('solution12')">Show Solution</button>
+    <div class="solution" id="solution12" style="display:none;">
+      <p>The function:</p>
+      <pre>
+        \( j(S) = \operatorname{Id}_{S} \)
+      </pre>
+      <p>injects \( \mathcal{P}(\mathbb{R}) \) into \( \mathbb{R}^\mathbb{R} \). Additionally:</p>
+      <pre>
+        \( |\mathbb{R}^\mathbb{R}| \leq |(2^\mathbb{R})^\mathbb{R}| = |2^{\mathbb{R} \times \mathbb{R}}| = |\mathcal{P}(\mathbb{R})| \)
+      </pre>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <h3>Cardinality of \( \mathrm{C}(\mathbb{R}, \mathbb{R}) \)</h3>
+    <button onclick="toggleSolution('solution13')">Show Solution</button>
+    <div class="solution" id="solution13" style="display:none;">
+      <p>Since every continuous function is defined by its value on a countable set, there are at most \( \mathbb{R}^\mathbb{Q} \) continuous functions. Therefore:</p>
+      <pre>
+        \( |\mathrm{C}(\mathbb{R}, \mathbb{R})| \leq |\mathbb{R}^\mathbb{Q}| = |(2^\mathbb{N})^\mathbb{Q}| = |2^{\mathbb{N} \times \mathbb{Q}}| = |\mathbb{R}| \)
+      </pre>
+      <p>Since all constant functions are continuous, \( |\mathbb{R}| \leq |\mathrm{C}(\mathbb{R}, \mathbb{R})| \), and hence \( |\mathrm{C}(\mathbb{R}, \mathbb{R})| = |\mathbb{R}| \).</p>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <h3>Cardinality of Lipschitz Functions</h3>
+    <button onclick="toggleSolution('solution14')">Show Solution</button>
+    <div class="solution" id="solution14" style="display:none;">
+      <p>Since all Lipschitz functions are continuous, \( |L| \leq |\mathrm{C}(\mathbb{R}, \mathbb{R})| = |\mathbb{R}| \). Moreover, since all constant functions are Lipschitz, \( |L| \geq |\mathbb{R}| \). Thus, \( |L| = |\mathbb{R}| \).</p>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <h3>Cardinality of \( C^\infty(\mathbb{R}, \mathbb{R}) \)</h3>
+    <button onclick="toggleSolution('solution15')">Show Solution</button>
+    <div class="solution" id="solution15" style="display:none;">
+      <p>Since all \( C^\infty \) functions are continuous, \( |C^\infty(\mathbb{R}, \mathbb{R})| \leq |\mathrm{C}(\mathbb{R}, \mathbb{R})| = |\mathbb{R}| \). As all constant functions are \( C^\infty \), \( |C^\infty(\mathbb{R}, \mathbb{R})| \geq |\mathbb{R}| \). Therefore, \( |C^\infty(\mathbb{R}, \mathbb{R})| = |\mathbb{R}| \).</p>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <h3>Cardinality of \( [0,1] \times [0,1] \)</h3>
+    <button onclick="toggleSolution('solution16')">Show Solution</button>
+    <div class="solution" id="solution16" style="display:none;">
+      <p>The function:</p>
+      <pre>
+        \( \Psi(x,y) = x_0.y_1x_1y_2x_2y_3x_3\ldots \)
+      </pre>
+      <p>is a bijection between \( [0,1] \times [0,1] \) and \( [0,1] \). Hence, \( |[0,1] \times [0,1]| = |\mathbb{R}| \).</p>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <h3>Cardinality of \( [0,1]^n \)</h3>
+    <button onclick="toggleSolution('solution17')">Show Solution</button>
+    <div class="solution" id="solution17" style="display:none;">
+      <p>The function:</p>
+      <pre>
+        \( \Psi_n(x_1,x_2,\ldots,x_n) = \Psi(x_1,\Psi(x_2,\ldots,\Psi(x_{n-1},x_n)\ldots)) \)
+      </pre>
+      <p>is a bijection between \( [0,1]^n \) and \( [0,1] \).</p>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <h3>Cardinality of \( \mathbb{R}^n \)</h3>
+    <button onclick="toggleSolution('solution18')">Show Solution</button>
+    <div class="solution" id="solution18" style="display:none;">
+      <p>The function:</p>
+      <pre>
+        \( \sigma(x_1,x_2,\ldots,x_n) = (\rho \circ (\omega^{-1} \circ \Psi_n))((\omega \circ \rho^{-1})(x_1), \ldots, (\omega \circ \rho^{-1})(x_n)) \)
+      </pre>
+      <p>is a bijection between \( \mathbb{R}^n \) and \( \mathbb{R} \).</p>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <h3>Cardinality of \( \mathbb{R}[X] \)</h3>
+    <button onclick="toggleSolution('solution19')">Show Solution</button>
+    <div class="solution" id="solution19" style="display:none;">
+      <p>The cardinality \( |\mathbb{R}[X]| \) is equal to \( |\mathbb{R}| \) as it can be bijectively mapped to \( \mathbb{R}^n \).</p>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <h3>Cardinality of Real Algebraic Numbers</h3>
+    <button onclick="toggleSolution('solution20')">Show Solution</button>
+    <div class="solution" id="solution20" style="display:none;">
+      <p>The function:</p>
+      <pre>
+        \( \Phi(P) = \bigcup_{k=1}^n (a_k, k) = \{(a_0, 0), \ldots, (a_n, n)\} \)
+      </pre>
+      <p>is a bijection between the set of real algebraic numbers and \( \mathbb{Z} \times \mathbb{N} \). Therefore, \( |A| = |\mathbb{N}| \).</p>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <h3>Cardinality of Open Sets in \( \mathbb{R} \)</h3>
+    <button onclick="toggleSolution('solution21')">Show Solution</button>
+    <div class="solution" id="solution21" style="display:none;">
+      <p>We prove that every open set in \( \mathbb{R} \) is a countable union of open intervals. The function:</p>
+      <pre>
+        \( \psi(U) = (\{q_k\}_{k \in \mathbb{N}}, \{r_k\}_{k \in \mathbb{N}}) \)
+      </pre>
+      <p>is injective, and since \( \mathbb{R} \) can be injected into \( X \), we conclude that \( |X| = |\mathbb{R}| \).</p>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <h3>Cardinality of Closed Sets in \( \mathbb{R} \)</h3>
+    <button onclick="toggleSolution('solution22')">Show Solution</button>
+    <div class="solution" id="solution22" style="display:none;">
+      <p>By the relationship between open and closed sets in \( \mathbb{R} \), the function:</p>
+      <pre>
+        \( k(F) = \mathbb{R} \setminus F \)
+      </pre>
+      <p>is a bijection between \( Y \) and \( X \), so \( |Y| = |\mathbb{R}| \).</p>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <h3>Cardinality of \( \mathcal{L}(V) \)</h3>
+    <button onclick="toggleSolution('solution23')">Show Solution</button>
+    <div class="solution" id="solution23" style="display:none;">
+      <p>The cardinality \( |\mathcal{L}(V)| \) is \( |\mathbb{R}| \), assuming \( V \) is a vector space over \( \mathbb{R} \).</p>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <h3>Cardinality of \( \mathcal{P}_f(X) \)</h3>
+    <button onclick="toggleSolution('solution24')">Show Solution</button>
+    <div class="solution" id="solution24" style="display:none;">
+      <p>The cardinality \( |\mathcal{P}_f(X)| \) is the same as \( |X| \) if \( X \) is finite, or \( |\mathbb{N}| \) if \( X \) is countably infinite.</p>
+    </div>
+  </div>
+
+</main>
+
+<script>
+  function toggleSolution(id) {
+    var solutionDiv = document.getElementById(id);
+    if (solutionDiv.style.display === "none" || solutionDiv.style.display === "") {
+      solutionDiv.style.display = "block";
+    } else {
+      solutionDiv.style.display = "none";
+    }
+  }
+</script>
+</body>
+</html>
+
   
 </main>
 
 </body>
 </html>
+
