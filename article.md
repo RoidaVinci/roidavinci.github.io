@@ -57,8 +57,6 @@ permalink: /article/
                     </a>
                 </div>
             </div>
-        </div>
-    </div>
 </main>
 <style>
     .article-grid {
