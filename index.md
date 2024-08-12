@@ -49,13 +49,13 @@ title: "Roi Vence Personal Website"
                 <div class="article-item">
                     <a href="articles/idis.html">
                         <img src="thumbnail/segmentadoauto.png" alt="Rodent Brain Segmentation">
-                        <div class="article-title">Rodent Brain Segmentation</div>
+                        <div class="article-title">Neural MRI Segmentation with FCNN</div>
                     </a>
                 </div>
                 <div class="article-item">
                     <a href="articles/fft.html">
                         <img src="thumbnail/convolucion.jpg" alt="Fast Fourier Transform">
-                        <div class="article-title">Fast Fourier Transform</div>
+                        <div class="article-title">Fast Fourier Transform and Convolutions</div>
                     </a>
                 </div>
                 <div class="article-item">
