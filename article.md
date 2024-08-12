@@ -11,7 +11,7 @@ permalink: /article/
             <div class="article-grid">
                 <div class="article-item">
                     <a href="../articles/tfg.html">
-                        <img src="../thumbnail/perceptron.jpg alt="Neural Networks and Applications">
+                        <img src="../thumbnail/perceptron.jpg" alt="Neural Networks and Applications">
                         <div class="article-title">Neural Networks and Applications</div>
                     </a>
                 </div>
@@ -23,25 +23,25 @@ permalink: /article/
                 </div>
                 <div class="article-item">
                     <a href="../articles/backpropagation.html">
-                        <img src="../thumbnail/backpropagation.jpg alt="Backpropagation Algorithm">
+                        <img src="../thumbnail/backpropagation.jpg" alt="Backpropagation Algorithm">
                         <div class="article-title">Backpropagation Algorithm</div>
                     </a>
                 </div>
                 <div class="article-item">
                     <a href="../articles/idis.html">
-                        <img src="../thumbnail/nn_graph_thumbnail.jpg alt="Rodent Brain Segmentation">
+                        <img src="../thumbnail/segmentadoauto.png" alt="Rodent Brain Segmentation">
                         <div class="article-title">Rodent Brain Segmentation</div>
                     </a>
                 </div>
                 <div class="article-item">
                     <a href="../articles/fft.html">
-                        <img src="../thumbnail/convolucion.jpg alt="Fast Fourier Transform">
+                        <img src="../thumbnail/convolucion.jpg" alt="Fast Fourier Transform">
                         <div class="article-title">Fast Fourier Transform</div>
                     </a>
                 </div>
                 <div class="article-item">
                     <a href="../articles/escape_prison.html">
-                        <img src="../thumbnail/prisoners.jpg alt="Two Prisoners and a Chessboard">
+                        <img src="../thumbnail/chessboard.png" alt="Two Prisoners and a Chessboard">
                         <div class="article-title">Two Prisoners and a Chessboard</div>
                     </a>
                 </div>
@@ -77,7 +77,7 @@ permalink: /article/
     .article-item img {
         width: 100%;
         height: 100%;
-        object-fit: cover; /* Asegurar que la imagen cubra todo el contenedor */
+        object-fit: contain; /* Asegurar que la imagen cubra todo el contenedor */
     }
 
     .article-title {
