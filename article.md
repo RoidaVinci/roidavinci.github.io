@@ -57,6 +57,13 @@ permalink: /article/
                             <div class="article-title">Uncountable Set with no Middle Points</div>
                         </a>
                     </div>
+                    <div class="article-item">
+                        <a href="../articles/cardinality.html">
+                            <img src="../thumbnail/uncountable.jpg" alt="Cardinality">
+                            <div class="article-title">Cardinality of some sets</div>
+                        </a>
+                    </div>
+                    
                 </div>
             </div>
         </div>
