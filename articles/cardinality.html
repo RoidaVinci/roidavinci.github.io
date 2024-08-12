@@ -68,9 +68,10 @@
   <div class="exercise-list">
     <p>In mathematics there is a very interesting concept called cardinality, which is essentially refered to the size of the set. This is very natural when we talk about finite sets, and for example we say the sets \( \{0,1\}\) or \( \{a,b\} \) have both cardinality 2 because they have two elements. In general, the cardinality of a finite set is its number of elements. However, when a set has infinite elements this concept must be carefully treated. Rather than saying a set has a certain cardinality, many times we establish cardinality by comparing sets. For example we say a set has the same cardinality as the natural numbers \( \mathbb{N}=\{1,2,3,\ldots\} \) or the same as the real numbers. There are even bigger sets than this, in fact one can prove that there is no upper bound to the size of the set. Whenever we have a set \( S \) we can build a set \( \mathcal{P}(S)\) formed by all the subsets of that set, which has stricly bigger cardinality than \( S \). In fact, according to the <a href="https://en.wikipedia.org/wiki/Continuum_hypothesis">Continuum Hypothesis</a>, the set \(\mathcal{P}(S)\) has exactly one order of cardinality more than \( S \) and there is no intermediate cardinality between \(S \) and \(\mathcal{P}(S)\). This would imply that the real numbers are exactly one order bigger in cardinality than the natural numbers, as we will prove later that \(\mathcal{P}(\mathbb{N})\) and \(\mathbb{R}\) have the same cardinality. When someone talks about different sizes of infinty, they usually refer to this concept. </p>
     <p>However, most of the common sets in mathematics have at most cardinality \(\mathcal{P}(\mathbb{R})\) and exceptionally \(\mathcal{P}(\mathcal{P}(\mathbb{R}))\), which means they are two or at most three orders of magnitude bigger than the natural numbers, the smallest infinite set. Essentially, the condition for us to say two sets have the same cardinality is that there exists an one to one map between them, which means that we can assign each element of a set to exactly one element of the other and viceversa. For example, \(\{0,1\}\) and \( \{a,b\}\) have the same cardinality because one can map \( 0\mapsto a\) and \(1\mapsto b\). In this article I will put some examples I've worked through before that I found particularly interesting. The answers are not checked out except in the first famous examples, so please reach me if you find any mistake. Many of the answers require the previous ones, as one can build one to one maps by composing two one to one maps and this makes it very easy to deal with many of the examples. </p>
-
+    <p>In order to solve the problems it is good to know the famous <a href='https://en.wikipedia.org/wiki/Schr%C3%B6der%E2%80%93Bernstein_theorem'>Cantor-Bernstein-Schröder theorem </a> that states that if one can give an injective map (mapping different elements to different elements) between \(A \) and \(B\) and other between \(B\) and \(A\), then one can find a one to one map between them. In our language this means that if \(B\) is bigger than \(A\) and \(A\) is bigger than \(B\), then they are the same, which makes a lot of sense in the finit case. Also it is good to understand that given two sets \(A\) and \(B\), \(A^B\) represents the set of functions or maps from \(B\) to \(A\). A particular case of this is the set \(2^A\), which is the set of all functions between \(A\) and a set of two elements such as \(\{0,1\}\). This allows for a very natural interpretation, as each map \(f\) in \(2^A\) can be interpreted as deciding which elements \(a\) form part of a set (\(f(a)=1\) ) or not (\(f(a)=0\) ). Therefore each map in \(2^A\) defines a subset in \(\mathcal{P}(A)\) and viceversa. For this reason, these two sets are usually identified and many times one or other notation is used without notice.</p>
+    <p>Now I list the examples, with the solutions hidden.</p>
   <div class="exercise">
-    <h3>\( \mathbb{Z} \) and \( \mathbb{N} \)</h3>
+    <h3>\( \mathbb{Z} \simeq \mathbb{N} \)</h3>
     <button class="show-solution-btn" onclick="toggleSolution('solution1')">Show Solution</button>
     <div class="solution" id="solution1">
       <p>The function:</p>
@@ -87,7 +88,7 @@
   </div>
 
   <div class="exercise">
-    <h3>\( \mathbb{N} \times \mathbb{N} \) and \( \mathbb{N} \)</h3>
+    <h3>\( \mathbb{N} \times \mathbb{N} \simeq \mathbb{N} \)</h3>
     <button class="show-solution-btn" onclick="toggleSolution('solution2')">Show Solution</button>
     <div class="solution" id="solution2">
       <p>The functions:</p>
@@ -110,7 +111,7 @@
   </div>
 
   <div class="exercise">
-    <h3>\( \mathbb{Q} \) and \( \mathbb{N} \)</h3>
+    <h3>\( \mathbb{Q} \simeq \mathbb{N} \)</h3>
     <button class="show-solution-btn" onclick="toggleSolution('solution3')">Show Solution</button>
     <div class="solution" id="solution3">
       <p>To ensure the following function is well-defined, let \( \frac{p}{q} \in \mathbb{Q} \) with \( p \in \mathbb{Z} \) and \( q \in \mathbb{N} \setminus \{0\} \) be an irreducible fraction uniquely characterizing a rational number. Then:</p>
@@ -139,8 +140,8 @@
     <h3>Power Sets and Set Cardinality</h3>
     <button class="show-solution-btn" onclick="toggleSolution('solution4')">Show Solution</button>
     <div class="solution" id="solution4">
-      <p>If \( |A| = |B| \), then \( |\mathcal{P}(A)| = |\mathcal{P}(B)| \).</p>
-      <p>Given \( |A| = |B| \), there is a bijection \( j: A \longrightarrow B \). Then the function:</p>
+      <p>If \( A\simeq B \), then \( \mathcal{P}(A)\simeq \mathcal{P}(B) \).</p>
+      <p>Given \( A \simeq B \), there is a one to one map \( j: A \longrightarrow B \). Then the function:</p>
       <div>
         $$
         r: \mathcal{P}(A) \rightarrow \mathcal{P}(B)
@@ -149,12 +150,12 @@
         S \mapsto r(S) := \{j(s) : s \in S\} \in \mathcal{P}(B)
         $$
       </div>
-      <p>is also a bijection between \( \mathcal{P}(A) \) and \( \mathcal{P}(B) \).</p>
+      <p>is also one to one between \( \mathcal{P}(A) \) and \( \mathcal{P}(B) \).</p>
     </div>
   </div>
 
   <div class="exercise">
-    <h3>\( 2^A \) and \( \mathcal{P}(A) \)</h3>
+    <h3>\( 2^A \simeq \mathcal{P}(A) \)</h3>
     <button class="show-solution-btn" onclick="toggleSolution('solution5')">Show Solution</button>
     <div class="solution" id="solution5">
       <p>The set \( 2^A = \{f:A\longrightarrow\{0,1\}\} \) is bijective to \( \mathcal{P}(A) \). The function:</p>
@@ -171,7 +172,7 @@
   </div>
 
   <div class="exercise">
-    <h3>Cardinality of \( (A^B)^C \) and \( A^{B \times C} \)</h3>
+    <h3>\( (A^B)^C \simeq A^{B \times C} \)</h3>
     <button class="show-solution-btn" onclick="toggleSolution('solution6')">Show Solution</button>
     <div class="solution" id="solution6">
       <p>Consider the function:</p>
@@ -188,7 +189,7 @@
   </div>
 
   <div class="exercise">
-    <h3>Cardinality of \( A^A \) and \( 2^A \)</h3>
+    <h3> \( A^A \simeq 2^A \)</h3>
     <button class="show-solution-btn" onclick="toggleSolution('solution7')">Show Solution</button>
     <div class="solution" id="solution7">
       <p>Clearly, \( |A^A| \leq |(2^A)^A| \). Using the previous result \( |(2^A)^A| = |2^{A \times A}| \), we find \( |A^A| \leq |2^A| \). On the other hand, \( |2^A| \leq |A^A| \), so \( |A^A| = |2^A| \).</p>
@@ -196,7 +197,7 @@
   </div>
 
   <div class="exercise">
-    <h3>Cardinality of \( \mathcal{P}(\mathbb{N}) \)</h3>
+    <h3>\( \mathcal{P}(\mathbb{N})\simeq\mathbb{R} \)</h3>
     <button class="show-solution-btn" onclick="toggleSolution('solution8')">Show Solution</button>
     <div class="solution" id="solution8">
       <p>We know that \( |\mathcal{P}(\mathbb{Q})| = |\mathcal{P}(\mathbb{N})| \). Consider the injection:</p>
@@ -219,7 +220,7 @@
   </div>
 
   <div class="exercise">
-    <h3>Cardinality of \( (0,1) \subset \mathbb{R} \)</h3>
+    <h3>\( (0,1) \simeq\mathbb{R} \)</h3>
     <button class="show-solution-btn" onclick="toggleSolution('solution9')">Show Solution</button>
     <div class="solution" id="solution9">
       <p>The function:</p>
@@ -233,7 +234,7 @@
   </div>
 
   <div class="exercise">
-    <h3>Cardinality of \( [0,1] \subset \mathbb{R} \)</h3>
+    <h3>\( [0,1] \simeq (0,1) \)</h3>
     <button class="show-solution-btn" onclick="toggleSolution('solution10')">Show Solution</button>
     <div class="solution" id="solution10">
       <p>The function:</p>
@@ -253,7 +254,7 @@
   </div>
 
   <div class="exercise">
-    <h3>Cardinality of \( \{0,1,\ldots,9\}^\mathbb{N} \)</h3>
+    <h3>\( \{0,1,\ldots,9\}^\mathbb{N} \simeq [0,1]\)</h3>
     <button class="show-solution-btn" onclick="toggleSolution('solution11')">Show Solution</button>
     <div class="solution" id="solution11">
       <p>Consider the function:</p>
@@ -267,7 +268,7 @@
   </div>
 
   <div class="exercise">
-    <h3>Cardinality of \( \mathbb{Q}^\mathbb{N} \)</h3>
+    <h3>\( \mathbb{Q}^\mathbb{N} \simeq\mathbb{R}\)</h3>
     <button class="show-solution-btn" onclick="toggleSolution('solution12')">Show Solution</button>
     <div class="solution" id="solution12">
       <p>We have \( |2^\mathbb{N}| = |\mathbb{R}| \). Therefore, \( |\mathbb{Q}^\mathbb{N}| \geq |\mathbb{R}| \). On the other hand:</p>
@@ -281,7 +282,7 @@
   </div>
 
   <div class="exercise">
-    <h3>Cardinality of \( \mathbb{R}^\mathbb{N} \)</h3>
+    <h3>\( \mathbb{R}^\mathbb{N} \simeq\mathbb{R}\)</h3>
     <button class="show-solution-btn" onclick="toggleSolution('solution13')">Show Solution</button>
     <div class="solution" id="solution13">
       <p>The cardinality \( |\mathbb{R}^\mathbb{N}| \) is equal to \( |\mathbb{R}| \), as shown by:</p>
@@ -294,7 +295,7 @@
   </div>
 
   <div class="exercise">
-    <h3>Cardinality of \( \mathbb{R}^\mathbb{R} \)</h3>
+    <h3>\( \mathbb{R}^\mathbb{R} \simeq \mathcal{P}(\mathbb{R}\)</h3>
     <button class="show-solution-btn" onclick="toggleSolution('solution14')">Show Solution</button>
     <div class="solution" id="solution14">
       <p>The function:</p>
@@ -313,7 +314,7 @@
   </div>
 
   <div class="exercise">
-    <h3>Cardinality of \( \mathrm{C}(\mathbb{R}, \mathbb{R}) \)</h3>
+    <h3>\( \mathrm{C}(\mathbb{R}, \mathbb{R}) \simeq \mathbb{R}\)</h3>
     <button class="show-solution-btn" onclick="toggleSolution('solution15')">Show Solution</button>
     <div class="solution" id="solution15">
       <p>Since every continuous function is defined by its value on a countable set, there are at most \( \mathbb{R}^\mathbb{Q} \) continuous functions. Therefore:</p>
@@ -327,7 +328,7 @@
   </div>
 
   <div class="exercise">
-    <h3>Cardinality of Lipschitz Functions</h3>
+    <h3>Lipschitz Functions and \(\mathbb{R}\)</h3>
     <button class="show-solution-btn" onclick="toggleSolution('solution16')">Show Solution</button>
     <div class="solution" id="solution16">
       <p>Since all Lipschitz functions are continuous, \( |L| \leq |\mathrm{C}(\mathbb{R}, \mathbb{R})| = |\mathbb{R}| \). Moreover, since all constant functions are Lipschitz, \( |L| \geq |\mathbb{R}| \). Thus, \( |L| = |\mathbb{R}| \).</p>
@@ -335,7 +336,7 @@
   </div>
 
   <div class="exercise">
-    <h3>Cardinality of \( C^\infty(\mathbb{R}, \mathbb{R}) \)</h3>
+    <h3>\( C^\infty(\mathbb{R}, \mathbb{R}) \simeq \mathbb{R}\)</h3>
     <button class="show-solution-btn" onclick="toggleSolution('solution17')">Show Solution</button>
     <div class="solution" id="solution17">
       <p>Since all \( C^\infty \) functions are continuous, \( |C^\infty(\mathbb{R}, \mathbb{R})| \leq |\mathrm{C}(\mathbb{R}, \mathbb{R})| = |\mathbb{R}| \). As all constant functions are \( C^\infty \), \( |C^\infty(\mathbb{R}, \mathbb{R})| \geq |\mathbb{R}| \). Therefore, \( |C^\infty(\mathbb{R}, \mathbb{R})| = |\mathbb{R}| \).</p>
@@ -343,7 +344,7 @@
   </div>
 
   <div class="exercise">
-    <h3>Cardinality of \( [0,1] \times [0,1] \)</h3>
+    <h3>\( [0,1] \times [0,1] \simeq [0,1]\)</h3>
     <button class="show-solution-btn" onclick="toggleSolution('solution18')">Show Solution</button>
     <div class="solution" id="solution18">
       <p>The function:</p>
@@ -357,7 +358,7 @@
   </div>
 
   <div class="exercise">
-    <h3>Cardinality of \( [0,1]^n \)</h3>
+    <h3>\( [0,1]^n \simeq [0,1]\)</h3>
     <button class="show-solution-btn" onclick="toggleSolution('solution19')">Show Solution</button>
     <div class="solution" id="solution19">
       <p>The function:</p>
@@ -371,7 +372,7 @@
   </div>
 
   <div class="exercise">
-    <h3>Cardinality of \( \mathbb{R}^n \)</h3>
+    <h3>\( \mathbb{R}^n \simeq \mathbb{R}\)</h3>
     <button class="show-solution-btn" onclick="toggleSolution('solution20')">Show Solution</button>
     <div class="solution" id="solution20">
       <p>The function:</p>
@@ -385,7 +386,7 @@
   </div>
 
   <div class="exercise">
-    <h3>Cardinality of \( \mathbb{R}[X] \)</h3>
+    <h3>\( \mathbb{R}[X]\simeq\mathbb{R}\)</h3>
     <button class="show-solution-btn" onclick="toggleSolution('solution21')">Show Solution</button>
     <div class="solution" id="solution21">
       <p>The cardinality \( |\mathbb{R}[X]| \) is equal to \( |\mathbb{R}| \) as it can be bijectively mapped to \( \mathbb{R}^n \).</p>
@@ -393,7 +394,7 @@
   </div>
 
   <div class="exercise">
-    <h3>Cardinality of Real Algebraic Numbers</h3>
+    <h3>Algebraic Numbers and \(\mathbb{N}\)</h3>
     <button class="show-solution-btn" onclick="toggleSolution('solution22')">Show Solution</button>
     <div class="solution" id="solution22">
       <p>The function:</p>
@@ -410,13 +411,13 @@
     <h3>Cardinality of Open Sets in \( \mathbb{R} \)</h3>
     <button class="show-solution-btn" onclick="toggleSolution('solution23')">Show Solution</button>
     <div class="solution" id="solution23">
-      <p>We prove that every open set in \( \mathbb{R} \) is a countable union of open intervals. The function:</p>
+      <p>Let X be the set of all open sets in the usual real topology. We prove that every open set in \( \mathbb{R} \) is a countable union of open intervals. The function:</p>
       <div>
         $$
         \psi(U) = (\{q_k\}_{k \in \mathbb{N}}, \{r_k\}_{k \in \mathbb{N}})
         $$
       </div>
-      <p>is injective, and since \( \mathbb{R} \) can be injected into \( X \), we conclude that \( |X| = |\mathbb{R}| \).</p>
+      <p>is injective, and since \( \mathbb{R} \) can cleary be included into \( X \), we conclude that \( |X| = |\mathbb{R}| \).</p>
     </div>
   </div>
 
@@ -430,23 +431,7 @@
         k(F) = \mathbb{R} \setminus F
         $$
       </div>
-      <p>is a bijection between \( Y \) and \( X \), so \( |Y| = |\mathbb{R}| \).</p>
-    </div>
-  </div>
-
-  <div class="exercise">
-    <h3>Cardinality of \( \mathcal{L}(V) \)</h3>
-    <button class="show-solution-btn" onclick="toggleSolution('solution25')">Show Solution</button>
-    <div class="solution" id="solution25">
-      <p>The cardinality \( |\mathcal{L}(V)| \) is \( |\mathbb{R}| \), assuming \( V \) is a vector space over \( \mathbb{R} \).</p>
-    </div>
-  </div>
-
-  <div class="exercise">
-    <h3>Cardinality of \( \mathcal{P}_f(X) \)</h3>
-    <button class="show-solution-btn" onclick="toggleSolution('solution26')">Show Solution</button>
-    <div class="solution" id="solution26">
-      <p>The cardinality \( |\mathcal{P}_f(X)| \) is the same as \( |X| \) if \( X \) is finite, or \( |\mathbb{N}| \) if \( X \) is countably infinite.</p>
+      <p>is a bijection between the set of open and closed sets, so by the previous example there are the same amount of closed sets than real numbers.</p>
     </div>
   </div>
 
