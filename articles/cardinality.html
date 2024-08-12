@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cardinality Exercises</title>
+  <script src="https://cdn.jsdelivr.net/gh/jquery/jquery@3.6.1/dist/jquery.slim.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/article.css">
+  <script>
+    function toggleSolution(solutionId) {
+      var solutionDiv = document.getElementById(solutionId);
+      if (solutionDiv.style.display === "none" || solutionDiv.style.display === "") {
+        solutionDiv.style.display = "block";
+      } else {
+        solutionDiv.style.display = "none";
+      }
+    }
+  </script>
+</head>
+<body>
+
+<main role="main" class="container-sm" style="max-width: 1080px">
+  <h1 class="page-title">Cardinality Exercises</h1>
+  
+  <div class="exercise-list">
+    <h2>Global Exercise</h2>
+    <p>Study the cardinality of the following sets in relation to those of \( \mathbb{N}, \mathbb{R}, \mathcal{P}(\mathbb{R}) \).</p>
+  </div>
+
+  <div class="exercise">
+    <h3>Exercise 1: \( \mathbb{Z} \)</h3>
+    <p>Prove that the set of integers \( \mathbb{Z} \) has the same cardinality as \( \mathbb{N} \).</p>
+    <button onclick="toggleSolution('solution1')">Show Solution</button>
+    <div class="solution" id="solution1" style="display:none;">
+      <h4>Solution:</h4>
+      <p>The function:</p>
+      <pre>
+\( f:\mathbb{Z} \rightarrow \mathbb{N} \)
+\( n \mapsto f(n) = \begin{cases} 2n & \text{if } n \geq 0 \\ -(2n-1) & \text{if } n < 0 \end{cases} \)
+      </pre>
+      <p>is a bijection. Hence, \( |\mathbb{Z}| = |\mathbb{N}| \).</p>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <h3>Exercise 2: \( \mathbb{N} \times \mathbb{N} \)</h3>
+    <p>Prove that the Cartesian product of natural numbers \( \mathbb{N} \times \mathbb{N} \) has the same cardinality as \( \mathbb{N} \).</p>
+    <button onclick="toggleSolution('solution2')">Show Solution</button>
+    <div class="solution" id="solution2" style="display:none;">
+      <h4>Solution:</h4>
+      <p>The functions:</p>
+      <pre>
+\( \theta:\mathbb{N} \times \mathbb{N} \rightarrow \mathbb{N} \)
+\( (p, q) \mapsto \theta(p, q) = 2^p \cdot 3^q \)
+
+\( i:\mathbb{N} \rightarrow \mathbb{Z} \times \mathbb{N} \)
+\( n \mapsto i(n) = (n, n) \)
+      </pre>
+      <p>are injections between \( \mathbb{N} \times \mathbb{N} \) and \( \mathbb{N} \), and vice versa. Therefore, \( |\mathbb{N} \times \mathbb{N}| = |\mathbb{N}| \).</p>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <h3>Exercise 3: \( \mathbb{Q} \)</h3>
+    <p>Prove that the set of rational numbers \( \mathbb{Q} \) has the same cardinality as \( \mathbb{N} \).</p>
+    <button onclick="toggleSolution('solution3')">Show Solution</button>
+    <div class="solution" id="solution3" style="display:none;">
+      <h4>Solution:</h4>
+      <p>To ensure the following function is well-defined, let \( \frac{p}{q} \in \mathbb{Q} \) with \( p \in \mathbb{Z} \) and \( q \in \mathbb{N} \setminus \{0\} \) be an irreducible fraction uniquely characterizing a rational number. Then:</p>
+      <pre>
+\( f:\mathbb{Q} \rightarrow \mathbb{N} \)
+\( \frac{p}{q} \mapsto f\left(\frac{p}{q}\right) = \begin{cases} 2^p \cdot 3^q & \text{if } p \geq 0 \\ 5^{-p} \cdot 3^q & \text{if } p < 0 \end{cases} \)
+      </pre>
+      <p>is an injection. Another injection:</p>
+      <pre>
+\( i:\mathbb{N} \rightarrow \mathbb{Q} \)
+\( n \mapsto i(n) = n \in \mathbb{Q} \)
+      </pre>
+      <p>is also an injection. Therefore, \( |\mathbb{Q}| = |\mathbb{N}| \).</p>
+    </div>
+  </div>
+
+  <!-- Repeat similar structure for the remaining exercises and solutions -->
+  
+</main>
+
+</body>
+</html>
