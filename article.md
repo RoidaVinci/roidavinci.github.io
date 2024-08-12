@@ -55,19 +55,18 @@ permalink: /article/
         </div>
     </div>
 </main>
-
 <style>
     .article-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-        gap: 0; /* Eliminar el espacio entre los artículos */
+        grid-template-columns: repeat(3, 1fr); /* Tres artículos por línea */
+        gap: 20px; /* Espacio entre los artículos */
     }
 
     .article-item {
         position: relative;
         overflow: hidden;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
-        aspect-ratio: 1; /* Hacer los artículos cuadrados */
+        aspect-ratio: 1; /* Mantener los artículos cuadrados */
     }
 
     .article-item:hover {
@@ -78,7 +77,7 @@ permalink: /article/
     .article-item img {
         width: 100%;
         height: 100%;
-        object-fit: cover; /* Asegurarse de que la imagen cubra el contenedor completamente */
+        object-fit: cover; /* Asegurar que la imagen cubra todo el contenedor */
     }
 
     .article-title {
