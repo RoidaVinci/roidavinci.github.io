@@ -16,15 +16,19 @@ title: "Roi Vence Personal Website"
         </div>
         <div class="col-auto d-none d-md-block text-center">
             <!-- Wrap the profile image in a div to handle the wave animation -->
-            <div class="profile-img-wrapper" id="profile-img-wrapper">
-                <img class="profile-img" src="{{ '/assets/profile.jpg' | relative_url }}" />
-                <!-- SVG Wave with multiple paths -->
-                <svg class="wave" viewBox="0 0 300 300" width="300" height="300">
-                    <path id="wavePath1" d="M120,120" fill="none" stroke="##00008B" stroke-width="2"/>
-                    <path id="wavePath2" d="M120,120" fill="none" stroke="##00008B" stroke-width="2"/>
-                    <path id="wavePath3" d="M120,120" fill="none" stroke="##00008B" stroke-width="2"/>
+            <div class="profile-img-wrapper">
+                <img id="profileImg" class="profile-img" src="{{ '/assets/profile.jpg' | relative_url }}" />
+
+                <!-- Multiple SVG Waves -->
+                <svg class="wave" viewBox="0 0 240 240" width="240" height="240">
+                    <path id="wavePath1" d="M120,120" fill="none" stroke="#00008B" stroke-width="2"/>
+                    <path id="wavePath2" d="M120,120" fill="none" stroke="#00008B" stroke-width="2"/>
+                    <path id="wavePath3" d="M120,120" fill="none" stroke="#00008B" stroke-width="2"/>
                 </svg>
             </div>
+            <!-- Add the audio element here -->
+            <audio id="profileAudio" src="{{ '/assets/ballade1.mp3' | relative_url }}"></audio>
+            
             <div class="social-icons">
                 <a href="mailto:roi.vence@gmail.com" title="Email"><i class="fas fa-envelope"></i></a>
                 <a href="https://www.linkedin.com/in/roivence" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
@@ -83,8 +87,6 @@ title: "Roi Vence Personal Website"
     </div>
 </main>
 
-
-
 <!-- Include the JavaScript here -->
 <script>
 document.addEventListener("DOMContentLoaded", function() {
@@ -119,17 +121,14 @@ document.addEventListener("DOMContentLoaded", function() {
     profileImg.addEventListener('click', function() {
         if (isPlaying) {
             profileAudio.pause();
-            profileImg.classList.remove('playing');
         } else {
             profileAudio.play();
-            profileImg.classList.add('playing');
         }
         isPlaying = !isPlaying;
     });
 
     // Reset wave and music when the audio ends
     profileAudio.addEventListener('ended', function() {
-        profileImg.classList.remove('playing');
         isPlaying = false;
     });
 
@@ -160,34 +159,25 @@ document.addEventListener("DOMContentLoaded", function() {
         color: #000;
         font-size: 1.5rem;
     }
-.profile-img-wrapper {
-    position: relative;
-    display: inline-block;
-    width: 240px;
-    height: 240px;
-}
-
-.profile-img {
-    display: block;
-    width: 100%;
-    height: auto;
-    border-radius: 50%;
-    position: relative;
-    z-index: 1;
-}
-
-.wave {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 300px;
-    height: 300px;
-    transform: translate(-50%, -50%);
-    z-index: -1;
-    pointer-events: none;
-}
-    .playing .wave {
+    .profile-img-small, .profile-img {
         display: block;
+        margin: 0 auto 10px;
+        border-radius: 50%; /* Ensure the image is round */
+    }
+    .profile-img-wrapper {
+        position: relative;
+        display: inline-block;
+        width: 240px;
+        height: 240px;
+    }
+    .wave {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 300px;
+        height: 300px;
+        transform: translate(-50%, -50%);
+        z-index: -1;
+        pointer-events: none; /* Ensure the waves don't interfere with clicks */
     }
 </style>
-
