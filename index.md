@@ -18,9 +18,11 @@ title: "Roi Vence Personal Website"
             <!-- Wrap the profile image in a div to handle the wave animation -->
             <div class="profile-img-wrapper" id="profile-img-wrapper">
                 <img class="profile-img" src="{{ '/assets/profile.jpg' | relative_url }}" />
-                <!-- SVG Wave -->
+                <!-- SVG Wave with multiple paths -->
                 <svg class="wave" viewBox="0 0 240 240" width="240" height="240">
-                    <path id="wavePath" d="M120,120" fill="none" stroke="#007bff" stroke-width="2"/>
+                    <path id="wavePath1" d="M120,120" fill="none" stroke="#007bff" stroke-width="2"/>
+                    <path id="wavePath2" d="M120,120" fill="none" stroke="#00ff00" stroke-width="2"/>
+                    <path id="wavePath3" d="M120,120" fill="none" stroke="#ff0000" stroke-width="2"/>
                 </svg>
             </div>
             <div class="social-icons">
@@ -81,53 +83,50 @@ title: "Roi Vence Personal Website"
     </div>
 </main>
 
+
+
 <!-- Include the JavaScript here -->
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    const profileImgWrapper = document.getElementById('profile-img-wrapper');
-    const audio = new Audio('{{ "/assets/ballade1.mp3" | relative_url }}');
-    let isPlaying = false;
-    let waveInterval;
+    const baseR = 100; // Base radius
+    const A = 20;      // Amplitude of the wave
+    const n = 5;       // Number of oscillations
+    const points = 360; // Number of points to calculate
+    const duration = 3000; // Duration of the animation in milliseconds
 
-    profileImgWrapper.addEventListener('click', function() {
-        if (isPlaying) {
-            audio.pause();
-            profileImgWrapper.classList.remove('playing');
-            clearInterval(waveInterval);
-        } else {
-            audio.play();
-            profileImgWrapper.classList.add('playing');
-            startWaveAnimation();
-        }
-        isPlaying = !isPlaying;
-    });
+    let startTime = null;
 
-    audio.addEventListener('ended', function() {
-        profileImgWrapper.classList.remove('playing');
-        clearInterval(waveInterval);
-        isPlaying = false;
-    });
+    function animateWave(time) {
+        if (!startTime) startTime = time;
+        let elapsed = time - startTime;
+        let progress = (elapsed % duration) / duration;
 
-    function startWaveAnimation() {
-        const R = 100; // Base radius
-        const A = 20;  // Amplitude of the wave
-        const n = 5;   // Number of oscillations
-        const points = 360; // Number of points to calculate
-        let offset = 0;
+        // Animate radius with different offsets
+        let R1 = baseR + 20 * Math.sin(progress * 2 * Math.PI);
+        let R2 = baseR + 20 * Math.sin((progress + 0.33) * 2 * Math.PI);
+        let R3 = baseR + 20 * Math.sin((progress + 0.66) * 2 * Math.PI);
 
-        waveInterval = setInterval(function() {
+        function generatePath(R, pathId) {
             let d = "M";
             for (let i = 0; i <= points; i++) {
                 let t = (i / points) * 2 * Math.PI;
-                let x = (R + A * Math.sin(n * t + offset)) * Math.cos(t) + 120;
-                let y = (R + A * Math.sin(n * t + offset)) * Math.sin(t) + 120;
+                let x = (R + A * Math.sin(n * t)) * Math.cos(t) + 120;
+                let y = (R + A * Math.sin(n * t)) * Math.sin(t) + 120;
                 d += `${x},${y} `;
             }
-            document.getElementById("wavePath").setAttribute("d", d);
-            offset += 0.1; // Increment to create animation effect
-        }, 30); // Update every 30ms for smooth animation
+            document.getElementById(pathId).setAttribute("d", d);
+        }
+
+        generatePath(R1, "wavePath1");
+        generatePath(R2, "wavePath2");
+        generatePath(R3, "wavePath3");
+
+        requestAnimationFrame(animateWave);
     }
+
+    requestAnimationFrame(animateWave);
 });
+
 </script>
 
 <!-- CSS for styling -->
@@ -162,3 +161,4 @@ document.addEventListener("DOMContentLoaded", function() {
         display: block;
     }
 </style>
+
