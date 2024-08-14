@@ -16,7 +16,7 @@ title: "Roi Vence Personal Website"
         </div>
         <div class="col-auto d-none d-md-block text-center">
             <!-- Wrap the profile image in a div to handle the wave animation -->
-            <div class="profile-img-wrapper">
+            <div class="profile-img-wrapper" id="profile-img-wrapper">
                 <img class="profile-img" src="{{ '/assets/profile.jpg' | relative_url }}" />
                 <!-- SVG Wave -->
                 <svg class="wave" viewBox="0 0 240 240" width="240" height="240">
@@ -84,6 +84,27 @@ title: "Roi Vence Personal Website"
 <!-- Include the JavaScript here -->
 <script>
 document.addEventListener("DOMContentLoaded", function() {
+    const profileImgWrapper = document.getElementById('profile-img-wrapper');
+    const audio = new Audio('{{ "/assets/ballade1.mp3" | relative_url }}');
+    let isPlaying = false;
+
+    profileImgWrapper.addEventListener('click', function() {
+        if (isPlaying) {
+            audio.pause();
+            profileImgWrapper.classList.remove('playing');
+        } else {
+            audio.play();
+            profileImgWrapper.classList.add('playing');
+        }
+        isPlaying = !isPlaying;
+    });
+
+    audio.addEventListener('ended', function() {
+        profileImgWrapper.classList.remove('playing');
+        isPlaying = false;
+    });
+
+    // Wave generation
     const R = 100; // Base radius
     const A = 20;  // Amplitude of the wave
     const n = 5;   // Number of oscillations
