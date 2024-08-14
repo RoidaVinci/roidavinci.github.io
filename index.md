@@ -119,8 +119,15 @@ document.addEventListener("DOMContentLoaded", function() {
         let d = "M";
         for (let i = 0; i <= points; i++) {
             let t = ((i / points) * 2 * Math.PI) + rotation;
-            let x = 150 + (R + A * Math.cos(n * t)) * Math.cos(t);
-            let y = 150 + (R + A * Math.cos(n * t)) * Math.sin(t);
+
+            // Compute x and y
+            let waveRadius = R + A * Math.cos(n * t);
+            let x = 150 + waveRadius * Math.cos(t);
+            let y = 150 + waveRadius * Math.sin(t);
+
+            // Log variables for debugging
+            console.log(`t: ${t}, rotation: ${rotation}, waveRadius: ${waveRadius}, x: ${x}, y: ${y}`);
+
             d += `${x},${y} `;
         }
         element.setAttribute("d", d);
@@ -159,6 +166,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     animateWaves();
 });
+
 </script>
 
 
