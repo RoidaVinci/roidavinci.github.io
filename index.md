@@ -18,17 +18,11 @@ title: "Roi Vence Personal Website"
             <!-- Wrap the profile image in a div to handle the wave animation -->
             <div class="profile-img-wrapper">
                 <img class="profile-img" src="{{ '/assets/profile.jpg' | relative_url }}" />
-                <div class="wave-animation">
-                    <svg class="wave" viewBox="0 0 120 120">
-                        <path d="M10,60 Q30,20 50,60 T90,60" />
-                    </svg>
-                    <svg class="wave" viewBox="0 0 120 120">
-                        <path d="M10,60 Q30,40 50,60 T90,60" />
-                    </svg>
-                    <svg class="wave" viewBox="0 0 120 120">
-                        <path d="M10,60 Q30,50 50,60 T90,60" />
-                    </svg>
-                </div>
+                <!-- SVG Wave -->
+                <svg class="wave" viewBox="0 0 240 240" width="240" height="240">
+                    <path id="wavePath" d="M120,120" fill="none" stroke="#007bff" stroke-width="2"/>
+                </svg>
+            </div>
             </div>
             <div class="social-icons">
                 <a href="mailto:roi.vence@gmail.com" title="Email"><i class="fas fa-envelope"></i></a>
@@ -42,7 +36,42 @@ title: "Roi Vence Personal Website"
         <div class="col">
             <p class="h1 section-title" style="clear: right">Featured Articles</p>
             <div class="article-grid">
-                <!-- Articles content here -->
+                <div class="article-item">
+                    <a href="articles/tfg.html">
+                        <img src="thumbnail/perceptron.jpg" alt="Neural Networks and Applications">
+                        <div class="article-title">Neural Networks and Applications</div>
+                    </a>
+                </div>
+                <div class="article-item">
+                    <a href="articles/nn_graph.html">
+                        <img src="thumbnail/perceptron_activacion.jpg" alt="Neural Networks as Graphs">
+                        <div class="article-title">Neural Networks as Graphs</div>
+                    </a>
+                </div>
+                <div class="article-item">
+                    <a href="articles/backpropagation.html">
+                        <img src="thumbnail/backpropagation.jpg" alt="Backpropagation Algorithm">
+                        <div class="article-title">Backpropagation Algorithm</div>
+                    </a>
+                </div>
+                <div class="article-item">
+                    <a href="articles/idis.html">
+                        <img src="thumbnail/segmentadoauto.png" alt="Rodent Brain Segmentation">
+                        <div class="article-title">Neural MRI Segmentation with FCNN</div>
+                    </a>
+                </div>
+                <div class="article-item">
+                    <a href="articles/fft.html">
+                        <img src="thumbnail/convolucion.jpg" alt="Fast Fourier Transform">
+                        <div class="article-title">Fast Fourier Transform and Convolutions</div>
+                    </a>
+                </div>
+                <div class="article-item">
+                    <a href="articles/escape_prison.html">
+                        <img src="thumbnail/chessboard.png" alt="Two Prisoners and a Chessboard">
+                        <div class="article-title">Two Prisoners and a Chessboard</div>
+                    </a>
+                </div>
             </div>
             <div class="view-all-button-container">
                 <a href="article" class="btn btn-primary view-all-btn">
@@ -54,31 +83,29 @@ title: "Roi Vence Personal Website"
 </main>
 
 <!-- Include the JavaScript here -->
-<script>
+
+    <script>
 document.addEventListener("DOMContentLoaded", function() {
-    var imgWrapper = document.querySelector('.profile-img-wrapper');
-    var audio = new Audio('{{ "/assets/ballade1.mp3" | relative_url }}');
-    var isPlaying = false;
+    const R = 100; // Base radius
+    const A = 20;  // Amplitude of the wave
+    const n = 5;   // Number of oscillations
+    const points = 360; // Number of points to calculate
 
-    imgWrapper.addEventListener('click', function() {
-        if (isPlaying) {
-            audio.pause();
-            imgWrapper.classList.remove('playing');
-        } else {
-            audio.play();
-            imgWrapper.classList.add('playing');
-        }
-        isPlaying = !isPlaying;
-    });
+    let d = "M";
+    for (let i = 0; i <= points; i++) {
+        let t = (i / points) * 2 * Math.PI;
+        let x = (R + A * Math.sin(n * t)) * Math.cos(t) + 120;
+        let y = (R + A * Math.sin(n * t)) * Math.sin(t) + 120;
+        d += `${x},${y} `;
+    }
 
-    audio.addEventListener('ended', function() {
-        imgWrapper.classList.remove('playing');
-        isPlaying = false;
-    });
+    document.getElementById("wavePath").setAttribute("d", d);
 });
 </script>
 
+<!-- CSS for styling -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
 <style>
     .social-icons {
         margin-top: 10px;
@@ -91,157 +118,17 @@ document.addEventListener("DOMContentLoaded", function() {
     .profile-img-small, .profile-img {
         display: block;
         margin: 0 auto 10px;
+        border-radius: 50%; /* Ensure the image is round */
     }
-    
-    .article-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr); /* Three articles per row */
-        gap: 20px; /* Space between articles */
-        margin-bottom: 20px;
-    }
-
-    .article-item {
-        position: relative;
-        overflow: hidden;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        aspect-ratio: 1; /* Keep articles square */
-    }
-
-    .article-item:hover {
-        transform: scale(1.05);
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    .article-item img {
-        width: 100%;
-        height: 100%;
-        object-fit: contain; /* Ensure the image fits within the container */
-    }
-
-    .article-title {
-        position: absolute;
-        bottom: 0;
-        width: 100%;
-        background-color: rgba(0, 0, 0, 0.7);
-        color: white;
-        text-align: center;
-        padding: 10px 0;
-        font-size: 1em;
-        transition: background-color 0.3s ease;
-    }
-
-    .article-item:hover .article-title {
-        background-color: rgba(0, 0, 0, 0.9);
-    }
-
-    .view-all-button-container {
-        grid-column: span 3; /* Span the button across all three columns */
-        text-align: center;
-        margin-top: 20px;
-        margin-bottom: 40px; /* Added margin to create space below the button */
-    }
-
-    .view-all-button-container .btn {
-        width: 100%;
-        padding: 15px 0;
-        font-size: 1.2em;
-    }
-
-    /* Minimalistic sine wave animation around the profile image */
     .profile-img-wrapper {
         position: relative;
         display: inline-block;
     }
-
-    .profile-img-wrapper img {
-        display: block;
-        border-radius: 50%;
-    }
-
-    .wave-animation {
+    .wave {
         position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 120%; /* Slightly larger than the image */
-        height: 120%; /* Slightly larger than the image */
-        border-radius: 50%;
+        top: 0;
+        left: 0;
         transform: translate(-50%, -50%);
         pointer-events: none; /* Ensure the waves don't interfere with clicks */
-    }
-
-    .wave-animation svg {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        stroke: #007bff;
-        fill: none;
-        stroke-width: 2;
-    }
-
-    .wave-animation svg:nth-child(1) {
-        animation: wave1 2s infinite ease-in-out;
-    }
-
-    .wave-animation svg:nth-child(2) {
-        animation: wave2 2s infinite ease-in-out;
-    }
-
-    .wave-animation svg:nth-child(3) {
-        animation: wave3 2s infinite ease-in-out;
-    }
-
-    @keyframes wave1 {
-        0% {
-            transform: scale(0.9);
-            opacity: 1;
-        }
-        50% {
-            transform: scale(1.1);
-            opacity: 0.5;
-        }
-        100% {
-            transform: scale(0.9);
-            opacity: 1;
-        }
-    }
-
-    @keyframes wave2 {
-        0% {
-            transform: scale(1);
-            opacity: 0.5;
-        }
-        50% {
-            transform: scale(1.2);
-            opacity: 0.3;
-        }
-        100% {
-            transform: scale(1);
-            opacity: 0.5;
-        }
-    }
-
-    @keyframes wave3 {
-        0% {
-            transform: scale(1.1);
-            opacity: 0.3;
-        }
-        50% {
-            transform: scale(1.3);
-            opacity: 0.2;
-        }
-        100% {
-            transform: scale(1.1);
-            opacity: 0.3;
-        }
-    }
-
-    /* Hide the waves by default */
-    .wave-animation {
-        display: none;
-    }
-
-    /* Show the waves when the music is playing */
-    .playing .wave-animation {
-        display: block;
     }
 </style>
