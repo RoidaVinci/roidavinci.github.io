@@ -110,7 +110,7 @@ document.addEventListener("DOMContentLoaded", function() {
         { R: 120, A: 2, n: 90, element: document.getElementById("wavePath9") }
     ];
     const points = 360;
-    let rotation = 0;
+    const rotation = 0;
 
     function generateWavePath(R, A, n, element, rotation) {
     let d = "M";
