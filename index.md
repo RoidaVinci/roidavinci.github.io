@@ -125,9 +125,9 @@ document.addEventListener("DOMContentLoaded", function() {
             let x = 150 + waveRadius * Math.cos(t);
             let y = 150 + waveRadius * Math.sin(t);
 
-            // Log variables for debugging
-            console.log(`t: ${t}, rotation: ${rotation}, waveRadius: ${waveRadius}, x: ${x}, y: ${y}`);
-
+            if (i==0){
+            console.log(`rotation: ${rotation}, waveRadius: ${waveRadius}, x: ${x}, y: ${y}`);
+            }
             d += `${x},${y} `;
         }
         element.setAttribute("d", d);
