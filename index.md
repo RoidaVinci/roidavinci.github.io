@@ -193,12 +193,14 @@ document.addEventListener("DOMContentLoaded", function() {
 
 .wave {
     position: absolute;
-    top: 50%; /* Center the wave vertically */
-    left: 50%; /* Center the wave horizontally */
-    transform: translate(-50%, -50%); /* Adjust so the wave is centered */
+    top: 0;
+    left: 0;
+    width: 300px;
+    height: 300px;
     pointer-events: none; /* Ensure the waves don't interfere with clicks */
-    z-index: 1; /* Position the waves behind the image */
+    z-index: 1; /* Ensure the image is in front of the waves */
 }
+
 
 .wave path {
     transition: d 0.5s ease-in-out; /* Optional: Smooth transition for wave animation */
