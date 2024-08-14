@@ -36,42 +36,7 @@ title: "Roi Vence Personal Website"
         <div class="col">
             <p class="h1 section-title" style="clear: right">Featured Articles</p>
             <div class="article-grid">
-                <div class="article-item">
-                    <a href="articles/tfg.html">
-                        <img src="thumbnail/perceptron.jpg" alt="Neural Networks and Applications">
-                        <div class="article-title">Neural Networks and Applications</div>
-                    </a>
-                </div>
-                <div class="article-item">
-                    <a href="articles/nn_graph.html">
-                        <img src="thumbnail/perceptron_activacion.jpg" alt="Neural Networks as Graphs">
-                        <div class="article-title">Neural Networks as Graphs</div>
-                    </a>
-                </div>
-                <div class="article-item">
-                    <a href="articles/backpropagation.html">
-                        <img src="thumbnail/backpropagation.jpg" alt="Backpropagation Algorithm">
-                        <div class="article-title">Backpropagation Algorithm</div>
-                    </a>
-                </div>
-                <div class="article-item">
-                    <a href="articles/idis.html">
-                        <img src="thumbnail/segmentadoauto.png" alt="Rodent Brain Segmentation">
-                        <div class="article-title">Neural MRI Segmentation with FCNN</div>
-                    </a>
-                </div>
-                <div class="article-item">
-                    <a href="articles/fft.html">
-                        <img src="thumbnail/convolucion.jpg" alt="Fast Fourier Transform">
-                        <div class="article-title">Fast Fourier Transform and Convolutions</div>
-                    </a>
-                </div>
-                <div class="article-item">
-                    <a href="articles/escape_prison.html">
-                        <img src="thumbnail/chessboard.png" alt="Two Prisoners and a Chessboard">
-                        <div class="article-title">Two Prisoners and a Chessboard</div>
-                    </a>
-                </div>
+                <!-- Articles content here -->
             </div>
             <div class="view-all-button-container">
                 <a href="article" class="btn btn-primary view-all-btn">
@@ -86,7 +51,6 @@ title: "Roi Vence Personal Website"
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     var imgWrapper = document.querySelector('.profile-img-wrapper');
-    var img = document.querySelector('.profile-img');
     var audio = new Audio('{{ "/assets/ballade1.mp3" | relative_url }}');
     var isPlaying = false;
 
@@ -192,8 +156,8 @@ document.addEventListener("DOMContentLoaded", function() {
         position: absolute;
         top: 50%;
         left: 50%;
-        width: 100%;
-        height: 100%;
+        width: 120%; /* Slightly larger than the image */
+        height: 120%; /* Slightly larger than the image */
         border-radius: 50%;
         transform: translate(-50%, -50%);
         pointer-events: none; /* Ensure the waves don't interfere with clicks */
@@ -201,6 +165,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
     .wave-animation div {
         position: absolute;
+        width: 100%;
+        height: 100%;
         border: 2px solid #007bff;
         opacity: 0;
         border-radius: 50%;
