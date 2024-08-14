@@ -15,11 +15,10 @@ title: "Roi Vence Personal Website"
             <p>{{ bio | markdownify }}</p>
         </div>
         <div class="col-auto d-none d-md-block text-center">
-            <!-- Wrap the profile image in a div to handle the wave animation -->
+            
             <div class="profile-img-wrapper">
                 <img id="profileImg" class="profile-img" src="{{ '/assets/profile.jpg' | relative_url }}" />
 
-                <!-- Multiple SVG Waves -->
                 <svg class="wave" viewBox="0 0 300 300" width="300" height="300">
                     <path id="wavePath1" d="M150,150" fill="none" stroke="#00008B" stroke-width="2"/>
                     <path id="wavePath2" d="M150,150" fill="none" stroke="#00008B" stroke-width="2"/>
@@ -32,7 +31,7 @@ title: "Roi Vence Personal Website"
                     <path id="wavePath9" d="M150,150" fill="none" stroke="#00008B" stroke-width="1"/>
                 </svg>
             </div>
-            <!-- Add the audio element here -->
+
             <audio id="profileAudio" src="{{ '/assets/ballade1.mp3' | relative_url }}"></audio>
             
             <div class="social-icons">
@@ -116,9 +115,9 @@ document.addEventListener("DOMContentLoaded", function() {
     function generateWavePath(R, A, n, element, rotation = 0) {
     let d = "M";
     for (let i = 0; i <= 360; i++) {
-        let t = ((i / 360) * 2 * Math.PI) + rotation;  // Include rotation
-        let x = (R + A * Math.sin(n * t)) * Math.cos(t) + 150;
-        let y = (R + A * Math.sin(n * t)) * Math.sin(t) + 150;
+        let t = ((i / 360) * 2 * Math.PI) + rotation; 
+        let x = 150 + 120 * Math.cos(t) + A * Math.sin(n * t) * Math.cos(t);
+        let y = 150 + 120 * Math.sin(t) + A * Math.sin(n * t) * Math.sin(t);
         d += `${x},${y} `;
     }
     element.setAttribute("d", d);
