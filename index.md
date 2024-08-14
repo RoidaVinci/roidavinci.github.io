@@ -25,7 +25,6 @@ title: "Roi Vence Personal Website"
             </div>
         </div>
     </div>
-    
     <div class="row">
         <div class="col">
             <p class="h1 section-title" style="clear: right">Featured Articles</p>
