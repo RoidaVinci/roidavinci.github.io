@@ -15,20 +15,16 @@ title: "Roi Vence Personal Website"
             <p>{{ bio | markdownify }}</p>
         </div>
         <div class="col-auto d-none d-md-block text-center">
-            <div class="wave-container">
-                <img class="profile-img" src="{{ '/assets/profile.jpg' | relative_url }}" onclick="playMusic()" />
-                <div class="waves"></div>
-            </div>
+            <img class="profile-img" src="{{ '/assets/profile.jpg' | relative_url }}" />
             <div class="social-icons">
                 <a href="mailto:roi.vence@gmail.com" title="Email"><i class="fas fa-envelope"></i></a>
                 <a href="https://www.linkedin.com/in/roivence" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
                 <a href="https://github.com/RoidaVinci" title="GitHub"><i class="fab fa-github"></i></a>
             </div>
-            <audio id="myAudio" src="assets/ballade1.mp3"></audio>
         </div>
     </div>
     
-    <div class="row">
+        <div class="row">
         <div class="col">
             <p class="h1 section-title" style="clear: right">Featured Articles</p>
             <div class="article-grid">
@@ -76,105 +72,7 @@ title: "Roi Vence Personal Website"
             </div>
         </div>
     </div>
+
 </main>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        var img = document.querySelector('.profile-img');
-        var audio = new Audio('{{ "/assets/ballade1.mp3" | relative_url }}');
-
-        img.addEventListener('click', function() {
-            if (audio.paused) {
-                audio.play();
-                startWaves();
-            } else {
-                audio.pause();
-                stopWaves();
-            }
-        });
-
-        function startWaves() {
-            img.classList.add('playing-music');
-        }
-
-        function stopWaves() {
-            img.classList.remove('playing-music');
-        }
-    });
-</script>
-
-<style>
-    .profile-img.playing-music {
-        border: 4px solid #000;
-        border-radius: 50%;
-        animation: waveAnimation 2s infinite;
-    }
-
-    @keyframes waveAnimation {
-        0% { box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.7); }
-        70% { box-shadow: 0 0 30px 20px rgba(0, 123, 255, 0); }
-        100% { box-shadow: 0 0 0 0 rgba(0, 123, 255, 0); }
-    }
-    .wave-container {
-        position: relative;
-        width: 200px;
-        height: 200px;
-        margin: 0 auto 20px;
-    }
-
-    .profile-img {
-        display: block;
-        width: 100%;
-        height: auto;
-        border-radius: 50%;
-        cursor: pointer;
-    }
-
-    .waves {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-        pointer-events: none;
-        overflow: hidden;
-        z-index: -1;
-    }
-
-    .waves::before, .waves::after {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 300%;
-        height: 300%;
-        background: rgba(0, 123, 255, 0.5);
-        border-radius: 50%;
-        transform: translate(-50%, -50%) scale(0);
-        animation: ripple 1.5s infinite;
-        opacity: 0;
-    }
-
-    .waves::after {
-        animation-delay: 0.75s;
-    }
-
-    .waves.active::before,
-    .waves.active::after {
-        animation: ripple 1.5s infinite;
-        opacity: 1;
-    }
-
-    @keyframes ripple {
-        0% {
-            transform: translate(-50%, -50%) scale(0);
-            opacity: 1;
-        }
-        100% {
-            transform: translate(-50%, -50%) scale(1);
-            opacity: 0;
-        }
-    }
-</style>
 
