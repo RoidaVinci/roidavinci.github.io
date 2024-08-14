@@ -19,9 +19,15 @@ title: "Roi Vence Personal Website"
             <div class="profile-img-wrapper">
                 <img class="profile-img" src="{{ '/assets/profile.jpg' | relative_url }}" />
                 <div class="wave-animation">
-                    <div></div>
-                    <div></div>
-                    <div></div>
+                    <svg class="wave" viewBox="0 0 120 120">
+                        <path d="M10,60 Q30,20 50,60 T90,60" />
+                    </svg>
+                    <svg class="wave" viewBox="0 0 120 120">
+                        <path d="M10,60 Q30,40 50,60 T90,60" />
+                    </svg>
+                    <svg class="wave" viewBox="0 0 120 120">
+                        <path d="M10,60 Q30,50 50,60 T90,60" />
+                    </svg>
                 </div>
             </div>
             <div class="social-icons">
@@ -36,42 +42,7 @@ title: "Roi Vence Personal Website"
         <div class="col">
             <p class="h1 section-title" style="clear: right">Featured Articles</p>
             <div class="article-grid">
-                <div class="article-item">
-                    <a href="articles/tfg.html">
-                        <img src="thumbnail/perceptron.jpg" alt="Neural Networks and Applications">
-                        <div class="article-title">Neural Networks and Applications</div>
-                    </a>
-                </div>
-                <div class="article-item">
-                    <a href="articles/nn_graph.html">
-                        <img src="thumbnail/perceptron_activacion.jpg" alt="Neural Networks as Graphs">
-                        <div class="article-title">Neural Networks as Graphs</div>
-                    </a>
-                </div>
-                <div class="article-item">
-                    <a href="articles/backpropagation.html">
-                        <img src="thumbnail/backpropagation.jpg" alt="Backpropagation Algorithm">
-                        <div class="article-title">Backpropagation Algorithm</div>
-                    </a>
-                </div>
-                <div class="article-item">
-                    <a href="articles/idis.html">
-                        <img src="thumbnail/segmentadoauto.png" alt="Rodent Brain Segmentation">
-                        <div class="article-title">Neural MRI Segmentation with FCNN</div>
-                    </a>
-                </div>
-                <div class="article-item">
-                    <a href="articles/fft.html">
-                        <img src="thumbnail/convolucion.jpg" alt="Fast Fourier Transform">
-                        <div class="article-title">Fast Fourier Transform and Convolutions</div>
-                    </a>
-                </div>
-                <div class="article-item">
-                    <a href="articles/escape_prison.html">
-                        <img src="thumbnail/chessboard.png" alt="Two Prisoners and a Chessboard">
-                        <div class="article-title">Two Prisoners and a Chessboard</div>
-                    </a>
-                </div>
+                <!-- Articles content here -->
             </div>
             <div class="view-all-button-container">
                 <a href="article" class="btn btn-primary view-all-btn">
@@ -176,7 +147,7 @@ document.addEventListener("DOMContentLoaded", function() {
         font-size: 1.2em;
     }
 
-    /* Minimalistic circular wave animation around the profile image */
+    /* Minimalistic sine wave animation around the profile image */
     .profile-img-wrapper {
         position: relative;
         display: inline-block;
@@ -198,32 +169,69 @@ document.addEventListener("DOMContentLoaded", function() {
         pointer-events: none; /* Ensure the waves don't interfere with clicks */
     }
 
-    .wave-animation div {
+    .wave-animation svg {
         position: absolute;
         width: 100%;
         height: 100%;
-        border: 2px solid #007bff;
-        opacity: 0;
-        border-radius: 50%;
-        animation: wave 1.5s infinite ease-out;
+        stroke: #007bff;
+        fill: none;
+        stroke-width: 2;
     }
 
-    .wave-animation div:nth-child(2) {
-        animation-delay: 0.5s;
+    .wave-animation svg:nth-child(1) {
+        animation: wave1 2s infinite ease-in-out;
     }
 
-    .wave-animation div:nth-child(3) {
-        animation-delay: 1s;
+    .wave-animation svg:nth-child(2) {
+        animation: wave2 2s infinite ease-in-out;
     }
 
-    @keyframes wave {
+    .wave-animation svg:nth-child(3) {
+        animation: wave3 2s infinite ease-in-out;
+    }
+
+    @keyframes wave1 {
         0% {
-            transform: scale(0);
+            transform: scale(0.9);
             opacity: 1;
         }
+        50% {
+            transform: scale(1.1);
+            opacity: 0.5;
+        }
         100% {
-            transform: scale(1.5);
-            opacity: 0;
+            transform: scale(0.9);
+            opacity: 1;
+        }
+    }
+
+    @keyframes wave2 {
+        0% {
+            transform: scale(1);
+            opacity: 0.5;
+        }
+        50% {
+            transform: scale(1.2);
+            opacity: 0.3;
+        }
+        100% {
+            transform: scale(1);
+            opacity: 0.5;
+        }
+    }
+
+    @keyframes wave3 {
+        0% {
+            transform: scale(1.1);
+            opacity: 0.3;
+        }
+        50% {
+            transform: scale(1.3);
+            opacity: 0.2;
+        }
+        100% {
+            transform: scale(1.1);
+            opacity: 0.3;
         }
     }
 
