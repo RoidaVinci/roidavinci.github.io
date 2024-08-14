@@ -23,7 +23,6 @@ title: "Roi Vence Personal Website"
                     <path id="wavePath" d="M120,120" fill="none" stroke="#007bff" stroke-width="2"/>
                 </svg>
             </div>
-            </div>
             <div class="social-icons">
                 <a href="mailto:roi.vence@gmail.com" title="Email"><i class="fas fa-envelope"></i></a>
                 <a href="https://www.linkedin.com/in/roivence" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
