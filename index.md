@@ -141,15 +141,14 @@ document.addEventListener("DOMContentLoaded", function() {
         color: #000;
         font-size: 1.5rem;
     }
-
-    .profile-img-wrapper {
+.profile-img-wrapper {
     position: relative;
     display: inline-block;
     width: 240px;
     height: 240px;
 }
 
-.profile-img-small,.profile-img {
+.profile-img {
     display: block;
     width: 100%;
     height: auto;
@@ -160,12 +159,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
 .wave {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    top: 50%;
+    left: 50%;
+    width: 300px; /* Adjust size if needed */
+    height: 300px; /* Adjust size if needed */
+    transform: translate(-50%, -50%); /* Center the SVG */
     z-index: -1; /* Place the waves behind the image */
-    overflow: hidden; /* Hide parts of the waves that are behind the image */
     pointer-events: none; /* Ensure the waves don't interfere with clicks */
 }
     .playing .wave {
