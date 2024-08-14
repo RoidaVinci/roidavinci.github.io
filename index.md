@@ -114,9 +114,9 @@ document.addEventListener("DOMContentLoaded", function() {
     function generateWavePath(R, A, n, element, rotation=0) {
     let d = "M";
     for (let i = 0; i <= 360; i++) {
-        let t = ((i / 360) * 2 * Math.PI) + rotation; 
-        let x = 150 + (120 + A * Math.cos(n * t)) * Math.cos(t);
-        let y = 150 + (120 + A * Math.cos(n * t)) * Math.sin(t);
+        let t = ((i / 360) * 2 * Math.PI); 
+        let x = 150 + (120 + A * Math.cos(n * t)) * Math.cos(t + rotation);
+        let y = 150 + (120 + A * Math.cos(n * t)) * Math.sin(t + rotation);
         d += `${x},${y} `;
     }
     element.setAttribute("d", d);
