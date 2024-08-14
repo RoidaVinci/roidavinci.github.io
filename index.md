@@ -102,15 +102,15 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Wave parameters
     const waves = [
-        { R: 110, A: 7, n: 12, element: document.getElementById("wavePath1") },
-        { R: 110, A: 7, n: 26, element: document.getElementById("wavePath2") },
-        { R: 110, A: 7, n: 40, element: document.getElementById("wavePath3") },
-        { R: 100, A: 6, n: 12, element: document.getElementById("wavePath4") },
-        { R: 100, A: 6, n: 26, element: document.getElementById("wavePath5") },
-        { R: 100, A: 6, n: 40, element: document.getElementById("wavePath6") },
-        { R: 90, A: 5, n: 12, element: document.getElementById("wavePath7") },
-        { R: 90, A: 5, n: 26, element: document.getElementById("wavePath8") },
-        { R: 90, A: 5, n: 40, element: document.getElementById("wavePath9") }
+        { R: 120, A: 9, n: 12, element: document.getElementById("wavePath1") },
+        { R: 120, A: 9, n: 26, element: document.getElementById("wavePath2") },
+        { R: 120, A: 9, n: 40, element: document.getElementById("wavePath3") },
+        { R: 120, A: 6, n: 12, element: document.getElementById("wavePath4") },
+        { R: 120, A: 6, n: 26, element: document.getElementById("wavePath5") },
+        { R: 120, A: 6, n: 40, element: document.getElementById("wavePath6") },
+        { R: 120, A: 4, n: 12, element: document.getElementById("wavePath7") },
+        { R: 120, A: 4, n: 26, element: document.getElementById("wavePath8") },
+        { R: 120, A: 4, n: 40, element: document.getElementById("wavePath9") }
     ];
     const points = 360;
 
