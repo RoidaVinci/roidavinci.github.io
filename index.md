@@ -93,14 +93,12 @@ title: "Roi Vence Personal Website"
     </div>
 </main>
 
-<!-- Include the JavaScript here -->
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     const profileImg = document.getElementById('profileImg');
     const profileAudio = document.getElementById('profileAudio');
     let isPlaying = false;
 
-    // Wave parameters
     const waves = [
         { R: 120, A: 10, n: 8, element: document.getElementById("wavePath1") },
         { R: 120, A: 10, n: 15, element: document.getElementById("wavePath2") },
@@ -114,22 +112,21 @@ document.addEventListener("DOMContentLoaded", function() {
     ];
     const points = 360;
 
-    // Function to generate wave path
-    function generateWavePath(R, A, n, element) {
-        let d = "M";
-        for (let i = 0; i <= points; i++) {
-            let t = (i / points) * 2 * Math.PI;
-            let x = (R + A * Math.sin(n * t)) * Math.cos(t) + 150;
-            let y = (R + A * Math.sin(n * t)) * Math.sin(t) + 150;
-            d += `${x},${y} `;
-        }
-        element.setAttribute("d", d);
-    }
 
-    // Initial wave path generation
+    function generateWavePath(R, A, n, element, rotation = 0) {
+    let d = "M";
+    for (let i = 0; i <= 360; i++) {
+        let t = ((i / 360) * 2 * Math.PI) + rotation;  // Include rotation
+        let x = (R + A * Math.sin(n * t)) * Math.cos(t) + 150;
+        let y = (R + A * Math.sin(n * t)) * Math.sin(t) + 150;
+        d += `${x},${y} `;
+    }
+    element.setAttribute("d", d);
+}
+
     waves.forEach(wave => generateWavePath(wave.R, wave.A, wave.n, wave.element));
 
-    // Handle image click for music and wave animation
+
     profileImg.addEventListener('click', function() {
         if (isPlaying) {
             profileAudio.pause();
@@ -139,27 +136,26 @@ document.addEventListener("DOMContentLoaded", function() {
         isPlaying = !isPlaying;
     });
 
-    // Reset wave and music when the audio ends
+
     profileAudio.addEventListener('ended', function() {
         isPlaying = false;
     });
 
-    // Animate wave paths by varying the radius over time
+
     function animateWaves() {
-        if (isPlaying) {
-            waves.forEach((wave, index) => {
-                let newR = wave.R + 10 * Math.sin(Date.now() / 1000 + index);
-                generateWavePath(newR, wave.A, wave.n, wave.element);
-            });
-        }
-        requestAnimationFrame(animateWaves);
+    if (isPlaying) {
+        waves.forEach((wave, index) => {
+            let rotation = Date.now() / 1000 + index * 0.1; // Slow rotation
+            generateWavePath(wave.R, wave.A, wave.n, wave.element, rotation);
+        });
+    }
+    requestAnimationFrame(animateWaves);
     }
 
     animateWaves();
 });
 </script>
 
-<!-- CSS for styling -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
 <style>
@@ -171,7 +167,6 @@ document.addEventListener("DOMContentLoaded", function() {
         color: #000;
         font-size: 1.5rem;
     }
-    /* CSS for the Profile Image and Wave Animation */
 
 .profile-img-wrapper {
     position: relative;
