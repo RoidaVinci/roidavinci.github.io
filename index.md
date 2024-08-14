@@ -115,8 +115,8 @@ document.addEventListener("DOMContentLoaded", function() {
         let d = "M";
         for (let i = 0; i <= 360; i++) {
             let t = ((i+ rotation / 360) * 2 * Math.PI) ; 
-            let x = 150 + 120 * Math.cos(t);
-            let y = 150 + 120 * Math.sin(t);
+            let x = 150 + (120 + A * Math.cos(n*t)) * Math.cos(t);
+            let y = 150 + (120 + A * Math.cos(n*t)) * Math.sin(t);
             d += `${x},${y} `;
         }
         element.setAttribute("d", d);
