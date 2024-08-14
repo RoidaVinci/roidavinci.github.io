@@ -175,19 +175,20 @@ document.addEventListener("DOMContentLoaded", function() {
 
 .profile-img-wrapper {
     position: relative;
-    width: 300px; /* Set wrapper width to 300px */
-    height: 300px; /* Set wrapper height to 300px */
+    width: 300px; /* Wrapper width */
+    height: 300px; /* Wrapper height */
     margin: 0 auto; /* Center the wrapper horizontally */
 }
 
 .profile-img {
-    width: 240px; /* Set image width to 240px */
-    height: 240px; /* Set image height to 240px */
+    width: 240px; /* Image width */
+    height: 240px; /* Image height */
     border-radius: 50%; /* Make the image round */
-    position: absolute; /* Position it absolutely within the wrapper */
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); /* Center the image within the wrapper */
+    position: absolute; /* Absolute positioning within the wrapper */
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Offset the image to center it within the wrapper */
+    z-index: 2; /* Ensure the image is in front of the waves */
 }
 
 .wave {
@@ -196,10 +197,12 @@ document.addEventListener("DOMContentLoaded", function() {
     left: 50%; /* Center the wave horizontally */
     transform: translate(-50%, -50%); /* Adjust so the wave is centered */
     pointer-events: none; /* Ensure the waves don't interfere with clicks */
+    z-index: 1; /* Position the waves behind the image */
 }
 
 .wave path {
     transition: d 0.5s ease-in-out; /* Optional: Smooth transition for wave animation */
 }
+
 
 </style>
