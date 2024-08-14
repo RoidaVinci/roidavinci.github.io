@@ -116,8 +116,8 @@ document.addEventListener("DOMContentLoaded", function() {
         let d = "M";
         for (let i = 0; i <= 360; i++) {
             let t = (i / 360) * 2 * Math.PI; // Calculate the angle in radians
-            let x = 150 + (R + A * Math.sin(n * t)) * Math.cos(t); // Calculate x without rotation
-            let y = 150 + (R + A * Math.sin(n * t)) * Math.sin(t); // Calculate y without rotation
+            let x = 150 + (R + A * Math.sin(n * (t + rotation))) * Math.cos(t); // Calculate x without rotation
+            let y = 150 + (R + A * Math.sin(n * (t + rotation))) * Math.sin(t); // Calculate y without rotation
 
             d += `${x},${y} `;
         }
