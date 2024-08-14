@@ -175,36 +175,32 @@ document.addEventListener("DOMContentLoaded", function() {
 
 .profile-img-wrapper {
     position: relative;
-    width: 300px; /* Wrapper width */
-    height: 300px; /* Wrapper height */
+    width: 300px; /* Set wrapper width to 300px */
+    height: 300px; /* Set wrapper height to 300px */
     margin: 0 auto; /* Center the wrapper horizontally */
 }
 
 .profile-img {
-    width: 240px; /* Image width */
-    height: 240px; /* Image height */
+    width: 240px; /* Set image width to 240px */
+    height: 240px; /* Set image height to 240px */
     border-radius: 50%; /* Make the image round */
-    position: absolute; /* Absolute positioning within the wrapper */
-    top: 50%; /* Center vertically */
-    left: 50%; /* Center horizontally */
-    transform: translate(-50%, -50%); /* Offset the image to center it within the wrapper */
-    z-index: 2; /* Ensure the image is in front of the waves */
+    position: absolute; /* Position it absolutely within the wrapper */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the image within the wrapper */
+    z-index: 1; /* Ensure the image appears on top */
 }
 
 .wave {
     position: absolute;
     top: 0;
     left: 0;
-    width: 300px;
-    height: 300px;
     pointer-events: none; /* Ensure the waves don't interfere with clicks */
-    z-index: 1; /* Ensure the image is in front of the waves */
+    z-index: 0; /* Place the waves behind the image */
 }
-
 
 .wave path {
-    transition: d 0.5s ease-in-out; /* Optional: Smooth transition for wave animation */
+    transition: d 0.5s ease-in-out; /* Smooth transition for wave animation */
 }
-
 
 </style>
