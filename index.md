@@ -111,21 +111,25 @@ document.addEventListener("DOMContentLoaded", function() {
     ];
 
     const points = 360;
+    let rotation = 0;
+    const maxRotation = 2 * Math.PI;
 
+    // Function to generate wave path with rotation
     function generateWavePath(R, A, n, element, rotation = 0) {
         let d = "M";
-        for (let i = 0; i <= 360; i++) {
-            let t = (i / 360) * 2 * Math.PI; // Calculate the angle in radians
-            let x = 150 + (R + A * Math.sin(n * (t + rotation))) * Math.cos(t); // Calculate x without rotation
-            let y = 150 + (R + A * Math.sin(n * (t + rotation))) * Math.sin(t); // Calculate y without rotation
-
+        for (let i = 0; i <= points; i++) {
+            let t = ((i / points) * 2 * Math.PI);
+            let x = 150 + (R + A * Math.cos(n * t)) * Math.cos(t + rotation);
+            let y = 150 + (R + A * Math.cos(n * t)) * Math.sin(t + rotation);
             d += `${x},${y} `;
         }
         element.setAttribute("d", d);
     }
 
+    // Initial wave path generation
     waves.forEach(wave => generateWavePath(wave.R, wave.A, wave.n, wave.element));
 
+    // Handle image click for music and wave animation
     profileImg.addEventListener('click', function() {
         if (isPlaying) {
             profileAudio.pause();
@@ -135,14 +139,17 @@ document.addEventListener("DOMContentLoaded", function() {
         isPlaying = !isPlaying;
     });
 
+    // Reset waves and music when audio ends
     profileAudio.addEventListener('ended', function() {
         isPlaying = false;
     });
 
-    let rotation = 0;
+    // Animate wave paths with rotation reset
     function animateWaves() {
         if (isPlaying) {
-            rotation += 0.01; // Increment rotation by a small amount
+            rotation += 0.01;  // Increment rotation
+            rotation = rotation % maxRotation;  // Keep rotation within 0 to 2π
+
             waves.forEach(wave => {
                 generateWavePath(wave.R, wave.A, wave.n, wave.element, rotation);
             });
