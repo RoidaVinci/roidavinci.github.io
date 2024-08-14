@@ -82,8 +82,7 @@ title: "Roi Vence Personal Website"
 </main>
 
 <!-- Include the JavaScript here -->
-
-    <script>
+<script>
 document.addEventListener("DOMContentLoaded", function() {
     const R = 100; // Base radius
     const A = 20;  // Amplitude of the wave
@@ -125,8 +124,8 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     .wave {
         position: absolute;
-        top: 0;
-        left: 0;
+        top: 50%;
+        left: 50%;
         transform: translate(-50%, -50%);
         pointer-events: none; /* Ensure the waves don't interfere with clicks */
     }
