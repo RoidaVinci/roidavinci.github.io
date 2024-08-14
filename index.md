@@ -88,45 +88,64 @@ title: "Roi Vence Personal Website"
 <!-- Include the JavaScript here -->
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    const baseR = 100; // Base radius
-    const A = 20;      // Amplitude of the wave
-    const n = 5;       // Number of oscillations
-    const points = 360; // Number of points to calculate
-    const duration = 3000; // Duration of the animation in milliseconds
+    const profileImg = document.getElementById('profileImg');
+    const profileAudio = document.getElementById('profileAudio');
+    let isPlaying = false;
 
-    let startTime = null;
+    // Wave parameters
+    const waves = [
+        { R: 100, A: 20, n: 5, element: document.getElementById("wavePath1") },
+        { R: 80, A: 15, n: 4, element: document.getElementById("wavePath2") },
+        { R: 120, A: 25, n: 3, element: document.getElementById("wavePath3") }
+    ];
+    const points = 360;
 
-    function animateWave(time) {
-        if (!startTime) startTime = time;
-        let elapsed = time - startTime;
-        let progress = (elapsed % duration) / duration;
-
-        // Animate radius with different offsets
-        let R1 = baseR + 20 * Math.sin(progress * 2 * Math.PI);
-        let R2 = baseR + 20 * Math.sin((progress + 0.33) * 2 * Math.PI);
-        let R3 = baseR + 20 * Math.sin((progress + 0.66) * 2 * Math.PI);
-
-        function generatePath(R, pathId) {
-            let d = "M";
-            for (let i = 0; i <= points; i++) {
-                let t = (i / points) * 2 * Math.PI;
-                let x = (R + A * Math.sin(n * t)) * Math.cos(t) + 120;
-                let y = (R + A * Math.sin(n * t)) * Math.sin(t) + 120;
-                d += `${x},${y} `;
-            }
-            document.getElementById(pathId).setAttribute("d", d);
+    // Function to generate wave path
+    function generateWavePath(R, A, n, element) {
+        let d = "M";
+        for (let i = 0; i <= points; i++) {
+            let t = (i / points) * 2 * Math.PI;
+            let x = (R + A * Math.sin(n * t)) * Math.cos(t) + 120;
+            let y = (R + A * Math.sin(n * t)) * Math.sin(t) + 120;
+            d += `${x},${y} `;
         }
-
-        generatePath(R1, "wavePath1");
-        generatePath(R2, "wavePath2");
-        generatePath(R3, "wavePath3");
-
-        requestAnimationFrame(animateWave);
+        element.setAttribute("d", d);
     }
 
-    requestAnimationFrame(animateWave);
-});
+    // Initial wave path generation
+    waves.forEach(wave => generateWavePath(wave.R, wave.A, wave.n, wave.element));
 
+    // Handle image click for music and wave animation
+    profileImg.addEventListener('click', function() {
+        if (isPlaying) {
+            profileAudio.pause();
+            profileImg.classList.remove('playing');
+        } else {
+            profileAudio.play();
+            profileImg.classList.add('playing');
+        }
+        isPlaying = !isPlaying;
+    });
+
+    // Reset wave and music when the audio ends
+    profileAudio.addEventListener('ended', function() {
+        profileImg.classList.remove('playing');
+        isPlaying = false;
+    });
+
+    // Animate wave paths by varying the radius over time
+    function animateWaves() {
+        if (isPlaying) {
+            waves.forEach((wave, index) => {
+                let newR = wave.R + 10 * Math.sin(Date.now() / 1000 + index);
+                generateWavePath(newR, wave.A, wave.n, wave.element);
+            });
+        }
+        requestAnimationFrame(animateWaves);
+    }
+
+    animateWaves();
+});
 </script>
 
 <!-- CSS for styling -->
@@ -153,19 +172,19 @@ document.addEventListener("DOMContentLoaded", function() {
     width: 100%;
     height: auto;
     border-radius: 50%;
-    position: relative; /* Ensure the image is on top */
-    z-index: 1; /* Place the image on top of the waves */
+    position: relative;
+    z-index: 1;
 }
 
 .wave {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 300px; /* Adjust size if needed */
-    height: 300px; /* Adjust size if needed */
-    transform: translate(-50%, -50%); /* Center the SVG */
-    z-index: -1; /* Place the waves behind the image */
-    pointer-events: none; /* Ensure the waves don't interfere with clicks */
+    width: 300px;
+    height: 300px;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+    pointer-events: none;
 }
     .playing .wave {
         display: block;
