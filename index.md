@@ -24,12 +24,12 @@ title: "Roi Vence Personal Website"
                     <path id="wavePath1" d="M150,150" fill="none" stroke="#00008B" stroke-width="2"/>
                     <path id="wavePath2" d="M150,150" fill="none" stroke="#00008B" stroke-width="2"/>
                     <path id="wavePath3" d="M150,150" fill="none" stroke="#00008B" stroke-width="2"/>
-                    <path id="wavePath4" d="M150,150" fill="none" stroke="#00008B" stroke-width="2"/>
-                    <path id="wavePath5" d="M150,150" fill="none" stroke="#00008B" stroke-width="2"/>
-                    <path id="wavePath6" d="M150,150" fill="none" stroke="#00008B" stroke-width="2"/>
-                    <path id="wavePath7" d="M150,150" fill="none" stroke="#00008B" stroke-width="2"/>
-                    <path id="wavePath8" d="M150,150" fill="none" stroke="#00008B" stroke-width="2"/>
-                    <path id="wavePath9" d="M150,150" fill="none" stroke="#00008B" stroke-width="2"/>
+                    <path id="wavePath4" d="M150,150" fill="none" stroke="#00008B" stroke-width="1.5"/>
+                    <path id="wavePath5" d="M150,150" fill="none" stroke="#00008B" stroke-width="1.5"/>
+                    <path id="wavePath6" d="M150,150" fill="none" stroke="#00008B" stroke-width="1.5"/>
+                    <path id="wavePath7" d="M150,150" fill="none" stroke="#00008B" stroke-width="1"/>
+                    <path id="wavePath8" d="M150,150" fill="none" stroke="#00008B" stroke-width="1"/>
+                    <path id="wavePath9" d="M150,150" fill="none" stroke="#00008B" stroke-width="1"/>
                 </svg>
             </div>
             <!-- Add the audio element here -->
@@ -102,15 +102,15 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Wave parameters
     const waves = [
-        { R: 100, A: 15, n: 24, element: document.getElementById("wavePath1") },
-        { R: 100, A: 15, n: 36, element: document.getElementById("wavePath2") },
-        { R: 100, A: 15, n: 60, element: document.getElementById("wavePath3") },
-        { R: 90, A: 10, n: 24, element: document.getElementById("wavePath4") },
-        { R: 90, A: 10, n: 36, element: document.getElementById("wavePath5") },
-        { R: 90, A: 20, n: 60, element: document.getElementById("wavePath6") },
-        { R: 80, A: 7, n: 24, element: document.getElementById("wavePath7") },
-        { R: 80, A: 7, n: 36, element: document.getElementById("wavePath8") },
-        { R: 80, A: 7, n: 60, element: document.getElementById("wavePath9") }
+        { R: 100, A: 7, n: 12, element: document.getElementById("wavePath1") },
+        { R: 100, A: 7, n: 26, element: document.getElementById("wavePath2") },
+        { R: 100, A: 7, n: 40, element: document.getElementById("wavePath3") },
+        { R: 90, A: 6, n: 12, element: document.getElementById("wavePath4") },
+        { R: 90, A: 6, n: 26, element: document.getElementById("wavePath5") },
+        { R: 90, A: 6, n: 40, element: document.getElementById("wavePath6") },
+        { R: 80, A: 5, n: 12, element: document.getElementById("wavePath7") },
+        { R: 80, A: 5, n: 26, element: document.getElementById("wavePath8") },
+        { R: 80, A: 5, n: 40, element: document.getElementById("wavePath9") }
     ];
     const points = 360;
 
@@ -171,25 +171,35 @@ document.addEventListener("DOMContentLoaded", function() {
         color: #000;
         font-size: 1.5rem;
     }
-    .profile-img-small, .profile-img {
-        display: block;
-        margin: 0 auto 10px;
-        border-radius: 50%; /* Ensure the image is round */
-    }
-    .profile-img-wrapper {
-        position: relative;
-        display: inline-block;
-        width: 240px;
-        height: 240px;
-    }
-    .wave {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 300px;
-        height: 300px;
-        transform: translate(-50%, -50%);
-        z-index: -1;
-        pointer-events: none; /* Ensure the waves don't interfere with clicks */
-    }
+    /* CSS for the Profile Image and Wave Animation */
+
+.profile-img-wrapper {
+    position: relative;
+    width: 300px; /* Set wrapper width to 300px */
+    height: 300px; /* Set wrapper height to 300px */
+    margin: 0 auto; /* Center the wrapper horizontally */
+}
+
+.profile-img {
+    width: 240px; /* Set image width to 240px */
+    height: 240px; /* Set image height to 240px */
+    border-radius: 50%; /* Make the image round */
+    position: absolute; /* Position it absolutely within the wrapper */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the image within the wrapper */
+}
+
+.wave {
+    position: absolute;
+    top: 50%; /* Center the wave vertically */
+    left: 50%; /* Center the wave horizontally */
+    transform: translate(-50%, -50%); /* Adjust so the wave is centered */
+    pointer-events: none; /* Ensure the waves don't interfere with clicks */
+}
+
+.wave path {
+    transition: d 0.5s ease-in-out; /* Optional: Smooth transition for wave animation */
+}
+
 </style>
