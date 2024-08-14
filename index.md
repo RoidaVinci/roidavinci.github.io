@@ -21,9 +21,15 @@ title: "Roi Vence Personal Website"
 
                 <!-- Multiple SVG Waves -->
                 <svg class="wave" viewBox="0 0 300 300" width="300" height="300">
-                    <path id="wavePath1" d="M120,120" fill="none" stroke="#00008B" stroke-width="2"/>
-                    <path id="wavePath2" d="M120,120" fill="none" stroke="#00008B" stroke-width="2"/>
-                    <path id="wavePath3" d="M120,120" fill="none" stroke="#00008B" stroke-width="2"/>
+                    <path id="wavePath1" d="M150,150" fill="none" stroke="#00008B" stroke-width="2"/>
+                    <path id="wavePath2" d="M150,150" fill="none" stroke="#00008B" stroke-width="2"/>
+                    <path id="wavePath3" d="M150,150" fill="none" stroke="#00008B" stroke-width="2"/>
+                    <path id="wavePath4" d="M150,150" fill="none" stroke="#00008B" stroke-width="2"/>
+                    <path id="wavePath5" d="M150,150" fill="none" stroke="#00008B" stroke-width="2"/>
+                    <path id="wavePath6" d="M150,150" fill="none" stroke="#00008B" stroke-width="2"/>
+                    <path id="wavePath7" d="M150,150" fill="none" stroke="#00008B" stroke-width="2"/>
+                    <path id="wavePath8" d="M150,150" fill="none" stroke="#00008B" stroke-width="2"/>
+                    <path id="wavePath9" d="M150,150" fill="none" stroke="#00008B" stroke-width="2"/>
                 </svg>
             </div>
             <!-- Add the audio element here -->
@@ -96,9 +102,15 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Wave parameters
     const waves = [
-        { R: 100, A: 20, n: 5, element: document.getElementById("wavePath1") },
-        { R: 80, A: 15, n: 4, element: document.getElementById("wavePath2") },
-        { R: 120, A: 25, n: 3, element: document.getElementById("wavePath3") }
+        { R: 100, A: 15, n: 24, element: document.getElementById("wavePath1") },
+        { R: 100, A: 15, n: 36, element: document.getElementById("wavePath2") },
+        { R: 100, A: 15, n: 60, element: document.getElementById("wavePath3") }
+        { R: 90, A: 10, n: 24, element: document.getElementById("wavePath4") },
+        { R: 90, A: 10, n: 36, element: document.getElementById("wavePath5") },
+        { R: 90, A: 20, n: 60, element: document.getElementById("wavePath6") }
+        { R: 80, A: 7, n: 24, element: document.getElementById("wavePath7") },
+        { R: 80, A: 7, n: 36, element: document.getElementById("wavePath8") },
+        { R: 80, A: 7, n: 60, element: document.getElementById("wavePath9") }
     ];
     const points = 360;
 
