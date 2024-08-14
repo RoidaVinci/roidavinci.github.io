@@ -102,6 +102,71 @@ document.addEventListener("DOMContentLoaded", function() {
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <style>
+        .social-icons {
+        margin-top: 10px;
+    }
+    .social-icons a {
+        margin: 0 10px;
+        color: #000;
+        font-size: 1.5rem;
+    }
+    .profile-img-small, .profile-img {
+        display: block;
+        margin: 0 auto 10px;
+    }
+    
+    .article-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr); /* Three articles per row */
+        gap: 20px; /* Space between articles */
+        margin-bottom: 20px;
+    }
+
+    .article-item {
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        aspect-ratio: 1; /* Keep articles square */
+    }
+
+    .article-item:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .article-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain; /* Ensure the image fits within the container */
+    }
+
+    .article-title {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        text-align: center;
+        padding: 10px 0;
+        font-size: 1em;
+        transition: background-color 0.3s ease;
+    }
+
+    .article-item:hover .article-title {
+        background-color: rgba(0, 0, 0, 0.9);
+    }
+
+.view-all-button-container {
+    grid-column: span 3; /* Span the button across all three columns */
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 40px; /* Added margin to create space below the button */
+}
+
+.view-all-button-container .btn {
+    width: 100%;
+    padding: 15px 0;
+    font-size: 1.2em;
    /* Minimalistic circular wave animation around the profile image */
     .profile-img-wrapper {
         position: relative;
