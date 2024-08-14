@@ -19,7 +19,7 @@ title: "Roi Vence Personal Website"
             <div class="profile-img-wrapper" id="profile-img-wrapper">
                 <img class="profile-img" src="{{ '/assets/profile.jpg' | relative_url }}" />
                 <!-- SVG Wave with multiple paths -->
-                <svg class="wave" viewBox="0 0 240 240" width="300" height="300">
+                <svg class="wave" viewBox="0 0 300 300" width="300" height="300">
                     <path id="wavePath1" d="M120,120" fill="none" stroke="##00008B" stroke-width="2"/>
                     <path id="wavePath2" d="M120,120" fill="none" stroke="##00008B" stroke-width="2"/>
                     <path id="wavePath3" d="M120,120" fill="none" stroke="##00008B" stroke-width="2"/>
