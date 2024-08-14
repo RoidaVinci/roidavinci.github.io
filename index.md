@@ -114,7 +114,7 @@ document.addEventListener("DOMContentLoaded", function() {
     function generateWavePath(R, A, n, element, rotation=0) {
         let d = "M";
         for (let i = 0; i <= 360; i++) {
-            let t = ((i / 360) * 2 * Math.PI) + rotation; 
+            let t = ((i+ rotation / 360) * 2 * Math.PI) ; 
             let x = 150 + 120 * Math.cos(t) + A * Math.sin(n * t) * Math.cos(t);
             let y = 150 + 120 * Math.sin(t) + A * Math.sin(n * t) * Math.sin(t);
             d += `${x},${y} `;
@@ -140,7 +140,7 @@ document.addEventListener("DOMContentLoaded", function() {
     let rotation = 0;
     function animateWaves() {
         if (isPlaying) {
-            rotation += 0.01; // Increment rotation by a small amount
+            rotation += 1; // Increment rotation by a small amount
             waves.forEach((wave, index) => {
                 generateWavePath(wave.R, wave.A, wave.n, wave.element, rotation);
             });
