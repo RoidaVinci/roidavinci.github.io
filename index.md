@@ -15,7 +15,9 @@ title: "Roi Vence Personal Website"
             <p>{{ bio | markdownify }}</p>
         </div>
         <div class="col-auto d-none d-md-block text-center">
-            <img class="profile-img" src="{{ '/assets/profile.jpg' | relative_url }}" />
+            <!-- Profile Image with Click Event -->
+            <img id="profile-img" class="profile-img" src="{{ '/assets/profile.jpg' | relative_url }}" onclick="playMusic()" />
+            <audio id="profile-audio" src="{{ '/assets/ballade1.mp3' }}" preload="auto"></audio>
             <div class="social-icons">
                 <a href="mailto:roi.vence@gmail.com" title="Email"><i class="fas fa-envelope"></i></a>
                 <a href="https://www.linkedin.com/in/roivence" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
@@ -24,46 +26,11 @@ title: "Roi Vence Personal Website"
         </div>
     </div>
     
-        <div class="row">
+    <div class="row">
         <div class="col">
             <p class="h1 section-title" style="clear: right">Featured Articles</p>
             <div class="article-grid">
-                <div class="article-item">
-                    <a href="articles/tfg.html">
-                        <img src="thumbnail/perceptron.jpg" alt="Neural Networks and Applications">
-                        <div class="article-title">Neural Networks and Applications</div>
-                    </a>
-                </div>
-                <div class="article-item">
-                    <a href="articles/nn_graph.html">
-                        <img src="thumbnail/perceptron_activacion.jpg" alt="Neural Networks as Graphs">
-                        <div class="article-title">Neural Networks as Graphs</div>
-                    </a>
-                </div>
-                <div class="article-item">
-                    <a href="articles/backpropagation.html">
-                        <img src="thumbnail/backpropagation.jpg" alt="Backpropagation Algorithm">
-                        <div class="article-title">Backpropagation Algorithm</div>
-                    </a>
-                </div>
-                <div class="article-item">
-                    <a href="articles/idis.html">
-                        <img src="thumbnail/segmentadoauto.png" alt="Rodent Brain Segmentation">
-                        <div class="article-title">Neural MRI Segmentation with FCNN</div>
-                    </a>
-                </div>
-                <div class="article-item">
-                    <a href="articles/fft.html">
-                        <img src="thumbnail/convolucion.jpg" alt="Fast Fourier Transform">
-                        <div class="article-title">Fast Fourier Transform and Convolutions</div>
-                    </a>
-                </div>
-                <div class="article-item">
-                    <a href="articles/escape_prison.html">
-                        <img src="thumbnail/chessboard.png" alt="Two Prisoners and a Chessboard">
-                        <div class="article-title">Two Prisoners and a Chessboard</div>
-                    </a>
-                </div>
+                <!-- Your article items here -->
             </div>
             <div class="view-all-button-container">
                 <a href="article" class="btn btn-primary view-all-btn">
@@ -74,6 +41,18 @@ title: "Roi Vence Personal Website"
     </div>
 
 </main>
+
+<script>
+    function playMusic() {
+        var audio = document.getElementById('profile-audio');
+        if (audio.paused) {
+            audio.play();
+        } else {
+            audio.pause();
+            audio.currentTime = 0;
+        }
+    }
+</script>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <style>
@@ -88,8 +67,28 @@ title: "Roi Vence Personal Website"
     .profile-img-small, .profile-img {
         display: block;
         margin: 0 auto 10px;
+        cursor: pointer;
+        transition: all 0.3s ease;
     }
     
+    .profile-img:hover {
+        border: 3px solid #007bff;
+        border-radius: 50%;
+        animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+        0% {
+            box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.7);
+        }
+        70% {
+            box-shadow: 0 0 20px 20px rgba(0, 123, 255, 0);
+        }
+        100% {
+            box-shadow: 0 0 0 0 rgba(0, 123, 255, 0);
+        }
+    }
+
     .article-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr); /* Three articles per row */
@@ -131,16 +130,16 @@ title: "Roi Vence Personal Website"
         background-color: rgba(0, 0, 0, 0.9);
     }
 
-.view-all-button-container {
-    grid-column: span 3; /* Span the button across all three columns */
-    text-align: center;
-    margin-top: 20px;
-    margin-bottom: 40px; /* Added margin to create space below the button */
-}
+    .view-all-button-container {
+        grid-column: span 3; /* Span the button across all three columns */
+        text-align: center;
+        margin-top: 20px;
+        margin-bottom: 40px; /* Added margin to create space below the button */
+    }
 
-.view-all-button-container .btn {
-    width: 100%;
-    padding: 15px 0;
-    font-size: 1.2em;
-}
+    .view-all-button-container .btn {
+        width: 100%;
+        padding: 15px 0;
+        font-size: 1.2em;
+    }
 </style>
