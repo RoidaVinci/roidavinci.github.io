@@ -193,8 +193,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
 .wave {
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 50%;
+    left: 50%;
     pointer-events: none; /* Ensure the waves don't interfere with clicks */
     z-index: 0; /* Place the waves behind the image */
 }
