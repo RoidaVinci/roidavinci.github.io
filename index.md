@@ -109,19 +109,24 @@ document.addEventListener("DOMContentLoaded", function() {
         { R: 120, A: 2, n: 60, element: document.getElementById("wavePath8") },
         { R: 120, A: 2, n: 90, element: document.getElementById("wavePath9") }
     ];
+
     const points = 360;
 
-    function generateWavePath(R, A, n, element, rotation=0) {
-    let d = "M";
-    for (let i = 0; i <= 360; i++) {
-        let t = ((i / 360) * 2 * Math.PI); 
-        let x = 150 + (120 + A * Math.cos(n * t)) * Math.cos(t + rotation);
-        let y = 150 + (120 + A * Math.cos(n * t)) * Math.sin(t + rotation);
-        d += `${x},${y} `;
-    }
-    element.setAttribute("d", d);
-}
+    function generateWavePath(R, A, n, element, rotation = 0) {
+        let d = "M";
+        for (let i = 0; i <= 360; i++) {
+            let t = (i / 360) * 2 * Math.PI; // Calculate the angle in radians
+            let x = 150 + (R + A * Math.sin(n * t)) * Math.cos(t); // Calculate x without rotation
+            let y = 150 + (R + A * Math.sin(n * t)) * Math.sin(t); // Calculate y without rotation
 
+            // Apply rotation around the center (150, 150)
+            let rotatedX = 150 + (x - 150) * Math.cos(rotation) - (y - 150) * Math.sin(rotation);
+            let rotatedY = 150 + (x - 150) * Math.sin(rotation) + (y - 150) * Math.cos(rotation);
+
+            d += `${rotatedX},${rotatedY} `;
+        }
+        element.setAttribute("d", d);
+    }
 
     waves.forEach(wave => generateWavePath(wave.R, wave.A, wave.n, wave.element));
 
@@ -148,7 +153,6 @@ document.addEventListener("DOMContentLoaded", function() {
         }
         requestAnimationFrame(animateWaves);
     }
-
 
     animateWaves();
 });
