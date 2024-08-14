@@ -112,18 +112,17 @@ document.addEventListener("DOMContentLoaded", function() {
     const points = 360;
 
     function generateWavePath(R, A, n, element, rotation=0) {
-    let d = "M";
-    for (let i = 0; i <= 360; i++) {
-        let t = ((i / 360) * 2 * Math.PI) + rotation; 
-        let x = 150 + 120 * Math.cos(t) + A * Math.sin(n * t) * Math.cos(t);
-        let y = 150 + 120 * Math.sin(t) + A * Math.sin(n * t) * Math.sin(t);
-        d += `${x},${y} `;
+        let d = "M";
+        for (let i = 0; i <= 360; i++) {
+            let t = ((i / 360) * 2 * Math.PI) + rotation; 
+            let x = 150 + 120 * Math.cos(t) + A * Math.sin(n * t) * Math.cos(t);
+            let y = 150 + 120 * Math.sin(t) + A * Math.sin(n * t) * Math.sin(t);
+            d += `${x},${y} `;
+        }
+        element.setAttribute("d", d);
     }
-    element.setAttribute("d", d);
-}
 
     waves.forEach(wave => generateWavePath(wave.R, wave.A, wave.n, wave.element));
-
 
     profileImg.addEventListener('click', function() {
         if (isPlaying) {
@@ -134,25 +133,25 @@ document.addEventListener("DOMContentLoaded", function() {
         isPlaying = !isPlaying;
     });
 
-
     profileAudio.addEventListener('ended', function() {
         isPlaying = false;
     });
 
-    let rotation = 0
+    let rotation = 0;
     function animateWaves() {
-    if (isPlaying) {
-        waves.forEach((wave, index) => {
-            let rotation = rotation + 1; // Slow rotation
-            generateWavePath(wave.R, wave.A, wave.n, wave.element, rotation);
-        });
-    }
-    requestAnimationFrame(animateWaves);
+        if (isPlaying) {
+            rotation += 0.01; // Increment rotation by a small amount
+            waves.forEach((wave, index) => {
+                generateWavePath(wave.R, wave.A, wave.n, wave.element, rotation);
+            });
+        }
+        requestAnimationFrame(animateWaves);
     }
 
     animateWaves();
 });
 </script>
+
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
