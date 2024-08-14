@@ -119,11 +119,7 @@ document.addEventListener("DOMContentLoaded", function() {
             let x = 150 + (R + A * Math.sin(n * t)) * Math.cos(t); // Calculate x without rotation
             let y = 150 + (R + A * Math.sin(n * t)) * Math.sin(t); // Calculate y without rotation
 
-            // Apply rotation around the center (150, 150)
-            let rotatedX = 150 + (x - 150) * Math.cos(rotation) - (y - 150) * Math.sin(rotation);
-            let rotatedY = 150 + (x - 150) * Math.sin(rotation) + (y - 150) * Math.cos(rotation);
-
-            d += `${rotatedX},${rotatedY} `;
+            d += `${x},${y} `;
         }
         element.setAttribute("d", d);
     }
