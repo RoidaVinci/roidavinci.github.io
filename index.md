@@ -15,7 +15,15 @@ title: "Roi Vence Personal Website"
             <p>{{ bio | markdownify }}</p>
         </div>
         <div class="col-auto d-none d-md-block text-center">
-            <img class="profile-img" src="{{ '/assets/profile.jpg' | relative_url }}" />
+            <!-- Wrap the profile image in a div to handle the wave animation -->
+            <div class="profile-img-wrapper">
+                <img class="profile-img" src="{{ '/assets/profile.jpg' | relative_url }}" />
+                <div class="wave-animation">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
             <div class="social-icons">
                 <a href="mailto:roi.vence@gmail.com" title="Email"><i class="fas fa-envelope"></i></a>
                 <a href="https://www.linkedin.com/in/roivence" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
@@ -102,7 +110,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <style>
-        .social-icons {
+    .social-icons {
         margin-top: 10px;
     }
     .social-icons a {
@@ -156,18 +164,20 @@ document.addEventListener("DOMContentLoaded", function() {
         background-color: rgba(0, 0, 0, 0.9);
     }
 
-.view-all-button-container {
-    grid-column: span 3; /* Span the button across all three columns */
-    text-align: center;
-    margin-top: 20px;
-    margin-bottom: 40px; /* Added margin to create space below the button */
-}
+    .view-all-button-container {
+        grid-column: span 3; /* Span the button across all three columns */
+        text-align: center;
+        margin-top: 20px;
+        margin-bottom: 40px; /* Added margin to create space below the button */
+    }
 
-.view-all-button-container .btn {
-    width: 100%;
-    padding: 15px 0;
-    font-size: 1.2em;
-   /* Minimalistic circular wave animation around the profile image */
+    .view-all-button-container .btn {
+        width: 100%;
+        padding: 15px 0;
+        font-size: 1.2em;
+    }
+
+    /* Minimalistic circular wave animation around the profile image */
     .profile-img-wrapper {
         position: relative;
         display: inline-block;
@@ -226,5 +236,3 @@ document.addEventListener("DOMContentLoaded", function() {
         display: block;
     }
 </style>
-
-
