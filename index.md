@@ -182,7 +182,7 @@ document.addEventListener("DOMContentLoaded", function() {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%); /* Center the image within the wrapper */
-    z-index: 1; /* Ensure the image appears on top */
+    z-index: 0; /* Ensure the image appears on top */
 }
 
 .wave {
@@ -190,7 +190,7 @@ document.addEventListener("DOMContentLoaded", function() {
     top: 0;
     left: 0;
     pointer-events: none; /* Ensure the waves don't interfere with clicks */
-    z-index: 0; /* Place the waves behind the image */
+    z-index: 1; /* Place the waves behind the image */
 }
 
 .wave path {
