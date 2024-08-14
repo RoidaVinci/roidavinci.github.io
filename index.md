@@ -112,15 +112,16 @@ document.addEventListener("DOMContentLoaded", function() {
     const points = 360;
 
     function generateWavePath(R, A, n, element, rotation=0) {
-        let d = "M";
-        for (let i = 0; i <= 360; i++) {
-            let t = ((i+ rotation / 360) * 2 * Math.PI) ; 
-            let x = 150 + (120 + A * Math.cos(n*t)) * Math.cos(t);
-            let y = 150 + (120 + A * Math.cos(n*t)) * Math.sin(t);
-            d += `${x},${y} `;
-        }
-        element.setAttribute("d", d);
+    let d = "M";
+    for (let i = 0; i <= 360; i++) {
+        let t = ((i / 360) * 2 * Math.PI) + rotation; 
+        let x = 150 + (120 + A * Math.cos(n * t)) * Math.cos(t);
+        let y = 150 + (120 + A * Math.cos(n * t)) * Math.sin(t);
+        d += `${x},${y} `;
     }
+    element.setAttribute("d", d);
+}
+
 
     waves.forEach(wave => generateWavePath(wave.R, wave.A, wave.n, wave.element));
 
@@ -141,12 +142,13 @@ document.addEventListener("DOMContentLoaded", function() {
     function animateWaves() {
         if (isPlaying) {
             rotation += 0.01; // Increment rotation by a small amount
-            waves.forEach((wave, index) => {
+            waves.forEach(wave => {
                 generateWavePath(wave.R, wave.A, wave.n, wave.element, rotation);
             });
         }
         requestAnimationFrame(animateWaves);
     }
+
 
     animateWaves();
 });
