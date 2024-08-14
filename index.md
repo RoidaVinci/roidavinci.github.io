@@ -87,38 +87,46 @@ document.addEventListener("DOMContentLoaded", function() {
     const profileImgWrapper = document.getElementById('profile-img-wrapper');
     const audio = new Audio('{{ "/assets/ballade1.mp3" | relative_url }}');
     let isPlaying = false;
+    let waveInterval;
 
     profileImgWrapper.addEventListener('click', function() {
         if (isPlaying) {
             audio.pause();
             profileImgWrapper.classList.remove('playing');
+            clearInterval(waveInterval);
         } else {
             audio.play();
             profileImgWrapper.classList.add('playing');
+            startWaveAnimation();
         }
         isPlaying = !isPlaying;
     });
 
     audio.addEventListener('ended', function() {
         profileImgWrapper.classList.remove('playing');
+        clearInterval(waveInterval);
         isPlaying = false;
     });
 
-    // Wave generation
-    const R = 100; // Base radius
-    const A = 20;  // Amplitude of the wave
-    const n = 5;   // Number of oscillations
-    const points = 360; // Number of points to calculate
+    function startWaveAnimation() {
+        const R = 100; // Base radius
+        const A = 20;  // Amplitude of the wave
+        const n = 5;   // Number of oscillations
+        const points = 360; // Number of points to calculate
+        let offset = 0;
 
-    let d = "M";
-    for (let i = 0; i <= points; i++) {
-        let t = (i / points) * 2 * Math.PI;
-        let x = (R + A * Math.sin(n * t)) * Math.cos(t) + 120;
-        let y = (R + A * Math.sin(n * t)) * Math.sin(t) + 120;
-        d += `${x},${y} `;
+        waveInterval = setInterval(function() {
+            let d = "M";
+            for (let i = 0; i <= points; i++) {
+                let t = (i / points) * 2 * Math.PI;
+                let x = (R + A * Math.sin(n * t + offset)) * Math.cos(t) + 120;
+                let y = (R + A * Math.sin(n * t + offset)) * Math.sin(t) + 120;
+                d += `${x},${y} `;
+            }
+            document.getElementById("wavePath").setAttribute("d", d);
+            offset += 0.1; // Increment to create animation effect
+        }, 30); // Update every 30ms for smooth animation
     }
-
-    document.getElementById("wavePath").setAttribute("d", d);
 });
 </script>
 
@@ -149,5 +157,8 @@ document.addEventListener("DOMContentLoaded", function() {
         left: 50%;
         transform: translate(-50%, -50%);
         pointer-events: none; /* Ensure the waves don't interfere with clicks */
+    }
+    .playing .wave {
+        display: block;
     }
 </style>
