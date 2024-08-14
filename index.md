@@ -104,10 +104,10 @@ document.addEventListener("DOMContentLoaded", function() {
     const waves = [
         { R: 100, A: 15, n: 24, element: document.getElementById("wavePath1") },
         { R: 100, A: 15, n: 36, element: document.getElementById("wavePath2") },
-        { R: 100, A: 15, n: 60, element: document.getElementById("wavePath3") }
+        { R: 100, A: 15, n: 60, element: document.getElementById("wavePath3") },
         { R: 90, A: 10, n: 24, element: document.getElementById("wavePath4") },
         { R: 90, A: 10, n: 36, element: document.getElementById("wavePath5") },
-        { R: 90, A: 20, n: 60, element: document.getElementById("wavePath6") }
+        { R: 90, A: 20, n: 60, element: document.getElementById("wavePath6") },
         { R: 80, A: 7, n: 24, element: document.getElementById("wavePath7") },
         { R: 80, A: 7, n: 36, element: document.getElementById("wavePath8") },
         { R: 80, A: 7, n: 60, element: document.getElementById("wavePath9") }
