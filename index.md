@@ -126,7 +126,7 @@ document.addEventListener("DOMContentLoaded", function() {
             let y = 150 + waveRadius * Math.sin(t);
 
             if (i==0){
-            console.log(`rotation: ${rotation}, waveRadius: ${waveRadius}, x: ${x}, y: ${y}`);
+            console.log(`rotation: ${rotation}, waveRadius: ${waveRadius}, x: ${waveRadius * Math.cos(t)}, y: ${waveRadius * Math.sin(t)}`);
             }
             d += `${x},${y} `;
         }
