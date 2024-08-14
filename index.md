@@ -78,22 +78,43 @@ title: "Roi Vence Personal Website"
     </div>
 </main>
 
-<!-- JavaScript for playing the music and showing waves -->
 <script>
-    function playMusic() {
-        var audio = document.getElementById('myAudio');
-        var waves = document.querySelector('.waves');
-        audio.play();
-        waves.classList.add('active');
-        
-        audio.onended = function() {
-            waves.classList.remove('active');
-        };
-    }
+    document.addEventListener("DOMContentLoaded", function() {
+        var img = document.querySelector('.profile-img');
+        var audio = new Audio('{{ "/assets/ballade1.mp3" | relative_url }}');
+
+        img.addEventListener('click', function() {
+            if (audio.paused) {
+                audio.play();
+                startWaves();
+            } else {
+                audio.pause();
+                stopWaves();
+            }
+        });
+
+        function startWaves() {
+            img.classList.add('playing-music');
+        }
+
+        function stopWaves() {
+            img.classList.remove('playing-music');
+        }
+    });
 </script>
 
-<!-- CSS for the wave effect -->
 <style>
+    .profile-img.playing-music {
+        border: 4px solid #000;
+        border-radius: 50%;
+        animation: waveAnimation 2s infinite;
+    }
+
+    @keyframes waveAnimation {
+        0% { box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.7); }
+        70% { box-shadow: 0 0 30px 20px rgba(0, 123, 255, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(0, 123, 255, 0); }
+    }
     .wave-container {
         position: relative;
         width: 200px;
