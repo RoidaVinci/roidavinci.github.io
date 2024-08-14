@@ -119,8 +119,8 @@ document.addEventListener("DOMContentLoaded", function() {
         let d = "M";
         for (let i = 0; i <= points; i++) {
             let t = (i / points) * 2 * Math.PI;
-            let x = (R + A * Math.sin(n * t)) * Math.cos(t) + 120;
-            let y = (R + A * Math.sin(n * t)) * Math.sin(t) + 120;
+            let x = (R + A * Math.sin(n * t)) * Math.cos(t) + 150;
+            let y = (R + A * Math.sin(n * t)) * Math.sin(t) + 150;
             d += `${x},${y} `;
         }
         element.setAttribute("d", d);
@@ -193,8 +193,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
 .wave {
     position: absolute;
-    top: 50%;
-    left: 50%;
+    top: 0;
+    left: 0;
     pointer-events: none; /* Ensure the waves don't interfere with clicks */
     z-index: 0; /* Place the waves behind the image */
 }
