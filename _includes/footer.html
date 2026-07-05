@@ -1,0 +1,15 @@
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <p>© {{ 'now' | date: '%Y' }} {{ site.author.name }}. Content licensed under the terms in the repository.</p>
+    <ul class="social-links" aria-label="Social links">
+      {%- for social in site.data.social %}
+      <li>
+        <a href="{{ social.url }}" title="{{ social.name }}" aria-label="{{ social.name }}"
+           {% unless social.url contains 'mailto:' %}rel="noopener noreferrer" target="_blank"{% endunless %}>
+          <svg class="icon" aria-hidden="true"><use href="#icon-{{ social.icon }}"></use></svg>
+        </a>
+      </li>
+      {%- endfor %}
+    </ul>
+  </div>
+</footer>

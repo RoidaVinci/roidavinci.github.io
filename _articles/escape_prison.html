@@ -1,0 +1,59 @@
+---
+title: "Chessboard Puzzle Solution"
+description: "How a prisoner can encode the location of a hidden key on an 8x8 chessboard of two-sided pieces by flipping just a single piece."
+thumbnail: /assets/img/thumbnails/chessboard.png
+tags: [mathematics, puzzles]
+math: true
+featured: true
+order: 6
+redirect_from:
+  - /articles/escape_prison.html
+---
+<p>
+  Two prisoners want to escape. They play a game by correspondence on a chessboard \(8 \times 8\) where each square has a piece that is white on one side and black on the other. The guard who carries the board between the cells of the two prisoners forgot the key to the second prisoner's cell in one of the squares on the board, and the first prisoner knows where it is. With just one move consisting of flipping one of the 64 pieces, the first prisoner must inform the second of where the key is hidden. The configuration of the board before the move is random, but the prisoners can agree in advance on how the second should decode the board to find the key.
+</p>
+
+<details>
+  <summary>Show Solution</summary>
+  <p>
+    Essentially, this problem consists of finding a way to encode and decode the board's information with the following properties:
+  </p>
+  <ul>
+    <li>Each configuration of the board can be interpreted as a number between \(0\) and \(63\), which identifies a square. That is, there is a function \( \Gamma:\operatorname{M}_{8\times 8}\left(\{0,1\}\right)\longrightarrow\{0,\ldots,63\} \), where the elements \( T\in \operatorname{M}_{8\times 8}\left(\{0,1\}\right) \) are different configurations of the board, with \( T_{ij}=0 \) if the square \( (i,j) \) has a white piece and \( T_{ij}=1 \) if the piece is black.</li>
+    <li>Given any board configuration \( T \) and any number \( n \) between \(0\) and \(63\), there exists a modification of only one square \( T\to \hat{T} \) such that \( \Gamma(T)=n \).</li>
+  </ul>
+  <p>
+    In this case, the two prisoners agree beforehand on the function \( \Gamma \), so that both know how to obtain the same number from the board. The problem is to find a function \( \Gamma \) that satisfies the second of the above properties.
+  </p>
+  <p>
+    Notice that \(64 = 2^6\), so we can precisely obtain values between \( n \in \{0,\ldots,63\} \) with 6 binary digits:
+  </p>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">\(n=\)</th>
+        <th scope="col">\(a_1\)</th>
+        <th scope="col">\(a_2\)</th>
+        <th scope="col">\(a_3\)</th>
+        <th scope="col">\(a_4\)</th>
+        <th scope="col">\(a_5\)</th>
+        <th scope="col">\(a_6\)</th>
+      </tr>
+    </thead>
+  </table>
+  <p>
+    It also happens that \(64 = |\mathcal{P}(\{1,2,3,4,5,6\})|\), so there is a one-to-one function \( \phi:8\times 8\longrightarrow \mathcal{P}(\{1,2,3,4,5,6\}) \), where \( \mathcal{P} \) denotes the power set. These two observations solve the problem since we can associate one by one the squares of the board with subsets of \( \{1,2,3,4,5,6\} \). Therefore, by moving the appropriate piece, we can change exactly the binary positions between \(1,\ldots,6\) that we want and leave the rest unchanged. More precisely, if \( \phi(i,j) \) are the binary indices that change when flipping the piece \( (i,j) \), then the \( k \)-th binary digit is given by:
+  </p>
+  <p>
+    $$ a_k(T) = \overline{\sum_{k\in\phi(i,j)}t_{ij}}^{\mathbb{Z}_2} $$
+  </p>
+  <p>
+    And the number associated with the board is given by:
+  </p>
+  <p>
+    $$ \Gamma(T) = \sum_{k=1}^6 2^{k a_k(T)} \in \{0,\ldots,63\} $$
+  </p>
+  <p>
+    That is, the \( k \)-th binary digit identifies the parity of the black pieces on the squares of the board associated with the number \( k \). Since for any subset \( I \in \mathcal{P}(\{1,\ldots,6\}) \) there exists a square \( (i,j) = \phi^{-1}(I) \) associated with this, it is possible to change exactly the binary digits \( k \in I \) by flipping the piece at the board position \( (i,j) \). Therefore, starting from any configuration, we can obtain the number we want by flipping a single piece on the board.
+  </p>
+</details>

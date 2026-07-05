@@ -1,0 +1,23 @@
+<header class="site-header">
+  <nav class="site-nav" aria-label="Main navigation">
+    <a class="site-brand" href="{{ '/' | relative_url }}">{{ site.title }}</a>
+    <ul class="site-nav-links">
+      {%- for item in site.data.navigation %}
+      {%- assign item_url = item.url | relative_url %}
+      <li>
+        <a href="{{ item_url }}"
+           {% if page.url == item.url or (item.url != '/' and page.url contains item.url) %}aria-current="page"{% endif %}>
+          {{ item.title }}
+        </a>
+      </li>
+      {%- endfor %}
+      <li>
+        <button id="theme-toggle" class="theme-toggle" type="button"
+                aria-label="Toggle dark mode" title="Toggle dark mode">
+          <svg class="icon icon-sun" aria-hidden="true"><use href="#icon-sun"></use></svg>
+          <svg class="icon icon-moon" aria-hidden="true"><use href="#icon-moon"></use></svg>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</header>

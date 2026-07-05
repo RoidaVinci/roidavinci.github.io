@@ -1,0 +1,7 @@
+# Main navigation. Add an entry here and it appears in the header on every page.
+- title: Home
+  url: /
+- title: Articles
+  url: /articles/
+- title: CV
+  url: /cv/

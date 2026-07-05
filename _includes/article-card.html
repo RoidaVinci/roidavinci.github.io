@@ -1,0 +1,22 @@
+{%- comment -%}
+  Renders one article card. Usage: {% include article-card.html article=a %}
+{%- endcomment -%}
+<article class="card">
+  <a class="card-link" href="{{ include.article.url | relative_url }}">
+    <div class="card-media">
+      <img src="{{ include.article.thumbnail | relative_url }}"
+           alt="" loading="lazy" width="400" height="400">
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">{{ include.article.title }}</h3>
+      {%- if include.article.description %}
+      <p class="card-description">{{ include.article.description }}</p>
+      {%- endif %}
+      {%- if include.article.tags and include.article.tags != empty %}
+      <ul class="card-tags" aria-label="Topics">
+        {%- for tag in include.article.tags %}<li>{{ tag }}</li>{% endfor %}
+      </ul>
+      {%- endif %}
+    </div>
+  </a>
+</article>

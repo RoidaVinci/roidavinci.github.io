@@ -1,0 +1,19 @@
+---
+layout: default
+title: Articles
+permalink: /articles/
+redirect_from:
+  - /article/
+---
+<h1 class="page-title">Articles</h1>
+<p class="hero-tagline" style="max-width: 46rem;">
+  Some articles I've written. A few grew out of research projects; others are
+  simply topics I found interesting.
+</p>
+
+<div class="card-grid">
+  {%- assign all_articles = site.articles | sort: "order" %}
+  {%- for a in all_articles %}
+  {%- include article-card.html article=a %}
+  {%- endfor %}
+</div>
