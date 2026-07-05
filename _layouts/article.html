@@ -1,69 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ page.title }}</title>
-    <script src="https://cdn.jsdelivr.net/gh/jquery/jquery@3.6.1/dist/jquery.slim.min.js" integrity="sha256-w8CvhFs7iHNVUtnSP0YKEg00p9Ih13rlL9zGqvLdePA=" crossorigin="anonymous"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="{{ '/assets/cmun-serif/cmun-serif.css' | relative_url }}" />
-    <link rel="stylesheet" href="{{ '/assets/article.css' | relative_url }}" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="shortcut icon" type="image/png" href="/favicon.png">
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      MathJax.typesetPromise();
-    });
-  </script>
-    
-  <style>
-    body {
-      font-family: "Computer Modern Serif", serif;
-    }
-    header {
-      background-color: #ffffff;
-      color: #000000;
-      text-align: center;
-      padding: 20px 0;
-      margin-bottom: 20px;
-    }
-    header nav ul {
-      list-style-type: none;
-      padding: 0;
-      margin: 0;
-    }
-    header nav ul li {
-      display: inline;
-      margin: 0 10px;
-    }
-    header nav ul li a {
-      color: #000000;
-      text-decoration: none;
-      font-size: 1.2rem;
-    }
-    header nav ul li a:hover {
-      text-decoration: underline;
-    }
-    main {
-      max-width: 60%;
-      margin: 0 auto;
-      text-align: justify;
-    }
-    .container {
-      width: auto;
-      max-width: 680px;
-      padding: 0 15px;
-    }
-  </style>
-</head>
-<body>
-{% include nav.html %}
-    <main role="main" class="container-sm">
-        {{ content }}
-    </main>
-</body>
-</html>
+---
+layout: default
+---
+<article class="article prose">
+  <header class="article-header">
+    <a class="back-link" href="{{ '/articles/' | relative_url }}">
+      <svg class="icon" aria-hidden="true"><use href="#icon-arrow-left"></use></svg>
+      All articles
+    </a>
+    <h1 class="page-title">{{ page.title }}</h1>
+    {%- if page.description %}
+    <p class="article-lead">{{ page.description }}</p>
+    {%- endif %}
+    {%- if page.tags and page.tags != empty %}
+    <ul class="card-tags article-tags" aria-label="Topics">
+      {%- for tag in page.tags %}<li>{{ tag }}</li>{% endfor %}
+    </ul>
+    {%- endif %}
+  </header>
+
+  {{ content }}
+
+  <footer class="article-footer">
+    <a class="back-link" href="{{ '/articles/' | relative_url }}">
+      <svg class="icon" aria-hidden="true"><use href="#icon-arrow-left"></use></svg>
+      Back to all articles
+    </a>
+  </footer>
+</article>

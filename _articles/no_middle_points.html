@@ -1,0 +1,50 @@
+---
+title: "Uncountable Set with No Middle Points"
+description: "A classic problem with a deceptively simple solution: construct an uncountable subset of the real numbers that contains the midpoint of no two of its points."
+thumbnail: /assets/img/thumbnails/uncountable.jpg
+tags: [mathematics, set-theory]
+math: true
+featured: false
+order: 7
+redirect_from:
+  - /articles/no_middle_points.html
+---
+<p>
+  This problem was presented to me by a professor in the first term of Undergraduate's and had back then a great impact on the kind of topics I ended up liking in mathematics. Although they might first seem totally unrelated, somehow this eventually led me towards Stochastic Processes and Probability, where objects such as Brownian Motion behave in very counterintuitive ways, and problems have very simple solutions that are very simple to look back on but very difficult to find. The problem is as follows. Find an uncountable set within \( \mathbb{R} \) that contains no middle points. In other words, find a set \( X \subset \mathbb{R} \) such that for any two distinct points \( x, y \in X \), the point \( \frac{x+y}{2} \) does not belong to \( X \), and yet \( X \) is uncountable.
+</p>
+
+<details>
+  <summary>Show Solution</summary>
+  <p>
+    Consider the set \( X := \left\lbrace \sum_{k \in U} 2^{-k} : U \subset 2\mathbb{N} - 1 \right\rbrace \).
+  </p>
+
+  <details>
+    <summary>Prove Uncountability and No Middle Points</summary>
+
+    <p><strong>Uncountability:</strong></p>
+    <p>
+      We will prove that \( X \) is uncountable by providing a one to one map between \( X \) and the interval \( [0,1) \).
+    </p>
+    <p>
+      We define the function:
+    </p>
+    <p>
+      $$ \kappa: U \in \mathcal{P}(2\mathbb{N} - 1) \longmapsto \kappa(U) = \left\{\dfrac{n+1}{2}: n \in U \right\} \in \mathcal{P}(\mathbb{N}) $$
+    </p>
+    <p>
+       \( \kappa \) is an one to one map between \( \mathcal{P}(2\mathbb{N} - 1) \) and \( \mathcal{P}(\mathbb{N}) \). Therefore, the composition:
+    </p>
+    <p>
+      $$ \xi : x = \sum_{k \in U} 2^{-k} \in X \longmapsto \xi(x) = \sum_{k \in \kappa(U)} 2^{-k} \in [0,1) $$
+    </p>
+    <p>
+      is a one to one map, showing that \( X \) is uncountable. More clearly, this function maps every real number in the unit interval to its shortest binary expansion, which is one to one as every number has an unique shortest binary representation. This is mapped to the number that results from setting even positions of the binary expansion to zero, which is one to one because of \( \kappa \) being one to one.
+    </p>
+
+    <p><strong>No Middle Points:</strong></p>
+    <p>
+      Let \( x, y \in X \) and \( x \neq y \). Without loss of generality, assume \( x \) has a 1 in an odd position where \( y \) has a 0. When summing them in base 2, that 1 remains in the same odd position, and when divided by two, it moves to the next even position. Thus, \( \frac{x+y}{2} \not\in X \).
+    </p>
+  </details>
+</details>

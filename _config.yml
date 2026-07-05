@@ -1,6 +1,54 @@
-    sass_dir: _sass
-    style: compressed
+# Site metadata — used by layouts and the jekyll-seo-tag plugin
+title: Roi Vence Nogueira
+tagline: Mathematics · Machine Learning · Writing
+description: >-
+  Personal website of Roi Vence Nogueira — mathematician and machine-learning
+  researcher. Articles on neural networks, mathematics and computer science.
+author:
+  name: Roi Vence Nogueira
+  email: roi.vence@gmail.com
+lang: en
 
+# Deployment
+# If the site is served from https://<user>.github.io/web/, set baseurl: "/web".
+# If it is served from the domain root (user site or custom domain), leave it "".
+url: "https://roidavinci.github.io"
+baseurl: ""
+
+# Build
+markdown: kramdown
+sass:
+  style: compressed
+
+plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-redirect-from
+
+# Content collections.
+# Add a new kind of content (projects, publications, talks, notes…) by adding
+# a collection here, creating a `_<name>/` folder, and looping over
+# `site.<name>` in a page — no other changes needed.
 collections:
-  publications:
-    output: false
+  articles:
+    output: true
+    permalink: /articles/:name/
+
+# Front-matter defaults, so individual files stay minimal
+defaults:
+  - scope:
+      path: ""
+      type: articles
+    values:
+      layout: article
+  - scope:
+      path: ""
+    values:
+      layout: page
+
+exclude:
+  - README.md
+  - LICENSE
+  - Gemfile
+  - Gemfile.lock
+  - vendor
