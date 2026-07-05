@@ -3,6 +3,13 @@
 Personal website and article collection of Roi Vence Nogueira, built with
 [Jekyll](https://jekyllrb.com/).
 
+## Deployment
+
+The site builds with Jekyll 4 via GitHub Actions (`.github/workflows/deploy.yml`).
+In the repository settings, set **Pages → Source → GitHub Actions** once. The
+workflow injects the correct `baseurl` automatically, so it works both as a
+project site (`/web/`) and behind a custom domain.
+
 ## Local development
 
 ```bash
