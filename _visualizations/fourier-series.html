@@ -1,0 +1,72 @@
+---
+title: "Fourier Series Builder"
+description: "Watch a chain of rotating vectors — one circle per harmonic — trace the partial sums of a Fourier series, and see square, sawtooth, triangle and pulse waves emerge term by term."
+thumbnail: /assets/img/thumbnails/fourier-series.svg
+tags: [fourier-analysis, signal-processing, interactive]
+math: true
+order: 2
+date: 2026-07-06
+---
+<div class="viz-host" data-viz="fourier-series">
+  <noscript><p>This interactive visualization requires JavaScript.</p></noscript>
+  <p>Loading visualization…</p>
+</div>
+
+<div class="prose">
+  <h2>What you are looking at</h2>
+  <p>
+    Any reasonable periodic function can be written as an infinite sum of sines and
+    cosines — its <em>Fourier series</em>. Each circle on the left is one term of that
+    sum: a vector of length \( |a_k| \) rotating at angular frequency \( k \). The
+    vectors are chained tip to tail, so the height of the final tip is exactly the
+    partial sum
+    $$ f_n(t) = a_0 + \sum_{k=1}^{n} a_k \sin(\omega_k t + \varphi_k), $$
+    which the blue curve records as time flows. The dashed curve is the exact target
+    waveform; the readout shows the root-mean-square error of the approximation.
+  </p>
+
+  <h2>The series being built</h2>
+  <p>
+    The four target waves and their series (only non-zero terms are drawn as circles):
+  </p>
+  <p>
+    <strong>Square</strong> — odd harmonics decaying like \( 1/k \):
+    $$ f(t) = \frac{4}{\pi} \sum_{k \text{ odd}} \frac{\sin(kt)}{k}. $$
+  </p>
+  <p>
+    <strong>Sawtooth</strong> — every harmonic, alternating sign:
+    $$ f(t) = \frac{2}{\pi} \sum_{k=1}^{\infty} (-1)^{k+1} \frac{\sin(kt)}{k}. $$
+  </p>
+  <p>
+    <strong>Triangle</strong> — odd harmonics decaying like \( 1/k^2 \), which is why so
+    few terms already fit it almost perfectly:
+    $$ f(t) = \frac{8}{\pi^2} \sum_{k \text{ odd}} (-1)^{\frac{k-1}{2}} \frac{\sin(kt)}{k^2}. $$
+  </p>
+  <p>
+    <strong>Pulse</strong> — a 25% duty cycle needs a constant term and cosine harmonics,
+    some of which vanish:
+    $$ f(t) = (2d - 1) + \sum_{k=1}^{\infty} \frac{4}{k\pi} \sin(k\pi d)\, \cos(kt),
+       \qquad d = \tfrac{1}{4}. $$
+  </p>
+
+  <h2>Things to try</h2>
+  <ul>
+    <li>Slide the harmonic count up on the <em>square</em> wave and watch the overshoot
+      near each jump refuse to shrink below about 9% — the
+      <em>Gibbs phenomenon</em>. More terms squeeze the overshoot narrower, never
+      shorter.</li>
+    <li>Compare how fast the <em>triangle</em> converges against the square: coefficients
+      decaying like \( 1/k^2 \) instead of \( 1/k \) is the smoothness of the target
+      showing up in the frequency domain.</li>
+    <li>On the <em>pulse</em>, notice every fourth circle is missing —
+      \( \sin(k\pi/4) \) vanishes when \( k \) is a multiple of 4.</li>
+    <li>Turn off the epicycles and watch just the wave: the RMS error in the readout is
+      the quantity the truncated series minimizes.</li>
+  </ul>
+
+  <p>
+    Fast algorithms for computing these coefficients are the subject of
+    <a href="{{ '/articles/fft/' | relative_url }}">Computational Cost and FFT</a>,
+    which looks at the discrete Fourier transform inside convolutional networks.
+  </p>
+</div>
