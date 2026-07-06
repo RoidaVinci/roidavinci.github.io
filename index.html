@@ -62,19 +62,3 @@ title: Home
     </a>
   </div>
 </section>
-
-<section>
-  <h2 class="section-title">Interactive Visualizations</h2>
-  <div class="card-grid">
-    {%- assign all_viz = site.visualizations | sort: "order" %}
-    {%- for v in all_viz limit: 3 %}
-    {%- include article-card.html article=v %}
-    {%- endfor %}
-  </div>
-  <div class="view-all">
-    <a href="{{ '/visualizations/' | relative_url }}" class="btn">
-      <svg class="icon" aria-hidden="true"><use href="#icon-chart-line"></use></svg>
-      View All Visualizations
-    </a>
-  </div>
-</section>

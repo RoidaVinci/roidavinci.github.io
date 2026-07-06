@@ -424,12 +424,12 @@ register("feynman-kac", (host) => {
           ],
         },
         {
-          kind: "range", id: "walkers", label: "Live walkers", min: 10, max: 400, step: 10,
+          kind: "range", id: "walkers", label: "Live walkers", min: 1, max: 401, step: 1,
           value: state.walkersTarget, format: (v) => String(v),
           onChange: (v) => { state.walkersTarget = v; },
         },
         {
-          kind: "range", id: "speed", label: "Sim speed", min: 50, max: 2000, step: 50,
+          kind: "range", id: "speed", label: "Sim speed", min: 1, max: 2000, step: 1,
           value: state.stepsPerSec, format: (v) => v + " steps/s",
           onChange: (v) => { state.stepsPerSec = v; },
         },
