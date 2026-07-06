@@ -1,0 +1,65 @@
+---
+layout: default
+title: Home
+---
+<section class="hero">
+  <div>
+    <h1 class="page-title">{{ site.author.name }}</h1>
+    <p class="hero-tagline">{{ site.tagline }}</p>
+    <div class="prose" style="margin: 0; max-width: none;">
+      {% capture bio %}{% include bio.md %}{% endcapture %}
+      {{ bio | markdownify }}
+    </div>
+  </div>
+
+  <figure class="profile-figure">
+    <div class="profile-img-wrapper">
+      <button id="profile-button" class="profile-img-button" type="button"
+              aria-pressed="false" aria-label="Play Chopin's Ballade No. 1"
+              style="all: unset; display: contents;">
+        <img class="profile-img" src="{{ '/assets/img/profile.jpg' | relative_url }}"
+             alt="Portrait of {{ site.author.name }}" width="240" height="240">
+      </button>
+      <svg id="profile-waves" class="wave" viewBox="0 0 300 300" width="300" height="300" aria-hidden="true">
+        <path d="" fill="none" stroke-width="2"/>
+        <path d="" fill="none" stroke-width="2"/>
+        <path d="" fill="none" stroke-width="2"/>
+        <path d="" fill="none" stroke-width="1.5"/>
+        <path d="" fill="none" stroke-width="1.5"/>
+        <path d="" fill="none" stroke-width="1.5"/>
+        <path d="" fill="none" stroke-width="1"/>
+        <path d="" fill="none" stroke-width="1"/>
+        <path d="" fill="none" stroke-width="1"/>
+      </svg>
+    </div>
+    <audio id="profile-audio" src="{{ '/assets/audio/ballade1.mp3' | relative_url }}" preload="none"></audio>
+    <figcaption class="profile-hint">Click the portrait for some Chopin</figcaption>
+
+    <ul class="social-links" aria-label="Social links">
+      {%- for social in site.data.social %}
+      <li>
+        <a href="{{ social.url }}" title="{{ social.name }}" aria-label="{{ social.name }}"
+           {% unless social.url contains 'mailto:' %}rel="noopener noreferrer" target="_blank"{% endunless %}>
+          <svg class="icon" aria-hidden="true"><use href="#icon-{{ social.icon }}"></use></svg>
+        </a>
+      </li>
+      {%- endfor %}
+    </ul>
+  </figure>
+</section>
+
+<section>
+  <h2 class="section-title">Featured Articles</h2>
+  <div class="card-grid">
+    {%- assign featured = site.articles | where: "featured", true | sort: "order" %}
+    {%- for a in featured limit: 6 %}
+    {%- include article-card.html article=a %}
+    {%- endfor %}
+  </div>
+  <div class="view-all">
+    <a href="{{ '/articles/' | relative_url }}" class="btn">
+      <svg class="icon" aria-hidden="true"><use href="#icon-book-open"></use></svg>
+      View All Articles
+    </a>
+  </div>
+</section>
