@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 250" role="img" aria-label="Stylized contour map with a descent path spiraling into the minimum">
+  <rect width="400" height="250" fill="#cde2fb"/>
+  <g fill="none">
+    <ellipse cx="210" cy="130" rx="230" ry="150" fill="#9ec5f4"/>
+    <ellipse cx="205" cy="128" rx="185" ry="118" fill="#6da7ec"/>
+    <ellipse cx="200" cy="126" rx="145" ry="90" fill="#3987e5"/>
+    <ellipse cx="196" cy="124" rx="108" ry="65" fill="#256abf"/>
+    <ellipse cx="193" cy="122" rx="74" ry="43" fill="#184f95"/>
+    <ellipse cx="190" cy="120" rx="44" ry="24" fill="#0d366b"/>
+  </g>
+  <path d="M 52 218 C 120 200, 90 150, 150 158 C 230 168, 260 90, 205 100 C 165 108, 170 128, 190 120"
+        fill="none" stroke="#eda100" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="52" cy="218" r="8" fill="#eda100" stroke="#ffffff" stroke-width="2.5"/>
+  <circle cx="190" cy="120" r="10" fill="none" stroke="#ffffff" stroke-width="3"/>
+  <circle cx="190" cy="120" r="3" fill="#ffffff"/>
+</svg>

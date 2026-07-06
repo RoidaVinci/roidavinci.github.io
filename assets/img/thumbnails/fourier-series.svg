@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 250" role="img" aria-label="Epicycle circles tracing a square wave from its Fourier series">
+  <rect width="400" height="250" fill="#cde2fb"/>
+  <g fill="none" stroke="#256abf" stroke-width="2" opacity="0.85">
+    <circle cx="95" cy="125" r="64"/>
+    <circle cx="122" cy="68" r="21"/>
+    <circle cx="143" cy="70" r="13"/>
+  </g>
+  <g stroke="#184f95" stroke-width="2.5" fill="none">
+    <path d="M 95 125 L 122 68 L 143 70 L 155 62"/>
+  </g>
+  <path d="M 155 62 L 200 62 L 200 188 L 260 188 L 260 62 L 320 62 L 320 188 L 378 188"
+        fill="none" stroke="#0d366b" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 155 62 C 185 50, 172 78, 200 62 C 214 55, 190 180, 214 188 C 236 195, 240 180, 260 188"
+        fill="none" stroke="#eda100" stroke-width="3.5" stroke-linecap="round" opacity="0.95"/>
+  <circle cx="155" cy="62" r="7" fill="#eda100" stroke="#ffffff" stroke-width="2.5"/>
+</svg>
