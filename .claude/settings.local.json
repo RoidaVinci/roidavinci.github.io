@@ -35,7 +35,15 @@
       "Bash(google-chrome --headless=new --disable-gpu --no-sandbox --virtual-time-budget=60000 --dump-dom http://localhost:4321/visualizations/feynman-kac/)",
       "Bash(pkill -f \"http.server 4321\")",
       "Bash(pkill -f \"remote-debugging-port=92\")",
-      "Bash(git -C /home/ubuntu/web diff --stat)"
+      "Bash(git -C /home/ubuntu/web diff --stat)",
+      "Skill(run)",
+      "Skill(run:*)",
+      "Bash(find . -path ./node_modules -prune -o -iname \"SKILL.md\" -print)",
+      "Bash(find . -path ./_site -prune -o -iname \"*.md\" -path \"*skills*\" -print)",
+      "Bash(command -v chromium-cli)",
+      "Read(//opt/homebrew/bin/**)",
+      "Bash(npm ls *)",
+      "Bash(npx --yes playwright --version)"
     ]
   }
 }
