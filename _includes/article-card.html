@@ -9,6 +9,11 @@
     </div>
     <div class="card-body">
       <h3 class="card-title">{{ include.article.title }}</h3>
+      {%- if include.article.date %}
+      <time class="card-date" datetime="{{ include.article.date | date_to_xmlschema }}">
+        {{- include.article.date | date: "%B %-d, %Y" -}}
+      </time>
+      {%- endif %}
       {%- if include.article.description %}
       <p class="card-description">{{ include.article.description }}</p>
       {%- endif %}

@@ -1,0 +1,151 @@
+---
+title: "The Feynman–Kac Machine"
+description: "Solve elliptic and parabolic PDEs by throwing random walkers at them: drift, diffusion, killing and running rewards — every term of the equation as a visible stochastic process, checked against exact formulas."
+thumbnail: /assets/img/thumbnails/feynman-kac.svg
+tags: [probability, pde, stochastic-processes, interactive]
+math: true
+order: 3
+date: 2026-07-06
+---
+<div class="viz-host" data-viz="feynman-kac">
+  <noscript><p>This interactive visualization requires JavaScript.</p></noscript>
+  <p>Loading visualization…</p>
+</div>
+
+<div class="prose">
+  <h2>What you are looking at</h2>
+  <p>
+    A cloud of random walkers starts at the marked point \( x_0 \) and diffuses through the
+    domain \( D \) until each one either reaches the boundary, gets killed, or wanders too
+    long. The Feynman–Kac formula says that the <em>average</em> of what those walkers
+    experience is exactly the solution of a partial differential equation:
+    $$
+      \tfrac{\sigma^2}{2}\,\Delta u \;+\; b\cdot\nabla u \;-\; c\,u \;+\; f \;=\; 0
+      \quad\text{in } D,
+      \qquad u = g \;\text{ on } \partial D,
+    $$
+    where the walkers follow the stochastic differential equation
+    \( \mathrm{d}X_t = b(X_t)\,\mathrm{d}t + \sigma\,\mathrm{d}W_t \) and
+    \( \tau = \inf\{t : X_t \notin D\} \) is the first exit time. The probabilistic
+    representation is
+    $$
+      u(x_0) \;=\; \mathbb{E}_{x_0}\!\left[
+        e^{-c\tau}\, g(X_\tau)
+        \;+\; \int_0^\tau e^{-c s}\, f(X_s)\,\mathrm{d}s
+      \right].
+    $$
+    The background shading is the same \( u \) computed by a finite-difference solve of the
+    PDE (or by a closed formula when one exists), so you can watch the Monte-Carlo average
+    and the analytic solution agree. In the 3D view the walkers move on the graph of
+    \( u \) itself — a random walk exploring its own solution surface.
+  </p>
+
+  <h2>The dictionary</h2>
+  <p>Every term of the equation is a knob in the panel, and each one <em>is</em> a process:</p>
+  <ul>
+    <li><strong>\( \sigma \) (diffusion)</strong> — the walkers' jitter. Doubling \( \sigma \)
+      quarters mean exit times: time scales like \( 1/\sigma^2 \).</li>
+    <li><strong>\( b \) (drift)</strong> — a velocity field pushing the walkers (the arrows).
+      A constant wind skews the harmonic measure toward the downwind boundary; the restoring
+      well traps walkers and stretches \( \tau \); the vortex stirs without changing how far
+      from the center a driftless walker would settle.</li>
+    <li><strong>\( c \) (killing rate)</strong> — each walker carries an exponential clock
+      and dies with rate \( c \) (the little ×). Death before the boundary means payoff
+      zero — which is exactly the discount factor \( e^{-c\tau} \) in expectation. This is
+      the probabilistic meaning of the zeroth-order term \( -cu \).</li>
+    <li><strong>\( f \) (running reward)</strong> — accrued continuously while alive. With
+      \( f \equiv 1 \) and no payoff, \( u(x_0) = \mathbb{E}[\tau] \): the mean exit time
+      solves \( \tfrac{\sigma^2}{2}\Delta u = -1 \), the <em>torsion function</em>.</li>
+    <li><strong>\( g \) (boundary payoff)</strong> — 1 on the green target set \( \Gamma \),
+      0 on the rest. With everything else off, \( u(x_0) = \mathbb{P}(X_\tau \in \Gamma) \)
+      is the <em>harmonic measure</em> of \( \Gamma \): exit probabilities are harmonic
+      functions.</li>
+  </ul>
+
+  <h2>Domains where the answer is a formula</h2>
+  <p>
+    Three of the domains have classical closed forms (used as the dashed reference), all for
+    the driftless, killing-free walk:
+  </p>
+  <ul>
+    <li><strong>Disk</strong> — harmonic measure is the integral of the
+      <em>Poisson kernel</em> \( P(x,\theta) = \frac{1-|x|^2}{2\pi\,|x - e^{i\theta}|^2} \)
+      over the target arc; pick the “Exit directions” chart to see the histogram of exit
+      angles converge to this kernel. The mean exit time is the beautiful
+      \( \mathbb{E}_x[\tau] = (1-|x|^2)/(2\sigma^2) \).</li>
+    <li><strong>Annulus</strong> — the 2D gambler's ruin: the probability of reaching the
+      outer circle before the inner one from radius \( \rho \) is
+      \( \ln(\rho/r)/\ln(R/r) \), because \( \ln|x| \) is harmonic in the plane.</li>
+    <li><strong>Rectangle</strong> — separation of variables gives sine–sinh series for both
+      the exit probability and the torsion function.</li>
+    <li><strong>Sector, L-shape, flower</strong> — no closed form (the reentrant corners ruin
+      it); here the finite-difference solver is the only reference, and Monte Carlo works
+      exactly the same. That indifference to geometry is the whole point of the method.</li>
+  </ul>
+
+  <h2>The parabolic connection</h2>
+  <p>
+    The same walkers answer time-dependent questions. The function
+    \( v(t,x) = \mathbb{P}_x(\tau > t) \) — the probability of still being inside at time
+    \( t \) — solves the <em>heat equation</em> \( \partial_t v = \tfrac{\sigma^2}{2}\Delta v \)
+    with absorbing boundary \( v = 0 \) on \( \partial D \) and \( v(0,\cdot) = 1 \). Expanding
+    in Dirichlet eigenfunctions, \( v(t,x) = \sum_k a_k \varphi_k(x)\, e^{-\lambda_k t} \), so
+    for large \( t \) the survival probability decays like \( e^{-\lambda_1 t} \): the
+    <em>principal eigenvalue</em> is the asymptotic rate at which Brownian motion leaks out of
+    the domain. Choose the “Survival \( P(\tau > t) \)” chart: on a log scale the empirical
+    survival curve becomes a straight line, and on the disk its fitted slope converges to the
+    exact \( \lambda_1 = \sigma^2 j_{0,1}^2/2 \), with \( j_{0,1} \approx 2.405 \) the first
+    zero of the Bessel function \( J_0 \). The elliptic problems above are just this parabolic
+    picture integrated over all time — the Feynman–Kac formula for
+    \( \partial_t u + \tfrac{\sigma^2}{2}\Delta u + b\cdot\nabla u - cu + f = 0 \) reads the
+    same way with a finite horizon.
+  </p>
+
+  <h2>Why averaging walkers solves a PDE</h2>
+  <p>
+    The one-line reason: for
+    \( M_t = e^{-ct}\,u(X_t) + \int_0^t e^{-cs} f(X_s)\,\mathrm{d}s \), Itô's formula gives
+    \( \mathrm{d}M_t = e^{-ct}\big(\mathcal{L}u - cu + f\big)\mathrm{d}t + (\text{martingale}) \),
+    where \( \mathcal{L} = \tfrac{\sigma^2}{2}\Delta + b\cdot\nabla \) is the generator. If
+    \( u \) solves the PDE, the drift term vanishes, \( M \) is a martingale, and optional
+    stopping at \( \tau \) yields the representation. Run it in reverse and Monte Carlo
+    <em>constructs</em> \( u \) with no grid, no stencil, and no fear of weird geometry —
+    which is why this identity powers everything from option pricing to neutron transport.
+  </p>
+
+  <h2>Things to try</h2>
+  <ul>
+    <li>On the <em>disk</em>, drag \( x_0 \) toward the boundary and watch the exit-direction
+      histogram sharpen into a spike — the Poisson kernel degenerating toward a point mass at
+      the nearest boundary point.</li>
+    <li>Switch to <em>Mean exit time</em> on the disk: the 3D surface is the paraboloid
+      \( (1-|x|^2)/(2\sigma^2) \). Halve \( \sigma \) and watch the whole dome quadruple.</li>
+    <li>On the <em>annulus</em>, put \( x_0 \) at the geometric mean radius
+      \( \sqrt{rR} \approx 0.63 \) — gambler's ruin says the exit probability is exactly
+      \( \tfrac12 \).</li>
+    <li>Turn on a strong <em>wind</em> and watch the CI band: drift toward \( \Gamma \)
+      makes hits common and the estimate settles fast; drift away makes hits rare and the
+      Monte-Carlo error visibly heavier — a variance-reduction lesson in one slider.</li>
+    <li>Raise the <em>killing rate</em> with the Laplace preset: \( u(x_0) =
+      \mathbb{E}[e^{-c\tau}; X_\tau \in \Gamma] \) is the Laplace transform of the hitting
+      time — the object behind every discounted price in finance.</li>
+    <li>Compare survival tails: the <em>flower's</em> tips drain probability faster than the
+      <em>L-shape's</em> deep corner — domains with the same area can have very different
+      \( \lambda_1 \).</li>
+    <li>Crank \( \Delta t \) to its maximum and watch the estimate drift below the reference:
+      discrete walkers overshoot the boundary, a real bias of the Euler–Maruyama scheme.</li>
+    <li>Watch the very first seconds after a reset: the streaming estimate starts
+      <em>biased</em>, because only finished walkers are counted and quick exits finish
+      first — a live demonstration of size-biased sampling. The “fast” button runs each
+      walker to completion, so its samples are clean draws.</li>
+  </ul>
+
+  <h2>About the toolkit</h2>
+  <p>
+    Like the other visualizations on this site, this page is dependency-free and built from
+    the shared toolkit: the domain library with its closed-form solutions, a masked-domain 2D
+    renderer, the same 3D surface renderer as the gradient-descent playground, and a chunked
+    finite-difference reference solver that converges live in the background while the
+    walkers run.
+  </p>
+</div>

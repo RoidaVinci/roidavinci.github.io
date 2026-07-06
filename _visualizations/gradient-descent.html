@@ -1,0 +1,85 @@
+---
+title: "Gradient Descent Playground"
+description: "Race gradient descent, momentum, Nesterov, RMSProp, Adam and a physical ball across classic loss landscapes — on an interactive 3D surface or a contour map, with live loss curves."
+thumbnail: /assets/img/thumbnails/gradient-descent.svg
+tags: [optimization, machine-learning, interactive]
+math: true
+order: 1
+date: 2026-07-06
+---
+<div class="viz-host" data-viz="gradient-descent">
+  <noscript><p>This interactive visualization requires JavaScript.</p></noscript>
+  <p>Loading visualization…</p>
+</div>
+
+<div class="prose">
+  <h2>What you are looking at</h2>
+  <p>
+    The surface is the graph of a scalar field \( f(x, y) \) — a <em>loss landscape</em>.
+    Click anywhere on it to drop one particle per active optimizer at that point; every
+    particle then follows its own update rule downhill. The trails show the paths taken,
+    the ring marks the global minimum (when the landscape has a unique, known one), and
+    the chart below records the loss \( f(x_k, y_k) \) at every iteration \( k \), so you
+    can compare convergence speed directly. The 2D view shows the same landscape as a
+    contour map, which often makes oscillation and zig-zagging easier to see.
+  </p>
+
+  <h2>The update rules</h2>
+  <p>
+    Writing \( g_k = \nabla f(x_k) \) for the gradient at the current iterate, the
+    optimizers implement:
+  </p>
+  <p>
+    <strong>Gradient descent</strong> takes a plain step along the negative gradient:
+    $$ x_{k+1} = x_k - \alpha\, g_k. $$
+  </p>
+  <p>
+    <strong>Momentum</strong> accumulates a velocity that smooths the trajectory and
+    accelerates along persistent directions:
+    $$ v_{k+1} = \beta v_k - \alpha\, g_k, \qquad x_{k+1} = x_k + v_{k+1}. $$
+  </p>
+  <p>
+    <strong>Nesterov</strong> evaluates the gradient at the <em>look-ahead</em> point
+    \( x_k + \beta v_k \) instead, which corrects the velocity before overshooting:
+    $$ v_{k+1} = \beta v_k - \alpha\, \nabla f(x_k + \beta v_k), \qquad x_{k+1} = x_k + v_{k+1}. $$
+  </p>
+  <p>
+    <strong>RMSProp</strong> divides each coordinate of the step by a running estimate of
+    the gradient's magnitude, adapting the step size per direction:
+    $$ s_{k+1} = \rho s_k + (1-\rho)\, g_k^2, \qquad x_{k+1} = x_k - \frac{\alpha\, g_k}{\sqrt{s_{k+1}} + \varepsilon}. $$
+  </p>
+  <p>
+    <strong>Adam</strong> combines both ideas — a momentum-like first moment and an
+    RMSProp-like second moment, each bias-corrected:
+    $$ m_{k+1} = \beta_1 m_k + (1-\beta_1) g_k, \qquad s_{k+1} = \beta_2 s_k + (1-\beta_2) g_k^2, $$
+    $$ x_{k+1} = x_k - \alpha\, \frac{\hat m_{k+1}}{\sqrt{\hat s_{k+1}} + \varepsilon},
+       \qquad \hat m = \frac{m}{1-\beta_1^{k}},\; \hat s = \frac{s}{1-\beta_2^{k}}. $$
+  </p>
+  <p>
+    <strong>Gravity</strong> is not an optimizer at all: it integrates a ball rolling on
+    the surface under gravity \( g \) with friction \( \mu \) (semi-implicit Euler). It is
+    a useful physical intuition pump — compare how its inertia differs from momentum's.
+  </p>
+
+  <h2>Things to try</h2>
+  <ul>
+    <li>On <em>Rosenbrock</em>, watch vanilla gradient descent crawl along the curved
+      valley while Adam adapts its per-coordinate step.</li>
+    <li>On <em>Rastrigin</em> or <em>Egg Crate</em>, drop particles far from the center:
+      momentum methods can roll through shallow local minima that trap vanilla descent.</li>
+    <li>On the <em>Saddle</em>, see every method escape along the unstable direction —
+      and how long that takes from a nearly balanced start.</li>
+    <li>Push \( \beta \) close to 1 on <em>Quadratic Bowl</em> to make momentum orbit the
+      minimum before settling.</li>
+  </ul>
+
+  <h2>About the toolkit</h2>
+  <p>
+    This page runs on a small, dependency-free visualization toolkit written for this
+    site: a canvas 3D surface renderer, a contour/heatmap view and a line-chart primitive,
+    driven by a shared registry, theme bridge and control-panel builder. New landscapes
+    and optimizers are single self-contained entries in a registry, and new tools mount
+    from a single <code>data-viz</code> attribute — the aim is to make any future
+    scientific or mathematical idea on this site explorable, not just this one.
+  </p>
+</div>

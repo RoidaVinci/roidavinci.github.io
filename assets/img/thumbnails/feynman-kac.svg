@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 250" role="img" aria-label="A disk shaded by the PDE solution with a jagged random walk exiting through a highlighted boundary arc">
+  <rect width="400" height="250" fill="#cde2fb"/>
+  <g fill="none">
+    <circle cx="200" cy="125" r="118" fill="#9ec5f4"/>
+    <circle cx="200" cy="121" r="94" fill="#6da7ec"/>
+    <circle cx="200" cy="117" r="71" fill="#3987e5"/>
+    <circle cx="200" cy="113" r="49" fill="#256abf"/>
+    <circle cx="200" cy="109" r="28" fill="#184f95"/>
+  </g>
+  <path d="M 200 125 A 118 118 0 0 1 318 125" transform="rotate(-52 200 125)"
+        fill="none" stroke="#1baf7a" stroke-width="7" stroke-linecap="round"/>
+  <path d="M 200 118 l 6 -9 -8 -6 5 -11 11 4 -3 -13 10 -2 8 9 -2 -14 12 -5 4 10 9 -8 6 12 11 -3 -4 12 13 2 -6 10 12 6"
+        fill="none" stroke="#eda100" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="200" cy="118" r="7" fill="#eda100" stroke="#ffffff" stroke-width="2.5"/>
+  <circle cx="284" cy="42" r="6" fill="#1baf7a" stroke="#ffffff" stroke-width="2.5"/>
+</svg>

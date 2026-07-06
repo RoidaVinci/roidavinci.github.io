@@ -1,0 +1,36 @@
+---
+layout: default
+---
+<article class="article">
+  <header class="article-header prose">
+    <a class="back-link" href="{{ '/visualizations/' | relative_url }}">
+      <svg class="icon" aria-hidden="true"><use href="#icon-arrow-left"></use></svg>
+      All visualizations
+    </a>
+    <h1 class="page-title">{{ page.title }}</h1>
+    {%- if page.date %}
+    <p class="article-date">
+      <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%B %-d, %Y" }}</time>
+    </p>
+    {%- endif %}
+    {%- if page.description %}
+    <p class="article-lead">{{ page.description }}</p>
+    {%- endif %}
+    {%- if page.tags and page.tags != empty %}
+    <ul class="card-tags article-tags" aria-label="Topics">
+      {%- for tag in page.tags %}<li>{{ tag }}</li>{% endfor %}
+    </ul>
+    {%- endif %}
+  </header>
+
+  {{ content }}
+
+  <footer class="article-footer prose">
+    <a class="back-link" href="{{ '/visualizations/' | relative_url }}">
+      <svg class="icon" aria-hidden="true"><use href="#icon-arrow-left"></use></svg>
+      Back to all visualizations
+    </a>
+  </footer>
+</article>
+
+<script type="module" src="{{ '/assets/js/viz/main.js' | relative_url }}"></script>

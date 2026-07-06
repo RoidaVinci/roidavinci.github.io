@@ -1,0 +1,41 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C /home/ubuntu/web remote -v)",
+      "Bash(git -C /home/ubuntu/web log --oneline -5)",
+      "Bash(git -C /home/ubuntu/web status --short)",
+      "Bash(git clone *)",
+      "Skill(dataviz)",
+      "Bash(node scripts/validate_palette.js \"#2a78d6,#1baf7a,#eda100,#008300,#4a3aa7,#e34948\" --mode light)",
+      "Bash(node scripts/validate_palette.js \"#3987e5,#199e70,#c98500,#008300,#9085e9,#e66767\" --mode dark)",
+      "Bash(bundle exec *)",
+      "Bash(mkdir -p assets/js/viz/data)",
+      "Bash(mv assets/js/viz/landscapes.js assets/js/viz/optimizers.js assets/js/viz/data/)",
+      "Bash(mkdir -p _visualizations)",
+      "Bash(mv assets/js/viz/data/landscapes.js assets/js/viz/data/optimizers.js assets/js/viz/)",
+      "Bash(rmdir assets/js/viz/data)",
+      "Bash(rmdir _visualizations)",
+      "Bash(python3 -c ' *)",
+      "Bash(awk '{print $2, $3, $11, $12}')",
+      "Bash(ps -o pid,etime,%cpu,stat -p 37231)",
+      "Bash(ps -o %cpu= -p 37231)",
+      "Read(//home/ubuntu/.cache/**)",
+      "Read(//snap/bin/**)",
+      "Bash(python3 *)",
+      "Bash(google-chrome --headless=new --disable-gpu --no-sandbox --force-dark-mode --blink-settings=preferredColorScheme=1 --window-size=1360,1200 --virtual-time-budget=9000 --screenshot=/tmp/claude-1000/-home-ubuntu-web/b99193c9-a297-4b1a-8fb0-d3cef9680fe5/scratchpad/fourier-dark.png http://localhost:8907/visualizations/fourier-series/)",
+      "Bash(google-chrome --headless=new --disable-gpu --no-sandbox --force-dark-mode --blink-settings=preferredColorScheme=1 --window-size=1360,1400 --virtual-time-budget=9000 --screenshot=/tmp/claude-1000/-home-ubuntu-web/b99193c9-a297-4b1a-8fb0-d3cef9680fe5/scratchpad/gd-dark.png http://localhost:8907/visualizations/gradient-descent/)",
+      "Bash(google-chrome --headless=new --disable-gpu --no-sandbox --window-size=1360,900 --virtual-time-budget=5000 --screenshot=/tmp/claude-1000/-home-ubuntu-web/b99193c9-a297-4b1a-8fb0-d3cef9680fe5/scratchpad/viz-index.png http://localhost:8907/visualizations/)",
+      "Read(//home/ubuntu/**)",
+      "Bash(unzip -l web.zip)",
+      "Bash(sort -k1 -n -r)",
+      "Bash(ps -o pid,stat,%cpu -p 37231)",
+      "Bash(time node test-fk.mjs)",
+      "Bash(google-chrome --headless=new --disable-gpu --no-sandbox --enable-logging=stderr --v=0 --virtual-time-budget=9000 --dump-dom http://localhost:4321/visualizations/feynman-kac/)",
+      "Read(//tmp/claude-1000/**)",
+      "Bash(google-chrome --headless=new --disable-gpu --no-sandbox --virtual-time-budget=60000 --dump-dom http://localhost:4321/visualizations/feynman-kac/)",
+      "Bash(pkill -f \"http.server 4321\")",
+      "Bash(pkill -f \"remote-debugging-port=92\")",
+      "Bash(git -C /home/ubuntu/web diff --stat)"
+    ]
+  }
+}

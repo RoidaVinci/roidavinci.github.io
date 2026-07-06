@@ -33,6 +33,9 @@ collections:
   articles:
     output: true
     permalink: /articles/:name/
+  visualizations:
+    output: true
+    permalink: /visualizations/:name/
 
 # Front-matter defaults, so individual files stay minimal
 defaults:
@@ -41,6 +44,11 @@ defaults:
       type: articles
     values:
       layout: article
+  - scope:
+      path: ""
+      type: visualizations
+    values:
+      layout: visualization
   - scope:
       path: ""
     values:
