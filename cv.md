@@ -5,11 +5,11 @@ permalink: /cv/
 
 ## Education
 
-- **University of Cambridge** — Part III of the Mathematical Tripos (Master of Mathematical Statistics).
+- **Peking University** — PhD in Computational Mathematics.
+- **University of Cambridge** — Master of Applied Mathematics (Part III).
 - **University of Santiago de Compostela** — BSc in Mathematics.
 
-## Research
-
-- Research projects on applications of Machine Learning and Artificial Intelligence at [CITIUS](https://citius.gal/), [IDIS](https://www.idisantiago.es/en/) and the [Department of Applied Mathematics at USC](https://www.usc.gal/en/department/applied-mathematics).
+## Work Experience
+- **Boston Consulting Group** — Analyst.
 
 *A full CV is coming soon.*
