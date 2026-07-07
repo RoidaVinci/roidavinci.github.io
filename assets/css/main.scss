@@ -1,8 +1,6 @@
 ---
 ---
 
-@use "lean";
-
 /* ==========================================================================
    Design tokens
    ========================================================================== */
@@ -916,3 +914,6 @@ html:not([data-theme="dark"]) .icon-sun {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* GitHub Pages (legacy builder, Jekyll 3.10) does not support @use. */
+@import "lean";
