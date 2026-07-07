@@ -1,0 +1,12 @@
+# Chapters of the Lean notes, in reading order. The lean layout builds the
+# section navigation and the prev/next links from this list.
+- title: The definition
+  url: /lean/continuity/
+- title: The theorem
+  url: /lean/composition/
+- title: Three foundations
+  url: /lean/three-foundations/
+- title: Why dependent types
+  url: /lean/why-dependent-types/
+- title: The fine print
+  url: /lean/limits/

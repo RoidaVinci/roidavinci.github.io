@@ -1,0 +1,49 @@
+---
+layout: lean
+title: "Lean, top-down"
+description: "Notes on Lean 4 for mathematicians: a theorem taken apart top-down, and a comparison of foundations."
+permalink: /lean/
+math: true
+---
+
+<p class="lead">Notes on the proof assistant Lean 4, written by a student, for
+mathematicians. They run in the opposite direction from the standard texts: instead of
+building up from the foundations, they start from a theorem and take it apart.</p>
+
+<p>The standard introductions are bottom-up.
+<a href="https://leanprover.github.io/theorem_proving_in_lean4/"><em>Theorem Proving in
+Lean 4</em></a> opens with a chapter on dependent type theory; the
+<a href="https://adam.math.hhu.de/#/g/leanprover-community/nng4">Natural Number Game</a>
+constructs \(\mathbb{N}\) from the Peano axioms; even
+<a href="https://leanprover-community.github.io/mathematics_in_lean/"><em>Mathematics in
+Lean</em></a>, the standard mathematician-oriented text, begins with equalities proved by
+calculation. Here the order is reversed: Part 1 reads a complete definition and a
+complete proof first — the \(\varepsilon\)-\(\delta\) definition of continuity, and the
+theorem that a composition of continuous functions is continuous — and recovers the
+grammar from them. The idea of showing a finished analysis proof before any syntax comes
+from the opening file of Patrick Massot’s
+<a href="https://github.com/PatrickMassot/GlimpseOfLean"><em>Glimpse of Lean</em></a>.</p>
+
+<div class="part-cards">
+  <a class="part-card" href="{{ '/lean/continuity/' | relative_url }}">
+    <h3>Part 1 · Anatomy of a theorem</h3>
+    <p>The definition of continuity and the composition theorem, read piece by piece:
+    binders, quantifiers, tactics, and in what sense a proof is a function.</p>
+  </a>
+  <a class="part-card" href="{{ '/lean/three-foundations/' | relative_url }}">
+    <h3>Part 2 · Why dependent types?</h3>
+    <p>One statement written in set theory, in simple type theory, and in dependent type
+    theory; the case for the third, its costs, and its limits.</p>
+  </a>
+</div>
+
+<p><strong>Prerequisites and format.</strong> A mathematics degree in progress or the
+equivalent; no programming background. Nothing needs installing: the code boxes marked as
+exercises load the <a href="https://live.lean-lang.org/">Lean web editor</a> in the page.
+In Lean code, dotted-underlined pieces are clickable and open the explanation beneath
+them. Read Part 1 in order; Part 2 is independent if you already know some Lean.</p>
+
+<blockquote>
+<p>The single fact everything else depends on: in Lean, a statement is a type, a proof is
+an element of that type, and checking a proof is checking that the element has the type.</p>
+</blockquote>

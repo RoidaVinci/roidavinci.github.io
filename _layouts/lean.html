@@ -1,0 +1,46 @@
+---
+layout: default
+---
+{%- comment -%}
+Layout for the Lean notes. Chapter list lives in _data/lean.yml; this layout
+renders the section navigation and computes prev/next from the page's position.
+{%- endcomment -%}
+<article class="article prose lean-notes">
+  <header class="article-header">
+    <nav class="lean-subnav" aria-label="Lean notes navigation">
+      <a class="lean-subnav-home" href="{{ '/lean/' | relative_url }}"
+         {% if page.url == '/lean/' %}aria-current="page"{% endif %}>Lean, top-down</a>
+      {%- for item in site.data.lean %}
+      <a href="{{ item.url | relative_url }}"
+         {% if page.url == item.url %}aria-current="page"{% endif %}>{{ item.title }}</a>
+      {%- endfor %}
+    </nav>
+    <h1 class="page-title">{{ page.title }}</h1>
+  </header>
+
+  {{ content }}
+
+  {%- assign idx = -1 %}
+  {%- for item in site.data.lean %}
+  {%- if item.url == page.url %}{% assign idx = forloop.index0 %}{% endif %}
+  {%- endfor %}
+  <nav class="lean-pager" aria-label="Chapter navigation">
+    {%- if idx > 0 %}
+    {%- assign previdx = idx | minus: 1 %}
+    <a href="{{ site.data.lean[previdx].url | relative_url }}">← {{ site.data.lean[previdx].title }}</a>
+    {%- elsif idx == 0 %}
+    <a href="{{ '/lean/' | relative_url }}">← Lean, top-down</a>
+    {%- else %}
+    <span></span>
+    {%- endif %}
+    {%- assign lastidx = site.data.lean.size | minus: 1 %}
+    {%- if idx == -1 %}
+    <a href="{{ site.data.lean[0].url | relative_url }}">{{ site.data.lean[0].title }} →</a>
+    {%- elsif idx < lastidx %}
+    {%- assign nextidx = idx | plus: 1 %}
+    <a href="{{ site.data.lean[nextidx].url | relative_url }}">{{ site.data.lean[nextidx].title }} →</a>
+    {%- endif %}
+  </nav>
+</article>
+
+<script src="{{ '/assets/js/lean.js' | relative_url }}" defer></script>
