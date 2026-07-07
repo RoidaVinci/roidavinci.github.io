@@ -1,0 +1,154 @@
+---
+layout: lean
+title: "One statement, three foundations"
+description: "The dot product on R^n written in set theory, simple type theory, and dependent type theory."
+permalink: /lean/three-foundations/
+math: true
+---
+
+<p class="lead">Part 1 used dependent types without naming them. To see what they
+contribute, take one small statement and write it in three foundations:</p>
+
+<p>\[ u \cdot v \;=\; \sum_{i} u_i v_i \qquad (u, v \in \mathbb{R}^n). \]</p>
+
+<p>The statement is chosen for the letter \(n\): the dimension is an ordinary number that
+wants to appear in the description of the space itself, and the three foundations
+accommodate that in three different ways. (Comparing systems on one fixed statement
+follows Freek Wiedijk’s <a href="https://www.cs.ru.nl/~freek/comparison/"><em>The
+Seventeen Provers of the World</em></a>, which collected the irrationality of \(\sqrt2\)
+across seventeen systems.) In each case, consider how the foundation expresses
+\(\mathbb{R}^n\), the product \(u \cdot v\), and — the revealing case — what
+\(u \cdot v\) means when \(u \in \mathbb{R}^3\), \(v \in \mathbb{R}^5\).</p>
+
+<div class="tabs">
+  <div class="tab-buttons">
+    <button data-tab="set">Set theory (ZFC)</button>
+    <button data-tab="hol">Simple type theory (HOL)</button>
+    <button data-tab="dtt">Dependent type theory (Lean)</button>
+  </div>
+
+  <div class="tab-panel" data-panel="set">
+    <h3>Everything is a set</h3>
+    <p>ZFC has sets, the relation \(\in\), and first-order logic — nothing else. With
+    \(n = \{0, 1, \dots, n-1\}\) (von Neumann),</p>
+    <p>\[ \mathbb{R}^n := \{\, u \subseteq n \times \mathbb{R} : u \text{ functional and total} \,\},
+    \qquad u \cdot v := \textstyle\sum_{i \in n} u(i)\, v(i), \]</p>
+    <p>where a function is a set of ordered pairs and a pair \((a,b)\) is the set
+    \(\{\, \{a\}, \{a,b\} \,\}\) (Kuratowski). The set-theoretic prover
+    <a href="https://mizar.uwb.edu.pl/">Mizar</a> proceeds this way: its
+    <a href="https://mizar.uwb.edu.pl/version/current/html/euclid.html">EUCLID</a> theory
+    defines <code>REAL n</code> as the \(n\)-tuples on \(\mathbb{R}\), finite sequences
+    with domain \(\{1,\dots,n\}\).</p>
+    <p><strong>The dimension lives in a proposition.</strong> “\(u \in \mathbb{R}^n\)” is
+    a statement on the same footing as “\(u\) is continuous” — assumed, proved, carried
+    through arguments by hand. No grammar catches mistakes, because every well-formed
+    formula about sets is grammatical: \(u \cdot v\) for mismatched \(u, v\) simply
+    denotes some junk object, and even “\(3 \in \pi\)” is a legitimate question (true if
+    \(\mathbb{R}\) is built from Dedekind cuts, false if from Cauchy sequences). Kevin
+    Buzzard calls these <a href="https://arxiv.org/abs/2405.10387">junk questions</a>:
+    harmless individually, but the formal language and the mathematician’s sense of what
+    is sayable disagree.</p>
+    <p><strong>In exchange</strong>: complete flexibility. \(\mathbb{R}^{m+n}\) and
+    \(\mathbb{R}^{n+m}\) are the same set, unions of arbitrary structures are sets like
+    any other, and nothing separates kinds of objects. The checker helps with nothing;
+    everything rests on the proof obligations.</p>
+  </div>
+
+  <div class="tab-panel" data-panel="hol">
+    <h3>Types, but no numbers inside them</h3>
+    <p>Simple type theory (Church, 1940), the foundation of
+    <a href="https://github.com/jrh13/hol-light">HOL Light</a> and
+    <a href="https://isabelle.systems/">Isabelle/HOL</a>, gives every expression a type
+    and rejects ill-typed expressions as ungrammatical. But types are built only from
+    base types and type variables by \(\to\) and products: a term, such as \(n\), can
+    never occur inside a type, so “\(\mathbb{R}^n\) for variable \(n\)” is not a type.
+    Two workarounds are standard.</p>
+    <p><strong>Lists with side conditions.</strong> Work in the type of finite real
+    sequences and carry \(\operatorname{length} u = n\) as a hypothesis in every theorem
+    — the dimension back in a proposition, as in set theory.</p>
+    <p><strong>The Harrison encoding.</strong> In
+    <a href="https://www.cl.cam.ac.uk/~jrh13/papers/hol05.pdf">“A HOL theory of Euclidean
+    space”</a> (2005), John Harrison writes <code>real^N</code> for the function space
+    \(N \to \mathbb{R}\) where \(N\) is a <em>type variable</em>, and the dimension is
+    the cardinality of \(N\) — in his words, encoding the dimension “in a simple and
+    useful way, even though HOL does not permit dependent types.” A theorem about
+    <code>real^N</code> instantiates at any 3-element type to give \(\mathbb{R}^3\), and
+    a mismatched product becomes a type error. Isabelle’s analysis library uses this
+    encoding (<code>'a^'b</code>, due to Amine Chaieb). The seams show exactly where the
+    dimension must behave like a number: concatenation needs a purpose-built type
+    constructor (<code>real^(M,N)finite_sum</code>) with a theorem that its size is the
+    sum of the sizes; “for every \(n\)” and “there exists \(n\)” over dimensions are not
+    statements of the logic but schemas instantiated from outside; and, Harrison in the
+    <a href="https://www.cl.cam.ac.uk/~jrh13/papers/neworleans.pdf">2013 journal
+    version</a>: “proofs by induction over dimension are usually done in a somewhat
+    intricate style … since we cannot directly perform induction on the size of
+    types.”</p>
+    <p><strong>In exchange</strong>: a simple type discipline with fast, decidable
+    checking — a genuine advantage, defended in Larry Paulson’s
+    <a href="https://arxiv.org/abs/1804.07860">“Formalising Mathematics in Simple Type
+    Theory”</a> and weighed on the next page.</p>
+  </div>
+
+  <div class="tab-panel" data-panel="dtt">
+    <h3>Types may contain numbers</h3>
+    <p>A <em>dependent</em> type contains an ordinary mathematical object. In Lean,
+    <code>Fin n</code> is the type \(\{0, \dots, n-1\}\), depending on
+    <code>n : ℕ</code>, and \(\mathbb{R}^n\) is <code>Fin n → ℝ</code>:</p>
+<pre><code><span class="kw">def</span> dot {n : ℕ} (u v : Fin n → ℝ) : ℝ := ∑ i, u i * v i</code></pre>
+    <p><strong>The dimension lives in the type.</strong> The number \(n\) — an implicit
+    argument, as in Part 1 — occurs inside the types of <code>u</code> and
+    <code>v</code>, forcing both to mention the same \(n\). A mismatch is not a false
+    statement or a forgotten side condition; it fails to parse as mathematics:</p>
+<pre><code>example (u : Fin 3 → ℝ) (v : Fin 5 → ℝ) : ℝ := dot u v
+<span class="cm">-- error: Application type mismatch: The argument v has type
+--   Fin 5 → ℝ   but is expected to have type   Fin 3 → ℝ</span></code></pre>
+    <p>And since the dimension is an honest number, no further machinery is needed:
+    concatenation has type
+    <code>(Fin m → ℝ) → (Fin n → ℝ) → (Fin (m + n) → ℝ)</code> — the statement about
+    lengths <em>is</em> the type of the operation — and quantification or induction over
+    the dimension is ordinary quantification and induction. Mathlib’s Euclidean space is
+    exactly this with the \(L^2\) norm attached:
+    <a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Analysis/InnerProductSpace/PiL2.html"><code>EuclideanSpace ℝ (Fin n)</code></a>.</p>
+    <p>Part 1 already contained the general fact: \(\forall\) itself is a dependent type.
+    One mechanism — terms inside types — yields the quantifiers, \(\mathbb{R}^n\), and
+    propositions-as-types simultaneously. That economy is the argument of the next
+    page.</p>
+  </div>
+</div>
+
+<h2>The comparison in four questions</h2>
+<dl class="contrast">
+  <dt>Where does “\(\dim u = \dim v\)” live?</dt>
+  <dd>ZFC: in a proposition, carried by hand. HOL: side condition, or enforced by the
+  checker under the Harrison encoding. Lean: enforced by the checker.</dd>
+  <dt>Is “\(3 \in \pi\)” a legitimate question?</dt>
+  <dd>ZFC: yes (junk). HOL and Lean: no — ill-formed.</dd>
+  <dt>Can one quantify, or induct, over the dimension?</dt>
+  <dd>ZFC: freely. HOL: not inside the logic — schemas and “intricate” induction
+  (Harrison). Lean: freely.</dd>
+  <dt>Are \(\mathbb{R}^{m+n}\) and \(\mathbb{R}^{n+m}\) the same object?</dt>
+  <dd>ZFC: the same set. HOL: distinct types with bespoke glue. Lean: distinct types,
+  identified by transport along \(m+n = n+m\) — the cost examined in
+  <a href="{{ '/lean/limits/' | relative_url }}">the fine print</a>.</dd>
+</dl>
+
+<p>The last two questions summarize the whole tradeoff: the more mathematics is moved
+into the grammar, the more the checker verifies unaided — and the more the grammar
+itself becomes an object one must do mathematics to.</p>
+
+<h2>Exercise</h2>
+<p>The editor has the Lean column live. Uncomment the marked line to see the checker
+reject the mismatch (the error above is its verbatim output); then compute
+\((3,4)\cdot(3,4) = 25\): here <code>![3, 4]</code> denotes the vector
+\((3,4) \in \mathbb{R}^2\), the lemma <code>Fin.sum_univ_two</code> rewrites a sum over
+<code>Fin 2</code> as \(f(0) + f(1)\), and
+<code>norm_num [dot, Fin.sum_univ_two]</code> expands the sum and finishes the
+arithmetic.</p>
+
+<figure class="codebox">
+  <figcaption><span class="cb-title">Exercise · a dot product, and a type error</span><span class="cb-step">1 / 1</span></figcaption>
+  <div class="lean-embed" data-lean-src="{{ '/assets/lean/03_three_foundations.lean' | relative_url }}">
+    <button class="lean-embed-load">▶ Load the editor</button>
+    <a class="open-playground" href="https://live.lean-lang.org/" target="_blank" rel="noopener">open in a new tab ↗</a>
+  </div>
+</figure>

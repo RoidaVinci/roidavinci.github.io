@@ -1,0 +1,127 @@
+---
+layout: lean
+title: "The fine print: hard limits and honest pain"
+description: "What dependent type theory cannot express, what it expresses awkwardly, and further reading."
+permalink: /lean/limits/
+math: true
+---
+
+<p class="lead">What dependent type theory cannot say, what it says only awkwardly, and
+how practice copes — trying to overclaim in neither direction.</p>
+
+<p>Calibration first, because “inexpressible in Lean” claims are usually wrong. The
+independence of the continuum hypothesis — a statement <em>about set theory</em>, proved
+by forcing — was fully formalized in Lean by Han and van Doorn
+(<a href="https://flypitch.github.io/">Flypitch</a>,
+<a href="https://arxiv.org/abs/2102.02901">CPP 2020</a>): models of ZFC are built inside
+Lean and treated like any other structure. Measure theory, condensed mathematics,
+large-scale category theory are in Mathlib. The genuine limits are few and structural.</p>
+
+<h2>Hard limit 1: no quantification over universes</h2>
+<p>Part 1 introduced the tower <code>Prop</code>, <code>Type</code>, <code>Type 1</code>,
+… A definition may be <em>universe polymorphic</em> — valid at every level \(u\) — but
+the polymorphism is <strong>schematic</strong> (the
+<a href="https://lean-lang.org/doc/reference/latest/The-Type-System/Universes/">reference
+manual’s</a> word): a template instantiated per level from outside the logic. Internally
+there is no proposition “for all universes \(u\)”, and no “\(\exists u\)”. This is
+precisely the disease HOL had with dimensions — <code>real^N</code> schematic in the
+type variable \(N\) — moved one floor up: dependent type theory relocated the
+schematism; it did not eliminate it. Concretely: there is no single object “the category
+of all sets”, only one category <code>Set.{u}</code> of \(u\)-small sets per level, and
+a theorem about “all sizes at once” is a scheme, not a statement. In practice Mathlib
+states results at arbitrary fixed levels and this covers essentially everything — but
+the internal statement does not exist. Set theory meets the same phenomenon at proper
+classes; the difference is where the boundary sits and how often one reaches it
+(Grothendieck-style arguments reach it earliest).</p>
+
+<h2>Hard limit 2: a known ceiling on proof strength</h2>
+<p>Mario Carneiro’s <a href="https://github.com/digama0/lean-type-theory/releases">“The
+Type Theory of Lean”</a> (2019) determines the strength exactly: Lean is consistent
+provided ZFC plus “there exist \(n\) inaccessible cardinals” (one instance per finite
+\(n\)) is, and this is optimal — the universes are the inaccessibles. So mathematics
+essentially requiring stronger large-cardinal axioms is provable only after adding them
+(they remain <em>stateable</em>, as hypotheses about internal models — the situation of
+ZFC itself, at a specified height). For mainstream mathematics the ceiling is remote:
+whether even Fermat’s Last Theorem needs universes was a real question
+(<a href="https://mathoverflow.net/questions/35746">MathOverflow 35746</a>); McLarty’s
+analysis (<a href="https://arxiv.org/abs/1102.1773">2010–2020</a>) founds Grothendieck’s
+apparatus far lower, and the Lean FLT project proceeds without foundational incident.</p>
+
+<h2>Expressible, at a price</h2>
+
+<h3>Identifications mathematicians make silently</h3>
+<p>Where a mathematician says “canonically isomorphic — identify them”, set theory often
+allows the identification to be literal; dependent type theory makes the map explicit
+and carries it. Buzzard treats this seriously as a mismatch of languages —
+<a href="https://xenaproject.wordpress.com/2019/06/02/equality-part-3-canonical-isomorphism/">“Equality
+part 3”</a> and <a href="https://arxiv.org/abs/2405.10387">“Grothendieck’s use of
+equality”</a>: the working “=” often means “≅ via the map everyone has in mind”, which
+has, in his phrase, several definitions and no definition. Lean forces the map into the
+open. Occasionally this exposes a real gap in a paper proof; mostly it is a tax. The
+exercise below is the smallest instance: \(v \in \mathbb{R}^{n+m}\) used as an element
+of \(\mathbb{R}^{m+n}\), first as the type error it is, then repaired by transport.</p>
+
+<figure class="codebox">
+  <figcaption><span class="cb-title">Exercise · transport along \(m+n=n+m\)</span><span class="cb-step">1 / 1</span></figcaption>
+  <div class="lean-embed" data-lean-src="{{ '/assets/lean/04_transport.lean' | relative_url }}">
+    <button class="lean-embed-load">▶ Load the editor</button>
+    <a class="open-playground" href="https://live.lean-lang.org/" target="_blank" rel="noopener">open in a new tab ↗</a>
+  </div>
+</figure>
+
+<h3>Nothing is a subset of anything</h3>
+<p>\(\mathbb{N}, \mathbb{Z}, \mathbb{Q}, \mathbb{R}, \mathbb{C}\) are five types related
+by injections, inserted automatically as <em>coercions</em> (displayed
+<code>(n : ℝ)</code> or <code>↑n</code>); statements mixing them fill with casts, and
+proofs acquire cast-manipulation steps, mechanized by <code>norm_cast</code> and
+<code>push_cast</code> but visible. Subsets likewise: “the positive reals” is a new type
+<code>{x : ℝ // 0 &lt; x}</code>, and structure moves along the inclusion by lemmas, not
+silently. Set theory does this genuinely better — at the price of junk questions.</p>
+
+<h3>Constructions by increasing union</h3>
+<p>Transfinite constructions that grow a structure by unions of a chain have no literal
+counterpart: types of different stages cannot be unioned, only glued along explicit
+maps. All expressible (Mathlib has ordinals and a large category-theory library), but
+what a set theorist writes in one line can become a design exercise. Quotients, by
+contrast, are smoother in Lean than in its relatives: they are primitive in the kernel
+rather than simulated.</p>
+
+<h3>What did not make the list</h3>
+<p>Classical logic (Lean assumes choice and excluded middle), analysis (the Part 1
+theorem generalizes in Mathlib to <code>ContinuousAt.comp</code> over topological
+spaces), and concrete mathematics of essentially any kind. The limits above are real,
+and mostly off to the side of what most mathematicians do.</p>
+
+<h2>Summary</h2>
+<p>Dependent types put mathematics into the grammar. Gained: a checker that catches
+mathematical rather than clerical errors, and quantifiers, spaces, and structures from
+one mechanism. Paid: two notions of equality, explicit transport across silent
+identifications, schematic universes, and a fixed (if generous) proof-strength ceiling.
+Set theory and simple type theory make the opposite trades, and mathematics has been
+formalized at scale in all three; the comparison is an engineering judgment on which
+these notes have tried to supply the data.</p>
+
+<h2>Further reading</h2>
+<ul>
+  <li><strong>Doing:</strong> the <a href="https://adam.math.hhu.de/#/g/leanprover-community/nng4">Natural
+  Number Game</a> (Buzzard–Eugster);
+  <a href="https://github.com/PatrickMassot/GlimpseOfLean">Glimpse of Lean</a> (Massot).</li>
+  <li><strong>Courses and texts:</strong>
+  <a href="https://leanprover-community.github.io/mathematics_in_lean/"><em>Mathematics in
+  Lean</em></a> (Avigad–Massot);
+  <a href="https://hrmacbeth.github.io/math2001/"><em>The Mechanics of Proof</em></a>
+  (Macbeth); <a href="https://leanprover.github.io/theorem_proving_in_lean4/"><em>Theorem
+  Proving in Lean 4</em></a> (foundations-first);
+  <a href="https://b-mehta.github.io/formalising-mathematics-notes/">Formalising
+  Mathematics</a> (Mehta, after Buzzard); Tao’s
+  <a href="https://github.com/teorth/analysis">Lean companion to <em>Analysis I</em></a>.</li>
+  <li><strong>The foundations debate:</strong> Bauer,
+  <a href="https://mathoverflow.net/questions/376839">MO 376839</a>; Paulson,
+  <a href="https://lawrencecpaulson.github.io/2025/11/02/Why-not-dependent.html">2025</a>
+  and <a href="https://lawrencecpaulson.github.io/2026/04/23/Why_not_Lean.html">2026</a>;
+  Harrison, <a href="http://aitp-conference.org/2018/slides/JH.pdf">“Let’s make set
+  theory great again!”</a>; Wiedijk,
+  <a href="https://www.cs.ru.nl/~freek/zfc-etc/zfc-etc.pdf">“Is ZF a hack?”</a>; Buzzard,
+  <a href="https://arxiv.org/abs/2112.11598">ICM 2022</a>; Carneiro,
+  <a href="https://github.com/digama0/lean-type-theory/releases">thesis</a>.</li>
+</ul>

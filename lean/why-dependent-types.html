@@ -1,0 +1,117 @@
+---
+layout: lean
+title: "Why dependent types — and at what price"
+description: "The case for dependent types as a foundation for mathematics, and its costs."
+permalink: /lean/why-dependent-types/
+math: true
+---
+
+<p class="lead">The previous page showed dependent types winning one small comparison.
+This page states the general case, then the costs; both sides have serious arguments.</p>
+
+<h2>The case for</h2>
+
+<h3>1. One mechanism: logic, spaces, structures</h3>
+<p>A proof of \(\forall x \in \mathbb{R},\, P(x)\) is a function assigning to each \(x\)
+a proof of \(P(x)\); its type, <code>(x : ℝ) → P x</code>, contains the variable \(x\) —
+a dependent function type. A proof of \(\exists x,\, P(x)\) is a dependent pair. These
+are the same two constructions that built \(\mathbb{R}^n\), and they also build
+structures: “a set with an operation and axioms” is a package in which the types of the
+later components mention the earlier ones —</p>
+
+<pre><code><span class="kw">structure</span> MyGroup <span class="kw">where</span>
+  carrier : Type
+  op      : carrier → carrier → carrier
+  e       : carrier
+  assoc   : ∀ a b c, op (op a b) c = op a (op b c)
+  …</code></pre>
+
+<p>Quantifiers, \(\mathbb{R}^n\), groups, propositions-as-types: one idea. Andrej
+Bauer’s <a href="https://mathoverflow.net/questions/376839">MathOverflow answer</a> on
+why proof assistants favor dependent type theory develops this: mathematical language is
+saturated with dependency — “a vector space over \(F\)”, “a \(\delta\) depending on
+\(\varepsilon\)” — and this is the formalism that writes it directly.</p>
+
+<h3>2. The checker verifies mathematics, not only spelling</h3>
+<p>In set theory the checker catches nothing; in HOL, category errors; in Lean also
+dimensions, domains, and hypotheses, since these now live in types. Because propositions
+are types, proof checking is the <em>same</em> algorithm, performed by a kernel small
+enough to have several independent reimplementations, applying the same few typing rules
+to all of Mathlib and to the exercise of Part 1 alike. This is what makes a proof too
+large to survey by hand still trustworthy.</p>
+
+<h3>3. It scales</h3>
+<p><a href="https://leanprover-community.github.io/">Mathlib</a> passes a million lines,
+reaching current research; the
+<a href="https://leanprover-community.github.io/blog/posts/lte-final/">Liquid Tensor
+Experiment</a> verified a new theorem of Clausen–Scholze at Scholze’s request; a
+formalization of Fermat’s Last Theorem is
+<a href="https://imperialcollegelondon.github.io/FLT/">under way</a>. For fairness: on
+Wiedijk’s <a href="https://www.cs.ru.nl/~freek/100/">100-theorems list</a> HOL Light and
+Isabelle remain slightly ahead of Lean, and Mizar’s set-theoretic library dates to 1973
+— every serious foundation has formalized serious mathematics. The defensible claim is
+not that dependent types are uniquely capable, but that the formal statements coincide
+with the intended ones, at scale.</p>
+
+<h2>The price</h2>
+<p>Each cost below is the same move — mathematics inside the grammar — seen from the
+other side. (Two structural limits, universes and proof strength, are on the next
+page.)</p>
+
+<h3>1. Two notions of equality</h3>
+<p>Equalities that hold by unfolding definitions — \((g \circ f)(x) = g(f(x))\) in Part
+1 — cost nothing (<em>definitional</em>). All others, such as \(n + m = m + n\), are
+theorems (<em>propositional</em>). The distinction has no counterpart on paper; Buzzard
+avoids teaching it early, calling definitional equality
+<a href="https://xenaproject.wordpress.com/2021/10/14/new-year-new-teaching-material/">“a
+non-mathematical concept”</a> — but the machine imposes it, and one meets it the first
+time a goal refuses to close although both sides are “obviously” equal.</p>
+
+<h3>2. Types that are equal but not the same</h3>
+<p>The consequence flagged in the previous page’s comparison: <code>Fin (n + m) → ℝ</code> and
+<code>Fin (m + n) → ℝ</code> are provably equal yet distinct types, so an element of one
+must be <em>transported</em> along the proof of \(n+m = m+n\) to be used as the other.
+Paulson’s critique <a href="https://lawrencecpaulson.github.io/2026/04/23/Why_not_Lean.html">“Why
+not just use Lean?”</a> leads with this example, and it is not a caricature: in Mathlib,
+associativity of concatenation of tuples reads</p>
+<pre><code>Fin.append (Fin.append a b) c = Fin.append a (Fin.append b c) ∘ Fin.cast ⋯</code></pre>
+<p>— the <code>Fin.cast</code> is a transport needed merely to <em>state</em> the law.
+Rewriting under dependencies fails often enough to have its own error message
+(“motive is not type correct”) and
+<a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Tactic/DepRewrite.html">dedicated
+tactics</a>; the community’s name for the phenomenon,
+<a href="https://leanprover-community.github.io/archive/stream/113489-new-members/topic/Types.20that.20should.20be.20equal.html">“dependent
+type hell”</a>, indicates how routinely it is felt.</p>
+
+<h3>3. Checking is heavier</h3>
+<p>Deciding definitional equality means evaluating inside types, so type checking is
+undecidable in general and slow in practice — Paulson again, and a real contrast with
+HOL, whose checking is simple and fast by construction.</p>
+
+<h3>4. Totality reintroduces junk</h3>
+<p>Lean’s functions are total, so Mathlib sets \(x/0 = 0\): division returns a junk
+value outside its mathematical domain, and theorems carry \(b \neq 0\) hypotheses
+(Buzzard’s <a href="https://xenaproject.wordpress.com/2020/07/05/division-by-zero-in-type-theory-a-faq/">FAQ</a>
+explains why this is sound). Note the symmetry: set theory’s junk was expelled from the
+grammar and returned through totality. No foundation eliminates convention; each chooses
+where to keep it.</p>
+
+<h3>5. Practitioners economize on them</h3>
+<p>Mathlib itself uses dependent types sparingly where data is computed with: its
+matrices are the plain function type <code>Matrix m n α := m → n → α</code>, and its
+vectors for mathematics, <code>List.Vector α n</code>, are lists bundled with a
+propositional length proof — structurally the HOL solution, chosen by people who had
+dependent types available, to avoid transport in computational lemmas. Dependent types
+earn their keep in statements (they are the quantifiers) and in indexing; Paulson’s
+formulation — “the secret of dependent types is knowing when not to use them”
+(<a href="https://lawrencecpaulson.github.io/2025/11/02/Why-not-dependent.html">2025</a>)
+— matches Mathlib’s observed practice.</p>
+
+<h2>Standing of the question</h2>
+<p>The Mathlib position paper (<a href="https://arxiv.org/abs/1910.09336">CPP 2020</a>)
+holds that at scale “judicious use of dependent types … [is] unavoidable”; Paulson
+answers with Grothendieck schemes formalized in dependent-type-free Isabelle
+(<a href="https://arxiv.org/abs/2104.09366">Bordg–Paulson–Li 2022</a>) that “we never
+hit any wall”. Both claims are supported by the libraries behind them; the choice is an
+engineering tradeoff, not a theorem. What can be stated precisely is where the tradeoff
+becomes a hard boundary — next page.</p>

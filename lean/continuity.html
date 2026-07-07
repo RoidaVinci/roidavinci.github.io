@@ -1,0 +1,217 @@
+---
+layout: lean
+title: "Anatomy of a definition"
+description: "The epsilon-delta definition of continuity written in Lean 4 and read piece by piece."
+permalink: /lean/continuity/
+math: true
+---
+
+<p class="lead">The statement “\(f\) is continuous at \(a\)” — for every
+\(\varepsilon > 0\) there is \(\delta > 0\) such that \(|x - a| < \delta\) implies
+\(|f(x) - f(a)| < \varepsilon\) — written in Lean, then read piece by piece.</p>
+
+<figure class="codebox">
+  <figcaption><span class="cb-title">The definition</span><span class="cb-step">1 / 3</span></figcaption>
+<pre><code><span class="tok kw" data-note="note-def">def</span> ContinuousAt <span class="tok" data-note="note-binder">(f : ℝ → ℝ) (a : ℝ)</span> <span class="tok" data-note="note-prop">: Prop</span> <span class="tok" data-note="note-assign">:=</span>
+  <span class="tok" data-note="note-forall">∀ ε &gt; 0,</span> <span class="tok" data-note="note-exists">∃ δ &gt; 0,</span> <span class="tok" data-note="note-forall">∀ x,</span> <span class="tok" data-note="note-abs">|x - a| &lt; δ</span> <span class="tok" data-note="note-imp">→</span> |<span class="tok" data-note="note-app">f x</span> - <span class="tok" data-note="note-app">f a</span>| &lt; ε</code></pre>
+</figure>
+<p class="drill-hint">Each dotted piece is clickable and opens its explanation below. Read
+in order the first time.</p>
+
+<div class="notes">
+
+  <div class="note" id="note-def">
+    <h4><code>def</code> — a Lean file is a sequence of declarations</h4>
+    <div class="note-body">
+      <p><code>def</code> introduces a named object. A Lean development, like a paper, is
+      a sequence of declarations; the four common kinds are <code>def</code> (an object),
+      <code>theorem</code> (a proof of a stated proposition), <code>example</code> (an
+      anonymous theorem, checked and discarded), and <code>structure</code> (a bundled
+      package such as “a set together with an operation”). That <code>def</code> and
+      <code>theorem</code> are nearly the same construction is explained at
+      <a class="note-link" href="#note-prop"><code>: Prop</code></a>.</p>
+    </div>
+  </div>
+
+  <div class="note" id="note-binder">
+    <h4><code>(f : ℝ → ℝ) (a : ℝ)</code> — the colon reads “is a”</h4>
+    <div class="note-body">
+      <p>These are the arguments: \(f \colon \mathbb{R} \to \mathbb{R}\) and
+      \(a \in \mathbb{R}\). In Lean, <code>x : T</code> asserts that <code>x</code> has
+      type <code>T</code>, and this is not a proposition to be proved — it is a
+      grammatical fact, checked mechanically. Where set theory writes \(a \in \mathbb{R}\)
+      and treats it as a statement, Lean treats <code>a : ℝ</code> like a part of speech:
+      an expression that fails the check is not false but ill-formed.</p>
+      <details class="deeper">
+        <summary>Functions are primitive</summary>
+        <p>The type <code>ℝ → ℝ</code> is a primitive notion: a function is a rule that
+        can be applied, not a set of ordered pairs. The set-of-pairs definition is a
+        foundational encoding; type theory takes the working concept as basic.</p>
+      </details>
+      <details class="deeper">
+        <summary>Arguments are taken one at a time</summary>
+        <p><code>ContinuousAt</code> consumes <code>f</code> and returns a function of
+        <code>a</code>. Hence <code>ContinuousAt (fun x =&gt; x^2)</code> alone is
+        meaningful, of type <code>ℝ → Prop</code>: the predicate “\(x^2\) is continuous
+        at —”. Partial application of this kind (currying) is used constantly.</p>
+      </details>
+    </div>
+  </div>
+
+  <div class="note" id="note-prop">
+    <h4><code>: Prop</code> — a statement is a type</h4>
+    <div class="note-body">
+      <p>The definition’s result type is <code>Prop</code>, the type of propositions.
+      Compare: <code>3 : ℝ</code> and <code>ℝ : Type</code>, while
+      <code>ContinuousAt f a : Prop</code>. The central point:
+      <code>ContinuousAt f a</code> is itself a type, and its elements are the
+      <em>proofs</em> of continuity — to prove the proposition is to exhibit an element,
+      <code>h : ContinuousAt f a</code>. This is the propositions-as-types principle
+      (Curry–Howard). It explains why <code>def</code> and <code>theorem</code>
+      coincide (a theorem defines an element of a proposition), and why a single small
+      type checker suffices to verify proofs. Kevin Buzzard’s
+      <a href="https://xenaproject.wordpress.com/2020/06/20/mathematics-in-type-theory/">Mathematics
+      in type theory</a> develops this picture in a few pages.</p>
+      <details class="deeper">
+        <summary>The tower above</summary>
+        <p>Types have types: <code>ℝ : Type</code>, <code>Type : Type 1</code>,
+        <code>Type 1 : Type 2</code>, … This hierarchy of <em>universes</em> is Lean’s
+        answer to Russell’s paradox, analogous to the set/proper-class distinction. It
+        returns as a genuine limitation in Part 2.</p>
+      </details>
+    </div>
+  </div>
+
+  <div class="note" id="note-assign">
+    <h4><code>:=</code> — “is defined to be”</h4>
+    <div class="note-body">
+      <p><code>:=</code> for definitions; plain <code>=</code> for equations one asserts
+      or proves. A <code>def</code> is an abbreviation, exactly as in ordinary
+      mathematics: Lean unfolds it silently whenever needed, no axiom is added, and
+      nothing is proved here. Whether any function satisfies the definition is the next
+      page’s question.</p>
+    </div>
+  </div>
+
+  <div class="note" id="note-forall">
+    <h4><code>∀ ε &gt; 0,</code> — quantifiers belong to the grammar</h4>
+    <div class="note-body">
+      <p>Two conventions to know. First, <code>∀ ε &gt; 0, P ε</code> abbreviates
+      <code>∀ ε, ε &gt; 0 → P ε</code> — a quantifier over all of \(\mathbb{R}\) followed
+      by an implication, as in the usual reading “for every \(\varepsilon\), if
+      \(\varepsilon > 0\) then…”. Second, the range of a quantifier may be omitted:
+      we wrote <code>∀ x,</code> with no type, and Lean infers \(x \in \mathbb{R}\)
+      because <code>x</code> is later an argument of <code>f</code>. This inference
+      (<em>elaboration</em>) is what keeps the formal text close to the written one.</p>
+      <details class="deeper">
+        <summary>What a proof of \(\forall\) is</summary>
+        <p>A proof of <code>∀ x : ℝ, P x</code> is a function assigning to each
+        \(x_0\) a proof of \(P(x_0)\). Its type, written <code>(x : ℝ) → P x</code>, has
+        the variable \(x\) occurring inside it — a <em>dependent</em> function type. Part
+        2 is about this construction.</p>
+      </details>
+    </div>
+  </div>
+
+  <div class="note" id="note-exists">
+    <h4><code>∃ δ &gt; 0,</code> — existence</h4>
+    <div class="note-body">
+      <p>Likewise an abbreviation: <code>∃ δ &gt; 0, P δ</code> stands for
+      <code>∃ δ, δ &gt; 0 ∧ P δ</code> — with a conjunction where the universal
+      quantifier had an implication, the same asymmetry taught in a first logic course.</p>
+      <details class="deeper">
+        <summary>What a proof of \(\exists\) is</summary>
+        <p>A pair: a witness together with a proof about that witness, written
+        <code>⟨δ₀, h⟩</code>. Since the second component’s type mentions the first, this
+        is a <em>dependent pair</em> — the companion of the dependent function type
+        above. Both are dismantled and rebuilt in the next page’s proof.</p>
+      </details>
+    </div>
+  </div>
+
+  <div class="note" id="note-imp">
+    <h4><code>→</code> — implication is the function arrow</h4>
+    <div class="note-body">
+      <p>The same arrow appears in <code>f : ℝ → ℝ</code> and in
+      <code>|x - a| &lt; δ → |f x - f a| &lt; ε</code>, and it is one symbol with one
+      meaning. Propositions are types, so an implication \(P \to Q\) is the type of
+      functions carrying proofs of \(P\) to proofs of \(Q\); “assume \(P\)… then \(Q\)”
+      is function application. A proof that takes an \(\varepsilon\) and produces a
+      \(\delta\) is, in Lean, literally a function doing so.</p>
+    </div>
+  </div>
+
+  <div class="note" id="note-app">
+    <h4><code>f x</code> — application is juxtaposition</h4>
+    <div class="note-body">
+      <p>Lean writes <code>f x</code> for \(f(x)\); parentheses only group. So
+      <code>g (f x)</code> is \(g(f(x))\), while <code>g f x</code> would mean
+      \((g(f))(x)\) — <code>f</code> itself passed to <code>g</code>. The convention
+      makes partial application cheap, and mathematics is full of it: “the derivative of
+      \(f\) at \(a\) in direction \(v\)” is three applications in a row.</p>
+    </div>
+  </div>
+
+  <div class="note" id="note-abs">
+    <h4><code>|x - a| &lt; δ</code> — notation is resolved by type, and extensible</h4>
+    <div class="note-body">
+      <p>The absolute value, subtraction, order, and the numeral <code>0</code> are not
+      built in; they are notations resolved by the types involved. Because <code>x</code>
+      and <code>a</code> are real, Lean selects the absolute value, order, and zero of
+      \(\mathbb{R}\) — the same mechanism (type classes) later gives <code>|·|</code> its
+      meaning on \(\mathbb{C}\) or any normed field, so a statement is written once at
+      the right generality. All of Mathlib’s notation
+      (<code>∑ i ∈ s, f i</code>, <code>𝓝 a</code>, …) is user-defined in this way.</p>
+    </div>
+  </div>
+
+</div>
+
+<h2>The definition without abbreviations</h2>
+<p>Expanding the two shorthands and writing every type:</p>
+
+<figure class="codebox">
+  <figcaption><span class="cb-title">Fully expanded form</span><span class="cb-step">2 / 3</span></figcaption>
+<pre><code><span class="kw">def</span> ContinuousAt (f : ℝ → ℝ) (a : ℝ) : <span class="ty">Prop</span> :=
+  ∀ ε : ℝ, ε &gt; 0 → ∃ δ : ℝ, δ &gt; 0 ∧ ∀ x : ℝ, |x - a| &lt; δ → |f x - f a| &lt; ε</code></pre>
+</figure>
+
+<p>Nothing further is hidden: the definition is an alternation of dependent function
+types (\(\forall\), \(\to\)) and dependent pairs (\(\exists\), \(\wedge\)) over
+\(\mathbb{R}\). A proof of it will accordingly be a function carrying each
+\(\varepsilon\) with its positivity proof to a \(\delta\) bundled with evidence — the
+next page constructs one.</p>
+
+<div class="aside-box">
+  Mathlib has its own <code>ContinuousAt</code>, defined for maps of arbitrary
+  topological spaces via filters
+  (<a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Topology/Defs/Filter.html#ContinuousAt"><code>Tendsto f (𝓝 x) (𝓝 (f x))</code></a>);
+  for metric spaces,
+  <a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Topology/MetricSpace/Pseudo/Defs.html#Metric.continuousAt_iff"><code>Metric.continuousAt_iff</code></a>
+  identifies it with the \(\varepsilon\)-\(\delta\) form. Part 1 keeps the
+  \(\varepsilon\)-\(\delta\) definition so that every symbol on screen is one we defined.
+</div>
+
+<h2>Exercise</h2>
+<p>The editor below runs a full Lean session. Three tasks:</p>
+<ol>
+  <li>Place the cursor at the end of each <code>#check</code> line; the panel on the
+  right reports the type of the expression. Note the partially applied one.</li>
+  <li>Step through the worked example (a constant function is continuous at \(0\), with
+  \(\delta = 1\)) and watch the goal panel change.</li>
+  <li>Replace <code>sorry</code> with a proof that the identity is continuous at
+  \(a\). Take \(\delta = \varepsilon\): a proof of the existential is a triple
+  \(\langle\)witness, positivity, main property\(\rangle\), and here the main property
+  can pass its hypothesis straight through — if stuck, try
+  <code>exact ⟨ε, hε, fun x hx =&gt; hx⟩</code>.</li>
+</ol>
+
+<figure class="codebox">
+  <figcaption><span class="cb-title">Exercise · identity is continuous</span><span class="cb-step">3 / 3</span></figcaption>
+  <div class="lean-embed" data-lean-src="{{ '/assets/lean/01_continuity.lean' | relative_url }}">
+    <button class="lean-embed-load">▶ Load the editor</button>
+    <a class="open-playground" href="https://live.lean-lang.org/" target="_blank" rel="noopener">open in a new tab ↗</a>
+  </div>
+</figure>
+<p><em class="gloss">First load takes a few seconds. The definition is named
+<code>ContinuousAt'</code> there to avoid clashing with Mathlib’s.</em></p>

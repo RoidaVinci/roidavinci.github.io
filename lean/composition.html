@@ -1,0 +1,218 @@
+---
+layout: lean
+title: "Anatomy of a proof"
+description: "The proof that a composition of continuous functions is continuous, dissected tactic by tactic."
+permalink: /lean/composition/
+math: true
+---
+
+<p class="lead">A composition of continuous functions is continuous: statement and full
+proof, then the pieces.</p>
+
+<figure class="codebox">
+  <figcaption><span class="cb-title">The theorem</span><span class="cb-step">1 / 3</span></figcaption>
+<pre><code><span class="tok kw" data-note="note-theorem">theorem</span> comp_continuousAt <span class="tok" data-note="note-implicit">{f g : ℝ → ℝ} {a : ℝ}</span>
+    <span class="tok" data-note="note-hyp">(hf : ContinuousAt' f a) (hg : ContinuousAt' g (f a))</span> :
+    <span class="tok" data-note="note-goal">ContinuousAt' (g ∘ f) a</span> <span class="tok" data-note="note-by">:= by</span>
+  <span class="tok" data-note="note-intro">intro ε hε</span>
+  <span class="tok" data-note="note-obtain">obtain ⟨δ₁, hδ₁, hg'⟩ := hg ε hε</span>
+  obtain ⟨δ₂, hδ₂, hf'⟩ := hf δ₁ hδ₁
+  <span class="tok" data-note="note-exact">exact</span> <span class="tok" data-note="note-anon">⟨δ₂, hδ₂,</span> <span class="tok" data-note="note-fun">fun x hx =&gt; hg' (f x) (hf' x hx)</span><span class="tok" data-note="note-anon">⟩</span></code></pre>
+</figure>
+<p class="drill-hint">Click the dotted pieces; read in order the first time.</p>
+
+<p>On paper: given \(\varepsilon\), continuity of \(g\) at \(f(a)\) yields \(\delta_1\);
+continuity of \(f\) at \(a\), applied with \(\delta_1\) in the role of \(\varepsilon\),
+yields \(\delta_2\); and \(\delta_2\) works. The Lean proof is those three sentences, one
+line each.</p>
+
+<div class="notes">
+
+  <div class="note" id="note-theorem">
+    <h4><code>theorem</code> — a def whose type is a proposition</h4>
+    <div class="note-body">
+      <p>The shape is identical to a <code>def</code>: name, arguments, colon, type,
+      <code>:=</code>, term of that type. Here the type is a proposition, so the body is
+      a proof. One consequence: Lean never inspects a finished proof again (<em>proof
+      irrelevance</em>) — two proofs of the same proposition are interchangeable, as in
+      practice, where one cites a theorem and not its proof.</p>
+    </div>
+  </div>
+
+  <div class="note" id="note-implicit">
+    <h4><code>{f g : ℝ → ℝ} {a : ℝ}</code> — implicit arguments</h4>
+    <div class="note-body">
+      <p>Braces instead of parentheses mark arguments the user will not supply: Lean
+      infers them. Given <code>hf : ContinuousAt' f a</code>, both <code>f</code> and
+      <code>a</code> can be read off the type of <code>hf</code>. This is the formal
+      counterpart of context in written mathematics — after “by continuity of \(g\) at
+      \(f(a)\)…” one never repeats what \(g\) is.</p>
+    </div>
+  </div>
+
+  <div class="note" id="note-hyp">
+    <h4><code>(hf : ContinuousAt' f a)</code> — hypotheses are arguments with names</h4>
+    <div class="note-body">
+      <p>A hypothesis is one more typed argument whose type is a proposition;
+      <code>hf</code> is a proof of continuity, available for use in the body. Naming
+      proofs is the one unfamiliar habit — on paper hypotheses sit anonymously in the
+      preamble; here they are referred to later, so they need handles (<code>hf</code>,
+      “the hypothesis on \(f\)”, is the Mathlib convention). Note the second hypothesis
+      is continuity of \(g\) at the point \(f(a)\), exactly what the argument requires.</p>
+    </div>
+  </div>
+
+  <div class="note" id="note-goal">
+    <h4><code>ContinuousAt' (g ∘ f) a</code> — the goal</h4>
+    <div class="note-body">
+      <p>What follows the final colon is the statement proved — the type of the theorem.
+      <code>∘</code> is composition, defined by <code>(g ∘ f) x = g (f x)</code>. Lean
+      unfolds such definitions silently when checking; equality that holds by unfolding
+      definitions is called <em>definitional</em>, and it is why the last proof line is
+      accepted without an explicit rewriting step. (The distinction between definitional
+      and proved equality returns as a cost in Part 2.)</p>
+    </div>
+  </div>
+
+  <div class="note" id="note-by">
+    <h4><code>:= by</code> — tactic mode</h4>
+    <div class="note-body">
+      <p>After <code>by</code>, one writes commands (<em>tactics</em>) that build the
+      proof step by step; at each point Lean displays the <em>goal state</em> — current
+      hypotheses and what remains. The panels below reproduce it. This loop is the actual
+      experience of using Lean, and the editor at the bottom of the page runs it on this
+      very proof. Tactics are a convenience layer, not a second logic: the script
+      produces an ordinary term, shown after the notes. (Systematic treatment: ch. 5 of
+      <a href="https://leanprover.github.io/theorem_proving_in_lean4/"><em>Theorem
+      Proving in Lean 4</em></a>.)</p>
+    </div>
+  </div>
+
+  <div class="note" id="note-intro">
+    <h4><code>intro ε hε</code> — “let \(\varepsilon > 0\) be given”</h4>
+    <div class="note-body">
+      <p>The goal unfolds to <code>∀ ε &gt; 0, ∃ δ &gt; 0, …</code>; <code>intro ε hε</code>
+      fixes an arbitrary \(\varepsilon\) and a proof <code>hε</code> of its positivity.
+      Two names because, without abbreviations, there are two things: a quantifier and an
+      implication (previous page).</p>
+      <div class="goal">
+        <span class="goal-label">goal after <code>intro ε hε</code></span>
+        f g : ℝ → ℝ<br>
+        a : ℝ<br>
+        hf : ContinuousAt' f a<br>
+        hg : ContinuousAt' g (f a)<br>
+        ε : ℝ<br>
+        hε : ε &gt; 0<br>
+        <span class="turnstile">⊢</span> ∃ δ &gt; 0, ∀ (x : ℝ), |x - a| &lt; δ → |(g ∘ f) x - (g ∘ f) a| &lt; ε
+      </div>
+    </div>
+  </div>
+
+  <div class="note" id="note-obtain">
+    <h4><code>obtain ⟨δ₁, hδ₁, hg'⟩ := hg ε hε</code> — two ideas at once</h4>
+    <div class="note-body">
+      <p><strong>Applying a proof.</strong> <code>hg</code> proves a universally
+      quantified statement, hence is a function; <code>hg ε hε</code> — applied to the
+      number and to the positivity proof — proves the instantiated body
+      <code>∃ δ &gt; 0, ∀ x, |x - f a| &lt; δ → |g x - g (f a)| &lt; ε</code>. “Apply
+      continuity of \(g\) with this \(\varepsilon\)” is function application.</p>
+      <p><strong>Opening a pair.</strong> A proof of an existential is a witness with
+      evidence; <code>obtain ⟨δ₁, hδ₁, hg'⟩ := …</code> names the parts. This is the
+      formal “choose \(\delta_1\) that works”.</p>
+      <div class="goal">
+        <span class="goal-label">goal after the two <code>obtain</code> lines</span>
+        δ₁ : ℝ<br>
+        hδ₁ : δ₁ &gt; 0<br>
+        hg' : ∀ (x : ℝ), |x - f a| &lt; δ₁ → |g x - g (f a)| &lt; ε<br>
+        δ₂ : ℝ<br>
+        hδ₂ : δ₂ &gt; 0<br>
+        hf' : ∀ (x : ℝ), |x - a| &lt; δ₂ → |f x - f a| &lt; δ₁<br>
+        <span class="turnstile">⊢</span> ∃ δ &gt; 0, ∀ (x : ℝ), |x - a| &lt; δ → |(g ∘ f) x - (g ∘ f) a| &lt; ε
+      </div>
+      <p>The second <code>obtain</code> applies <code>hf</code> not with \(\varepsilon\)
+      but with \(\delta_1\) — the \(\delta\) of one function in the role of the
+      \(\varepsilon\) of the other. That substitution is the mathematical content of the
+      theorem, and it is visible in the script as which argument is passed where.</p>
+    </div>
+  </div>
+
+  <div class="note" id="note-exact">
+    <h4><code>exact</code> — supplying the required object</h4>
+    <div class="note-body">
+      <p><code>exact t</code> closes the goal by giving a term <code>t</code> of exactly
+      the goal’s type — the escape from tactics back to direct writing, used when one can
+      simply state the answer.</p>
+    </div>
+  </div>
+
+  <div class="note" id="note-anon">
+    <h4><code>⟨δ₂, hδ₂, …⟩</code> — building the pair</h4>
+    <div class="note-body">
+      <p>The same brackets that <code>obtain</code> used to open an existential here
+      build one: witness \(\delta_2\), positivity, main property. The symmetry is worth
+      noting — \(\exists\) is used by taking apart and proved by assembling, while
+      \(\forall\)/\(\to\) are used by applying and proved by the function of the next
+      note.</p>
+    </div>
+  </div>
+
+  <div class="note" id="note-fun">
+    <h4><code>fun x hx =&gt; hg' (f x) (hf' x hx)</code> — the proof is a function</h4>
+    <div class="note-body">
+      <p>The remaining component must prove
+      <code>∀ x, |x - a| &lt; δ₂ → |(g ∘ f) x - (g ∘ f) a| &lt; ε</code>, so we write the
+      function: given \(x\) and <code>hx : |x - a| &lt; δ₂</code>,</p>
+      <pre><code>hf' x hx        : |f x - f a| &lt; δ₁
+hg' (f x) (…)   : |g (f x) - g (f a)| &lt; ε</code></pre>
+      <p>Evidence about \(x\) is processed by <code>hf'</code>; its output is precisely
+      the input <code>hg'</code> requires. The composite estimate is the composite of the
+      two evidence-processing functions. (That the goal says
+      <code>(g ∘ f) x</code> while the term produces <code>g (f x)</code> is definitional
+      equality — the <a class="note-link" href="#note-goal">goal</a> note.)</p>
+    </div>
+  </div>
+
+</div>
+
+<h2>The same proof with no tactics</h2>
+<p>The script above is an interactive way of writing a term; the term itself:</p>
+
+<figure class="codebox">
+  <figcaption><span class="cb-title">Proof term</span><span class="cb-step">2 / 3</span></figcaption>
+<pre><code><span class="kw">theorem</span> comp_continuousAt' {f g : ℝ → ℝ} {a : ℝ}
+    (hf : ContinuousAt' f a) (hg : ContinuousAt' g (f a)) :
+    ContinuousAt' (g ∘ f) a :=
+  <span class="kw">fun</span> ε hε =&gt;
+    <span class="kw">match</span> hg ε hε <span class="kw">with</span>
+    | ⟨δ₁, hδ₁, hg'⟩ =&gt;
+      <span class="kw">match</span> hf δ₁ hδ₁ <span class="kw">with</span>
+      | ⟨δ₂, hδ₂, hf'⟩ =&gt; ⟨δ₂, hδ₂, <span class="kw">fun</span> x hx =&gt; hg' (f x) (hf' x hx)⟩</code></pre>
+</figure>
+
+<p>One expression: a function that takes \(\varepsilon\) with its positivity proof,
+opens two pairs, and assembles a third. Checking the proof means type-checking this
+term. In practice one writes tactics for anything nontrivial, but they compile to this,
+which is all the type checker ever sees.</p>
+
+<h2>Exercise</h2>
+<p>The editor contains the theorem — step through it and watch the goal panel — and an
+exercise: if \(f\) is continuous at \(a\), so is \(x \mapsto f(x) + c\), with the same
+\(\delta\). The skeleton is set up; <code>sorry</code> (Lean’s placeholder for a missing
+proof) is yours to replace. After <code>have h := hf' x hx</code>, the goal differs from
+<code>h</code> by the identity \((f(x)+c) - (f(a)+c) = f(x) - f(a)\); the tactic
+<code>convert h using 2</code> reduces the goal to that identity, and <code>ring</code>
+closes it.</p>
+
+<figure class="codebox">
+  <figcaption><span class="cb-title">Exercise · translation preserves continuity</span><span class="cb-step">3 / 3</span></figcaption>
+  <div class="lean-embed" data-lean-src="{{ '/assets/lean/02_composition.lean' | relative_url }}">
+    <button class="lean-embed-load">▶ Load the editor</button>
+    <a class="open-playground" href="https://live.lean-lang.org/" target="_blank" rel="noopener">open in a new tab ↗</a>
+  </div>
+</figure>
+
+<p>For more exercises of this kind: the
+<a href="https://adam.math.hhu.de/#/g/leanprover-community/nng4">Natural Number Game</a>
+(Buzzard–Eugster) and <a href="https://leanprover-community.github.io/mathematics_in_lean/"><em>Mathematics
+in Lean</em></a> (Avigad–Massot), which continues from roughly this point at book
+length.</p>

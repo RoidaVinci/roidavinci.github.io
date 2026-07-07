@@ -1,0 +1,431 @@
+/* ==========================================================================
+   Lean notes (/lean/) — interactive components.
+   Colors derive from the site tokens, so light/dark theming applies.
+   ========================================================================== */
+
+:root {
+  --lean-kw: #8f2fa8;
+  --lean-ty: #0b7261;
+  --lean-cm: #8a919e;
+  --lean-tok-hover: #fff3c4;
+  --lean-tok-active-bg: #ffe28a;
+  --lean-tok-active-fg: #3a2e00;
+  --lean-goal-bg: #eef3fb;
+  --lean-goal-border: #c9d9f2;
+}
+
+html[data-theme="dark"] {
+  --lean-kw: #d55fde;
+  --lean-ty: #3fc6a8;
+  --lean-cm: #6b7280;
+  --lean-tok-hover: #3a3415;
+  --lean-tok-active-bg: #6b5900;
+  --lean-tok-active-fg: #ffe9a3;
+  --lean-goal-bg: #1a2233;
+  --lean-goal-border: #2e4368;
+}
+
+/* ---------- section navigation ---------- */
+
+.lean-subnav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.9rem;
+  align-items: baseline;
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  padding-bottom: 0.75rem;
+  margin-bottom: 1.25rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.lean-subnav a {
+  color: var(--color-text-muted);
+}
+
+.lean-subnav a:hover {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+.lean-subnav a[aria-current="page"] {
+  color: var(--color-accent);
+  font-weight: 600;
+}
+
+.lean-subnav-home {
+  font-weight: 600;
+  color: var(--color-text) !important;
+  margin-right: auto;
+}
+
+.lean-subnav-home[aria-current="page"] {
+  color: var(--color-accent) !important;
+}
+
+.lean-pager {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 3rem;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+}
+
+.lean-notes .lead {
+  color: var(--color-text-muted);
+  font-size: 1.1rem;
+}
+
+.lean-notes h2 {
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 0.3rem;
+}
+
+.lean-notes .gloss {
+  color: var(--color-text-muted);
+}
+
+/* ---------- Lean code coloring ---------- */
+
+.lean-notes .kw { color: var(--lean-kw); }
+.lean-notes .ty { color: var(--lean-ty); }
+.lean-notes .cm { color: var(--lean-cm); font-style: italic; }
+
+/* ---------- interactive tokens ---------- */
+
+.tok {
+  cursor: pointer;
+  color: inherit;
+  border-bottom: 2px dotted var(--color-accent);
+  border-radius: 3px 3px 0 0;
+  padding: 0 0.05em;
+}
+
+.tok:hover {
+  background: var(--lean-tok-hover);
+}
+
+.tok.active {
+  background: var(--lean-tok-active-bg);
+  color: var(--lean-tok-active-fg);
+  border-bottom-style: solid;
+}
+
+.drill-hint {
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+  margin: -0.4rem 0 1rem;
+}
+
+.drill-hint::before {
+  content: "☞ ";
+}
+
+/* ---------- drill-down cards ---------- */
+
+.notes {
+  margin: 1.5rem 0;
+}
+
+.note {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  margin-bottom: 0.6rem;
+  background: var(--color-surface);
+  box-shadow: 0 1px 4px var(--color-shadow);
+  overflow: hidden;
+  transition: border-color var(--transition);
+}
+
+.note > h4 {
+  margin: 0;
+  padding: 0.55rem 0.95rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+}
+
+.note > h4:hover {
+  color: var(--color-accent);
+}
+
+.note > h4::after {
+  content: "+";
+  margin-left: auto;
+  color: var(--color-text-muted);
+  font-weight: 400;
+}
+
+.note.open > h4::after {
+  content: "−";
+}
+
+.note > .note-body {
+  display: none;
+  padding: 0 1.05rem 1rem;
+  border-top: 1px solid var(--color-border);
+  font-size: 0.95rem;
+}
+
+.note.open > .note-body {
+  display: block;
+}
+
+.note.open {
+  border-color: var(--color-accent);
+}
+
+.note .note-body p:first-child {
+  margin-top: 0.8rem;
+}
+
+details.deeper {
+  margin: 0.8rem 0 0;
+  border-left: 3px solid var(--color-accent);
+  padding-left: 0.9rem;
+}
+
+details.deeper > summary {
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: var(--color-accent);
+  font-weight: 600;
+}
+
+/* ---------- goal states ---------- */
+
+.goal {
+  background: var(--lean-goal-bg);
+  border: 1px solid var(--lean-goal-border);
+  border-radius: var(--radius);
+  padding: 0.7rem 1rem;
+  margin: 0.8rem 0;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+  line-height: 1.65;
+  overflow-x: auto;
+}
+
+.goal .goal-label {
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+  display: block;
+  margin-bottom: 0.3rem;
+}
+
+.goal .turnstile {
+  color: var(--lean-kw);
+  font-weight: bold;
+}
+
+/* ---------- tabs ---------- */
+
+.tabs {
+  margin: 1.8rem 0;
+}
+
+.tab-buttons {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.tab-buttons button {
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 0.45rem 1rem;
+  border: 1px solid var(--color-border);
+  border-bottom: none;
+  border-radius: var(--radius) var(--radius) 0 0;
+  background: var(--color-bg-alt);
+  color: var(--color-text-muted);
+  cursor: pointer;
+}
+
+.tab-buttons button.active {
+  background: var(--color-surface);
+  color: var(--color-text);
+  border-color: var(--color-accent);
+  margin-bottom: -1px;
+}
+
+.tab-panel {
+  display: none;
+  border: 1px solid var(--color-accent);
+  border-radius: 0 var(--radius) var(--radius) var(--radius);
+  padding: 0.2rem 1.2rem 1rem;
+  background: var(--color-surface);
+}
+
+.tab-panel.active {
+  display: block;
+}
+
+/* ---------- contrast lists ---------- */
+
+dl.contrast {
+  margin: 1.5rem 0;
+}
+
+dl.contrast dt {
+  font-weight: 600;
+  margin-top: 0.9rem;
+}
+
+dl.contrast dd {
+  margin: 0.15rem 0 0 1.4rem;
+}
+
+/* ---------- code boxes ---------- */
+
+figure.codebox {
+  margin: 1.6rem 0;
+  text-align: left;
+}
+
+figure.codebox > figcaption {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  background: var(--color-bg-alt);
+  border: 1px solid var(--color-border);
+  border-bottom: none;
+  border-radius: var(--radius) var(--radius) 0 0;
+  padding: 0.45rem 0.95rem;
+  color: var(--color-text-muted);
+  margin-top: 0;
+}
+
+figure.codebox > figcaption .cb-title {
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+figure.codebox > figcaption .cb-step {
+  font-variant-numeric: tabular-nums;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  padding: 0 0.55rem;
+  background: var(--color-surface);
+}
+
+figure.codebox > pre {
+  margin: 0;
+  border: 1px solid var(--color-border);
+  border-top: none;
+  border-radius: 0 0 var(--radius) var(--radius);
+  line-height: 1.7;
+}
+
+figure.codebox > .lean-embed {
+  margin: 0;
+  border: 1px solid var(--color-border);
+  border-top: none;
+  border-radius: 0 0 var(--radius) var(--radius);
+  padding: 0.7rem 0.95rem;
+}
+
+/* ---------- Lean editor embeds ---------- */
+
+.lean-embed {
+  margin: 1rem 0 1.8rem;
+}
+
+.lean-embed-load {
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  font-weight: 600;
+  background: var(--color-accent);
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 0.5rem 1.1rem;
+  cursor: pointer;
+  transition: background var(--transition);
+}
+
+.lean-embed-load:hover {
+  background: var(--color-accent-hover);
+}
+
+.lean-embed .open-playground {
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  margin-left: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+.lean-iframe {
+  display: block;
+  width: 100%;
+  height: 520px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  margin-top: 0.8rem;
+  background: #fff;
+}
+
+/* ---------- landing cards / asides ---------- */
+
+.part-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+@media (max-width: 640px) {
+  .part-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+.part-card {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.3rem;
+  background: var(--color-surface);
+  box-shadow: 0 1px 4px var(--color-shadow);
+  color: inherit;
+  display: block;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.part-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--color-shadow-strong);
+  text-decoration: none;
+}
+
+.part-card h3 {
+  margin: 0 0 0.4rem;
+  color: var(--color-accent);
+}
+
+.part-card p {
+  margin: 0;
+  font-size: 0.92rem;
+  color: var(--color-text-muted);
+}
+
+.aside-box {
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius);
+  padding: 0.8rem 1.1rem;
+  margin: 1.5rem 0;
+  font-size: 0.92rem;
+  color: var(--color-text-muted);
+  background: var(--color-bg-alt);
+}
