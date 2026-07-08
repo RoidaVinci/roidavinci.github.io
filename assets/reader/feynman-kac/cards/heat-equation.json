@@ -1,0 +1,17 @@
+{
+ "id": "heat-equation",
+ "title": "The Heat Equation",
+ "motivation": "The heat equation is the prototype of all parabolic PDEs: the macroscopic law of any quantity transported by microscopic random motion — heat, solutes, probability mass. Every structural feature of parabolic theory (smoothing, maximum principles, irreversibility, Gaussian kernels) appears here in its purest form, and Feynman–Kac is best understood as the statement that general parabolic equations are heat equations along the paths of a diffusion.",
+ "definition": "The Cauchy problem is $$\\partial_t u = \\tfrac{1}{2}\\Delta u \\text{ on } (0,\\infty)\\times\\mathbb{R}^d, \\qquad u(0,\\cdot) = g,$$ with (unique, under growth conditions) solution given by convolution with the heat kernel: $u(t,x) = \\int_{\\mathbb{R}^d} g(y)\\, p_t(x,y)\\,dy$, where $p_t(x,y) = (2\\pi t)^{-d/2} e^{-|x-y|^2/2t}$. The factor $\\tfrac{1}{2}$ is the probabilist's normalisation, matching the generator of standard Brownian motion.",
+ "examples": [
+  "Probabilistic form: $u(t,x) = \\mathbb{E}[g(x + W_t)]$ — the heat kernel is the Brownian transition density.",
+  "Fundamental solution: $g = \\delta_0$ gives $u(t,\\cdot) = p_t(0,\\cdot)$, a spreading Gaussian of variance $t$.",
+  "On a bounded domain with absorbing boundary, the solution is $\\mathbb{E}[g(x+W_t)\\,\\mathbf{1}_{t < \\tau_D}]$ — killed Brownian motion, the simplest instance of the Feynman–Kac potential term."
+ ],
+ "consequences": [
+  "Instant smoothing: for $t > 0$ the solution is analytic regardless of the roughness of $g$ — and consequently the equation cannot be run backwards in time.",
+  "Maximum principle: solutions attain extrema at the initial time or spatial boundary; probabilistically obvious, since averages cannot exceed the values averaged.",
+  "Duhamel's principle for $\\partial_t u = \\tfrac{1}{2}\\Delta u - Vu$ resummed along paths gives $u(t,x) = \\mathbb{E}[e^{-\\int_0^t V(x+W_s)ds} g(x+W_t)]$ — the original Kac formula for Schrödinger operators."
+ ],
+ "related": ["brownian-motion", "infinitesimal-generator", "black-scholes"]
+}

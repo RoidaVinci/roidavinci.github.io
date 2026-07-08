@@ -1,0 +1,17 @@
+{
+ "id": "ito-formula",
+ "title": "Itô's Formula",
+ "motivation": "The classical chain rule fails for Brownian paths: because $W$ accumulates quadratic variation $[W]_t = t$, second-order terms in a Taylor expansion of $f(W_t)$ are of order $dt$ and cannot be discarded. Itô's formula is the corrected chain rule, and the extra second-order term is precisely what couples stochastic processes to second-order PDEs.",
+ "definition": "Let $X$ be an Itô process, $dX_t = b_t\\,dt + \\sigma_t\\,dW_t$, and let $u \\in C^{1,2}([0,T] \\times \\mathbb{R}^d)$. Then almost surely, for all $t$, $$u(t, X_t) = u(0, X_0) + \\int_0^t \\left( \\partial_s u + b_s \\cdot \\nabla u + \\tfrac{1}{2}\\,\\mathrm{tr}\\!\\left(\\sigma_s \\sigma_s^{\\mathsf{T}} D^2 u\\right) \\right)(s, X_s)\\,ds + \\int_0^t \\nabla u(s,X_s)^{\\mathsf{T}} \\sigma_s\\,dW_s.$$ Informally: $du = \\partial_t u\\,dt + \\nabla u \\cdot dX + \\tfrac{1}{2} dX^{\\mathsf{T}} D^2 u\\, dX$ with the rules $dW^i dW^j = \\delta_{ij}\\,dt$, $dW\\,dt = dt\\,dt = 0$.",
+ "examples": [
+  "$f(x) = x^2$, $X = W$: $\\;dW_t^2 = 2W_t\\,dW_t + dt$, so $W_t^2 - t$ is a martingale.",
+  "$f(x) = e^x$: the stochastic exponential $\\mathcal{E}(W)_t = e^{W_t - t/2}$ satisfies $d\\mathcal{E} = \\mathcal{E}\\,dW$ — the Itô analogue of $\\dot{y}=y$ needs the $-t/2$ correction.",
+  "Applied to $u(s, X_s)$ where $u$ solves $\\partial_t u + \\mathcal{A}u = 0$, the drift term cancels and $u(s,X_s)$ is a local martingale — the one-line engine of Feynman–Kac."
+ ],
+ "consequences": [
+  "Every smooth function of a diffusion is again an Itô process, so the class is closed under composition.",
+  "Choosing $u$ to kill the drift converts PDE statements into martingale statements and back — the dictionary underlying Feynman–Kac, Dynkin's formula, and Girsanov's theorem.",
+  "The Stratonovich integral restores the classical chain rule at the cost of losing the martingale property; conversion between the two calculi shifts the drift by $\\tfrac{1}{2}\\sigma \\partial \\sigma$."
+ ],
+ "related": ["brownian-motion", "sde", "martingale", "infinitesimal-generator"]
+}

@@ -1,0 +1,17 @@
+{
+ "id": "brownian-motion",
+ "title": "Brownian Motion",
+ "motivation": "Brownian motion is the mathematical idealisation of a completely erratic path: the scaling limit of a random walk whose steps become infinitely small and infinitely frequent. It is simultaneously the simplest nontrivial continuous-time martingale, the simplest diffusion, and the driving noise from which all Itô processes are built — which is why it appears in every corner of stochastic analysis.",
+ "definition": "A $d$-dimensional <em>Brownian motion</em> on a filtered probability space $(\\Omega, \\mathcal{F}, (\\mathcal{F}_t), \\mathbb{P})$ is a continuous adapted process $(W_t)_{t \\ge 0}$ with $W_0 = 0$ such that for all $0 \\le s \\le t$: (i) the increment $W_t - W_s$ is independent of $\\mathcal{F}_s$, and (ii) $W_t - W_s \\sim \\mathcal{N}(0, (t-s)I_d)$. Wiener's theorem guarantees such a process exists; its law on $C([0,\\infty), \\mathbb{R}^d)$ is the Wiener measure.",
+ "examples": [
+  "The rescaled simple random walk $S_{\\lfloor nt \\rfloor}/\\sqrt{n}$ converges in distribution to Brownian motion (Donsker's invariance principle) — the functional central limit theorem.",
+  "$\\mathbb{E}[W_s W_t] = \\min(s,t)$; increments over disjoint intervals are independent Gaussians.",
+  "Almost every Brownian path is continuous everywhere but differentiable nowhere, and has unbounded variation on every interval — which is why the Itô integral cannot be a pathwise Riemann–Stieltjes integral."
+ ],
+ "consequences": [
+  "Quadratic variation: $[W]_t = t$ almost surely. This single identity is the source of the second-order term in Itô's formula.",
+  "Brownian motion is a martingale, a Markov process, and a Gaussian process at once; each viewpoint spawns its own theory.",
+  "Its transition density is the heat kernel, so $u(t,x) = \\mathbb{E}[g(x+W_t)]$ solves the heat equation — the seed of the Feynman–Kac formula."
+ ],
+ "related": ["martingale", "sde", "ito-formula", "heat-equation"]
+}

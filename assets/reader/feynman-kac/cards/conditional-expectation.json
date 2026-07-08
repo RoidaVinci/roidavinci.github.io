@@ -1,0 +1,17 @@
+{
+ "id": "conditional-expectation",
+ "title": "Conditional Expectation",
+ "motivation": "Probability theory needs a precise way to say 'the best guess of $X$ given partial information'. Elementary conditioning on events of positive probability does not survive the passage to continuous time, where every particular trajectory has probability zero. Kolmogorov's solution — conditioning on a σ-algebra — replaces pointwise formulas with a characterising property, and is the definition on which filtrations, martingales, and Markov processes are built.",
+ "definition": "Let $X \\in L^1(\\Omega, \\mathcal{F}, \\mathbb{P})$ and let $\\mathcal{G} \\subseteq \\mathcal{F}$ be a sub-σ-algebra. The <em>conditional expectation</em> $\\mathbb{E}[X \\mid \\mathcal{G}]$ is the (a.s.-unique) $\\mathcal{G}$-measurable, integrable random variable $Y$ satisfying $$\\int_G Y\\,d\\mathbb{P} = \\int_G X\\,d\\mathbb{P} \\quad \\text{for all } G \\in \\mathcal{G}.$$ Existence follows from the Radon–Nikodym theorem; for $X \\in L^2$ it is the orthogonal projection of $X$ onto $L^2(\\mathcal{G})$.",
+ "examples": [
+  "$\\mathcal{G} = \\sigma(Z)$: then $\\mathbb{E}[X \\mid \\mathcal{G}] = h(Z)$ for a measurable function $h$ — 'best guess as a function of what you observed'.",
+  "For Brownian motion and $s \\le t$: $\\mathbb{E}[W_t \\mid \\mathcal{F}_s] = W_s$ (that is the martingale property) and $\\mathbb{E}[W_t^2 \\mid \\mathcal{F}_s] = W_s^2 + (t-s)$.",
+  "The Markov property of a diffusion says $\\mathbb{E}[g(X_T) \\mid \\mathcal{F}_t] = \\mathbb{E}[g(X_T) \\mid X_t]$: the past matters only through the present."
+ ],
+ "consequences": [
+  "Tower property $\\mathbb{E}[\\mathbb{E}[X \\mid \\mathcal{G}] \\mid \\mathcal{H}] = \\mathbb{E}[X \\mid \\mathcal{H}]$ for $\\mathcal{H} \\subseteq \\mathcal{G}$; taking out what is known; conditional Jensen — the everyday algebra of stochastic analysis.",
+  "The Feynman–Kac representation is literally a conditional expectation given $X_t = x$, i.e. a function on state space defined via conditioning.",
+  "Projection interpretation makes conditional expectation the theoretical core of filtering, regression, and least-squares prediction."
+ ],
+ "related": ["martingale", "brownian-motion"]
+}
