@@ -1,0 +1,29 @@
+{
+ "id": "black-scholes",
+ "title": "The Black–Scholes Equation",
+ "properties": [
+  "PDE: $\\partial_t u + rS\\,\\partial_S u + \\tfrac{1}{2}\\Sigma^2 S^2\\,\\partial_S^2 u - ru = 0$, $\\;u(T,S) = g(S)$.",
+  "Price = discounted risk-neutral expectation: $u(t,S) = e^{-r(T-t)}\\mathbb{E}[g(S_T) \\mid S_t = S]$.",
+  "Call ($g = (S-K)^+$): $u = S\\Phi(d_1) - Ke^{-r(T-t)}\\Phi(d_2)$, $\\;d_{1,2} = \\frac{\\log(S/K) + (r \\pm \\Sigma^2/2)(T-t)}{\\Sigma\\sqrt{T-t}}$.",
+  "Real-world drift $\\mu$ absent — eliminated by replication.",
+  "Hedge: hold $\\partial_S u$ shares (delta); $x = \\log S$ reduces the PDE to the heat equation.",
+  "Feynman–Kac instance: geometric Brownian motion, constant potential $V = r$."
+ ],
+ "motivation": "What is a fair price today for the right to buy a stock at price $K$ at a future time $T$? Black, Scholes and Merton (1973) answered by showing the option's payoff can be replicated exactly by continuously trading the stock and a bank account; no-arbitrage then forces the price to satisfy a specific parabolic PDE. Via Feynman–Kac, that PDE is equivalent to a discounted expectation — the modern 'risk-neutral pricing' formulation on which quantitative finance is built.",
+ "definition": "With stock dynamics $dS_t = r S_t\\,dt + \\Sigma S_t\\,dW_t$ under the risk-neutral measure ($r$ the interest rate, $\\Sigma$ the volatility), the price $u(t,S)$ of a European claim paying $g(S_T)$ solves $$\\partial_t u + r S\\,\\partial_S u + \\tfrac{1}{2}\\Sigma^2 S^2\\,\\partial_S^2 u - r u = 0, \\qquad u(T,S) = g(S).$$ This is the Feynman–Kac PDE for geometric Brownian motion with constant potential $V = r$, so $u(t,S) = e^{-r(T-t)}\\,\\mathbb{E}[g(S_T) \\mid S_t = S]$.",
+ "examples": [
+  "Call option $g(S) = \\max(S-K, 0)$: evaluating the Gaussian integral gives the closed-form Black–Scholes formula $u = S\\,\\Phi(d_1) - K e^{-r(T-t)}\\,\\Phi(d_2)$ with $d_{1,2} = \\frac{\\log(S/K) + (r \\pm \\Sigma^2/2)(T-t)}{\\Sigma\\sqrt{T-t}}$.",
+  "Substituting $x = \\log S$ and discounting reduces the equation to the plain heat equation — the original 1973 derivation.",
+  "The drift $\\mu$ of the real-world stock does not appear: replication eliminates it, which is the celebrated economic content of the model."
+ ],
+ "consequences": [
+  "Risk-neutral valuation generalises far beyond this model: price = discounted expectation under a measure that makes discounted traded assets martingales.",
+  "The hedging strategy is read off the solution: hold $\\partial_S u$ shares ('delta hedging') — the PDE gradient is the trading rule.",
+  "Monte Carlo pricing of high-dimensional derivatives is Feynman–Kac run numerically: simulate risk-neutral paths, average discounted payoffs."
+ ],
+ "related": [
+  "sde",
+  "heat-equation",
+  "martingale"
+ ]
+}

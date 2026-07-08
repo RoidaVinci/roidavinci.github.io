@@ -1,0 +1,20 @@
+---
+layout: default
+title: Reader
+description: An interactive, text-first reader — click any concept for a reviewed deep-dive card, ask questions in place, and return to the text without drift.
+math: true
+extra_csp_connect: https://api.anthropic.com
+---
+<div class="reader-progress" id="reader-progress" aria-hidden="true"></div>
+<div class="reader-app" id="reader-app"
+     data-base="{{ '/assets/reader/feynman-kac' | relative_url }}"
+     data-concepts="{{ '/assets/reader/concepts' | relative_url }}"
+     data-eyebrow="Interactive text · Stochastic analysis"
+     data-lead="Hover any linked term for its definition at a glance; click it for the full reviewed card. Search everything, highlight and annotate freely — it all stays in your browser — and the breadcrumb always brings you straight back to the text.">
+  <nav class="reader-toc" id="reader-toc" hidden aria-label="Table of contents"></nav>
+  <div class="reader-doc prose" id="reader-doc">
+    <noscript><p>The reader requires JavaScript.</p></noscript>
+  </div>
+  <aside class="reader-panel" id="reader-panel" hidden aria-label="Reader panel"></aside>
+</div>
+<script type="module" src="{{ '/assets/js/reader/reader.js' | relative_url }}"></script>

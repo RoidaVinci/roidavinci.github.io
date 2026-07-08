@@ -1,0 +1,1283 @@
+/* ==========================================================================
+   Reader — interactive text-first document viewer
+   Zones: sticky TOC · document column · pane-stack panel (anti-drift nav).
+   Visual language follows the site: CMU serif text, sans small-caps labels,
+   accent-blue interactions, soft card shadows.
+   ========================================================================== */
+
+/* --- Reading progress bar -------------------------------------------------- */
+
+.reader-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0;
+  background: linear-gradient(90deg, var(--color-accent), var(--color-accent-hover));
+  z-index: 60;
+  transition: width 80ms linear;
+}
+
+/* --- Layout ----------------------------------------------------------------- */
+
+.reader-app {
+  display: grid;
+  grid-template-columns: 11rem minmax(0, 1fr);
+  grid-template-areas: "toc doc";
+  gap: 2.75rem;
+  align-items: start;
+}
+
+.reader-doc {
+  grid-area: doc;
+  max-width: var(--prose-width);
+  width: 100%;
+  margin: 0 auto;
+  min-width: 0;
+}
+
+/* --- Table of contents -------------------------------------------------------- */
+
+.reader-toc {
+  grid-area: toc;
+  position: sticky;
+  top: 5rem;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  padding-top: 0.5rem;
+}
+
+.reader-toc-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin: 0 0 0.7rem;
+}
+
+.reader-toc ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-left: 1px solid var(--color-border);
+}
+
+.reader-toc li {
+  margin: 0;
+}
+
+.reader-toc a {
+  display: block;
+  padding: 0.32rem 0 0.32rem 0.85rem;
+  margin-left: -1px;
+  border-left: 2px solid transparent;
+  color: var(--color-text-muted);
+  line-height: 1.35;
+  transition: color var(--transition), border-color var(--transition);
+}
+
+.reader-toc a:hover {
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.reader-toc a.is-active {
+  color: var(--color-accent);
+  border-left-color: var(--color-accent);
+  font-weight: 600;
+}
+
+@media (max-width: 1180px) {
+  .reader-app {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "doc";
+  }
+
+  .reader-toc {
+    display: none;
+  }
+}
+
+/* --- Document header ----------------------------------------------------------- */
+
+.reader-header {
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.75rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.reader-eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin: 0 0 0.7rem;
+}
+
+.reader-title {
+  font-size: 2.4rem;
+  font-weight: 700;
+  line-height: 1.15;
+  margin: 0 0 0.75rem;
+}
+
+.reader-lead {
+  font-size: 1.12rem;
+  line-height: 1.55;
+  color: var(--color-text-muted);
+  margin: 0 0 1.1rem;
+  max-width: 38em;
+}
+
+.reader-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.reader-meta-facts {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  letter-spacing: 0.02em;
+  color: var(--color-text-muted);
+}
+
+.reader-meta-facts .sep {
+  margin: 0 0.45rem;
+  opacity: 0.5;
+}
+
+.reader-toolbar-actions {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.reader-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  padding: 0.35rem 0.9rem;
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition), border-color var(--transition), transform var(--transition);
+}
+
+.reader-btn:hover {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+  transform: translateY(-1px);
+}
+
+.reader-btn-primary {
+  color: #fff;
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.reader-btn-primary:hover {
+  color: #fff;
+  background: var(--color-accent-hover);
+}
+
+/* --- Sections & blocks --------------------------------------------------------- */
+
+.reader-doc h2.reader-section {
+  display: flex;
+  align-items: baseline;
+  gap: 0.7rem;
+  font-size: 1.45rem;
+  margin: 2.75rem 0 1rem;
+}
+
+.reader-section-num {
+  font-family: var(--font-sans);
+  font-size: 0.8em;
+  font-weight: 700;
+  color: var(--color-accent);
+  opacity: 0.85;
+}
+
+.rblock {
+  position: relative;
+  scroll-margin-top: 5rem;
+}
+
+/* Environment label: small-caps sans line above the statement */
+.reader-doc .env-label {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 0.45rem;
+}
+
+.reader-doc .env-label .env-name {
+  color: var(--color-text-muted);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  font-size: 0.86rem;
+  margin-left: 0.4rem;
+}
+
+/* Refine the site's theorem-box style inside the reader */
+.reader-doc .theorem,
+.reader-doc .definition,
+.reader-doc .lemma,
+.reader-doc .proposition,
+.reader-doc .remark,
+.reader-doc .example {
+  border-left: 3px solid var(--color-accent);
+  background: color-mix(in srgb, var(--color-accent) 4.5%, var(--color-bg-alt) 60%);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 1.05rem 1.35rem 0.95rem;
+  margin: 1.6rem 0;
+}
+
+.reader-doc .remark,
+.reader-doc .example {
+  border-left-color: var(--color-border);
+  background: var(--color-bg-alt);
+}
+
+.reader-doc .remark .env-label,
+.reader-doc .example .env-label {
+  color: var(--color-text-muted);
+}
+
+.reader-doc .proof {
+  margin: 1.4rem 0 1.6rem;
+  padding-left: 1.35rem;
+  border-left: 2px solid var(--color-border);
+  color: color-mix(in srgb, var(--color-text) 88%, var(--color-text-muted));
+}
+
+.reader-doc .proof .qed {
+  float: right;
+  color: var(--color-text-muted);
+}
+
+/* --- Block tools (note · permalink) ------------------------------------------------ */
+
+.rblock-tools {
+  position: absolute;
+  top: 0.1rem;
+  right: -3.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  opacity: 0;
+  transition: opacity var(--transition);
+}
+
+.rblock:hover .rblock-tools,
+.rblock-tools:focus-within,
+.rblock.has-note .rblock-tools {
+  opacity: 1;
+}
+
+.rblock-tool {
+  width: 2.2rem;
+  height: 2.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: color var(--transition), border-color var(--transition), transform var(--transition), box-shadow var(--transition);
+}
+
+.rblock-tool svg {
+  width: 1.05rem;
+  height: 1.05rem;
+}
+
+.rblock-tool:hover,
+.rblock-tool:focus-visible {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px var(--color-shadow);
+}
+
+.rblock.has-note .rblock-note-btn {
+  color: var(--color-accent);
+  border-color: color-mix(in srgb, var(--color-accent) 45%, transparent);
+  background: color-mix(in srgb, var(--color-accent) 7%, var(--color-surface));
+}
+
+.rblock-tool-flash {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
+/* Flash a block after a deep-link / palette jump */
+.rblock.is-flash > :first-child {
+  animation: reader-flash 1.5s ease-out;
+  border-radius: var(--radius);
+}
+
+@keyframes reader-flash {
+  0% { background: color-mix(in srgb, var(--color-accent) 16%, transparent); box-shadow: 0 0 0 6px color-mix(in srgb, var(--color-accent) 16%, transparent); }
+  100% { background: transparent; box-shadow: 0 0 0 6px transparent; }
+}
+
+@media (max-width: 1100px) {
+  .rblock-tools {
+    position: static;
+    float: right;
+    flex-direction: row;
+    margin-left: 0.5rem;
+  }
+
+  .rblock-tool {
+    width: 2rem;
+    height: 2rem;
+  }
+}
+
+/* --- Concepts ------------------------------------------------------------------------ */
+
+.concept {
+  color: var(--color-accent);
+  text-decoration: underline dotted color-mix(in srgb, var(--color-accent) 55%, transparent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  border-radius: 3px;
+  padding: 0 0.1em;
+  margin: 0 -0.1em;
+  cursor: pointer;
+  transition: background var(--transition), text-decoration-color var(--transition);
+}
+
+.concept:hover,
+.concept:focus-visible {
+  background: color-mix(in srgb, var(--color-accent) 10%, transparent);
+  text-decoration-color: var(--color-accent);
+}
+
+/* --- Selection toolbar (highlight · ask) ------------------------------------------------ */
+
+.reader-selbar {
+  position: absolute;
+  z-index: 65;
+  display: inline-flex;
+  overflow: hidden;
+  font-family: var(--font-sans);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  box-shadow: 0 8px 24px var(--color-shadow-strong);
+  animation: reader-pop 140ms ease-out;
+}
+
+.reader-selbar button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-text);
+  background: none;
+  border: none;
+  padding: 0.45rem 0.9rem;
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition);
+}
+
+.reader-selbar button + button {
+  border-left: 1px solid var(--color-border);
+}
+
+.reader-selbar button:hover {
+  color: var(--color-accent);
+  background: color-mix(in srgb, var(--color-accent) 7%, transparent);
+}
+
+.reader-selbar-swatch {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 3px;
+  background: color-mix(in srgb, #eab308 55%, transparent);
+}
+
+@keyframes reader-pop {
+  from { opacity: 0; transform: translateY(4px) scale(0.96); }
+  to { opacity: 1; transform: none; }
+}
+
+/* --- Highlights ---------------------------------------------------------------------------- */
+
+mark.reader-hl {
+  background: color-mix(in srgb, #eab308 26%, transparent);
+  color: inherit;
+  border-radius: 2px;
+  padding: 0.05em 0;
+  cursor: pointer;
+  transition: background var(--transition);
+}
+
+mark.reader-hl:hover {
+  background: color-mix(in srgb, #eab308 40%, transparent);
+}
+
+.reader-hl-pop {
+  position: absolute;
+  z-index: 66;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  box-shadow: 0 8px 24px var(--color-shadow-strong);
+  animation: reader-pop 140ms ease-out;
+}
+
+.reader-hl-pop button {
+  font-family: var(--font-sans);
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--color-text);
+  background: none;
+  border: none;
+  padding: 0.4rem 0.85rem;
+  cursor: pointer;
+}
+
+.reader-hl-pop button:hover {
+  color: #b3403f;
+}
+
+/* --- Concept hover preview ------------------------------------------------------------------- */
+
+.reader-tip {
+  position: fixed;
+  z-index: 80;
+  max-width: 24rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: 0 14px 38px var(--color-shadow-strong);
+  padding: 0.75rem 0.95rem 0.65rem;
+  pointer-events: none;
+  animation: reader-pop 120ms ease-out;
+}
+
+.reader-tip-title {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin: 0 0 0.35rem;
+}
+
+.reader-tip-tldr {
+  font-size: 0.88rem;
+  line-height: 1.55;
+  margin: 0 0 0.4rem;
+}
+
+.reader-tip-hint {
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+/* --- Pane stack panel ----------------------------------------------------------------------
+   An overlay: floats above the page at the right edge and never reflows the
+   text column. On typical screens it occupies the margin; the text does not
+   move when it opens. */
+
+.reader-panel {
+  position: fixed;
+  top: 4.75rem;
+  right: clamp(0.75rem, 1.8vw, 1.75rem);
+  bottom: 1.25rem;
+  width: min(29rem, calc(100vw - 1.5rem));
+  z-index: 70;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: 0 18px 60px var(--color-shadow-strong);
+  overflow: hidden;
+  animation: reader-panel-in 220ms ease-out;
+}
+
+.reader-panel[hidden] {
+  display: none;
+}
+
+.reader-panel::before {
+  content: "";
+  display: block;
+  height: 3px;
+  flex: none;
+  background: linear-gradient(90deg, var(--color-accent), color-mix(in srgb, var(--color-accent) 30%, transparent));
+}
+
+@keyframes reader-panel-in {
+  from { opacity: 0; transform: translateX(24px); }
+  to { opacity: 1; transform: none; }
+}
+
+.reader-pane:focus {
+  outline: none;
+}
+
+.reader-crumbs {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  padding: 0.65rem 0.9rem;
+  border-bottom: 1px solid var(--color-border);
+  background: color-mix(in srgb, var(--color-bg-alt) 70%, transparent);
+  backdrop-filter: blur(6px);
+}
+
+.reader-crumb {
+  font: inherit;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  background: none;
+  border: 1px solid transparent;
+  padding: 0.14rem 0.5rem;
+  border-radius: 999px;
+  cursor: pointer;
+  max-width: 11em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: color var(--transition), background var(--transition), border-color var(--transition);
+}
+
+.reader-crumb:hover {
+  color: var(--color-accent);
+  background: var(--color-bg-alt);
+  border-color: var(--color-border);
+}
+
+.reader-crumb[aria-current="true"] {
+  color: var(--color-accent);
+  background: color-mix(in srgb, var(--color-accent) 9%, transparent);
+  border-color: color-mix(in srgb, var(--color-accent) 25%, transparent);
+  cursor: default;
+}
+
+.reader-crumb-sep {
+  color: var(--color-text-muted);
+  opacity: 0.55;
+}
+
+.reader-panel-close {
+  margin-left: auto;
+  font: inherit;
+  font-size: 1.05rem;
+  line-height: 1;
+  color: var(--color-text-muted);
+  background: none;
+  border: none;
+  padding: 0.15rem 0.45rem;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition);
+}
+
+.reader-panel-close:hover {
+  background: var(--color-bg-alt);
+  color: var(--color-text);
+}
+
+.reader-pane {
+  padding: 1.15rem 1.35rem 1.4rem;
+  overflow-y: auto;
+  font-size: 0.96rem;
+  line-height: 1.62;
+  animation: reader-pane-in 180ms ease-out;
+}
+
+@keyframes reader-pane-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+
+.reader-pane-eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin: 0 0 0.35rem;
+}
+
+.reader-pane h2 {
+  font-size: 1.35rem;
+  line-height: 1.25;
+  margin: 0 0 0.9rem;
+}
+
+.reader-pane h3 {
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin: 1.5rem 0 0.5rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.reader-pane h3:first-of-type {
+  border-top: none;
+  padding-top: 0;
+  margin-top: 1.1rem;
+}
+
+.reader-pane p {
+  margin: 0 0 0.85rem;
+}
+
+.reader-pane ul {
+  margin: 0 0 0.85rem;
+  padding-left: 1.15rem;
+}
+
+.reader-pane li {
+  margin-bottom: 0.55rem;
+}
+
+.reader-pane li::marker {
+  color: var(--color-accent);
+}
+
+.reader-pane mjx-container {
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 100%;
+}
+
+.reader-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+}
+
+.reader-chip {
+  font-family: var(--font-sans);
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--color-accent);
+  background: color-mix(in srgb, var(--color-accent) 7%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-accent) 22%, transparent);
+  border-radius: 999px;
+  padding: 0.22rem 0.75rem;
+  cursor: pointer;
+  transition: background var(--transition), transform var(--transition);
+}
+
+.reader-chip:hover {
+  background: color-mix(in srgb, var(--color-accent) 14%, transparent);
+  transform: translateY(-1px);
+}
+
+/* --- "At a glance" box: compressed definition + properties, skim-first ----------------------- */
+
+.reader-glance {
+  border: 1px solid color-mix(in srgb, var(--color-accent) 28%, transparent);
+  background: color-mix(in srgb, var(--color-accent) 4%, var(--color-bg-alt) 55%);
+  border-radius: var(--radius);
+  padding: 0.85rem 1rem 0.75rem;
+  margin: 0 0 1.2rem;
+}
+
+.reader-glance-label {
+  font-family: var(--font-sans);
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin: 0 0 0.45rem;
+}
+
+.reader-glance-tldr {
+  font-size: 0.92rem;
+  line-height: 1.6;
+  margin: 0 0 0.6rem;
+}
+
+.reader-glance-props {
+  list-style: none;
+  margin: 0;
+  padding: 0.55rem 0 0;
+  border-top: 1px dashed color-mix(in srgb, var(--color-accent) 25%, transparent);
+}
+
+.reader-glance-props li {
+  position: relative;
+  font-size: 0.85rem;
+  line-height: 1.55;
+  padding-left: 1rem;
+  margin-bottom: 0.4rem;
+}
+
+.reader-glance-props li::before {
+  content: "";
+  position: absolute;
+  left: 0.05rem;
+  top: 0.55em;
+  width: 0.35rem;
+  height: 0.35rem;
+  border-radius: 1.5px;
+  background: color-mix(in srgb, var(--color-accent) 65%, transparent);
+}
+
+.reader-glance-props li:last-child {
+  margin-bottom: 0;
+}
+
+/* --- Concept index (the visible face of the concept database) -------------------------------- */
+
+.reader-concept-index {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  margin-top: 1rem;
+}
+
+.reader-concept-item {
+  font: inherit;
+  text-align: left;
+  color: var(--color-text);
+  background: var(--color-bg-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 0.65rem 0.85rem;
+  cursor: pointer;
+  transition: border-color var(--transition), background var(--transition), transform var(--transition);
+}
+
+.reader-concept-item:hover {
+  border-color: var(--color-accent);
+  transform: translateY(-1px);
+}
+
+.reader-concept-item-title {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-accent);
+  margin-bottom: 0.25rem;
+}
+
+.reader-concept-item-tldr {
+  display: block;
+  font-size: 0.84rem;
+  line-height: 1.55;
+  color: var(--color-text-muted);
+}
+
+/* --- Ask (AI) --------------------------------------------------------------------------------- */
+
+.reader-ask-thread {
+  margin-top: 1.1rem;
+}
+
+.reader-ask-q {
+  font-family: var(--font-sans);
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--color-text);
+  background: var(--color-bg-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius) var(--radius) var(--radius) 4px;
+  padding: 0.55rem 0.8rem;
+  margin: 1.1rem 0 0.65rem;
+}
+
+.reader-ask-a {
+  padding: 0 0.15rem;
+}
+
+.reader-ask-a.is-streaming::after {
+  content: "▍";
+  color: var(--color-accent);
+  animation: reader-blink 1s steps(2) infinite;
+}
+
+@keyframes reader-blink {
+  50% { opacity: 0; }
+}
+
+.reader-ai-tag {
+  font-family: var(--font-sans);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin: 1.4rem 0 0;
+  padding-top: 0.9rem;
+  border-top: 1px dashed var(--color-border);
+}
+
+.reader-ask-form {
+  display: flex;
+  gap: 0.45rem;
+  margin-top: 0.7rem;
+}
+
+.reader-ask-form input {
+  flex: 1;
+  min-width: 0;
+  font: inherit;
+  font-size: 0.9rem;
+  color: var(--color-text);
+  background: var(--color-bg-alt);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  padding: 0.45rem 0.95rem;
+  transition: border-color var(--transition);
+}
+
+.reader-ask-form input:focus {
+  outline: none;
+  border-color: var(--color-accent);
+}
+
+.reader-ask-form button {
+  font-family: var(--font-sans);
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--color-accent);
+  border: none;
+  border-radius: 999px;
+  padding: 0.45rem 1rem;
+  cursor: pointer;
+  transition: background var(--transition);
+}
+
+.reader-ask-form button:hover {
+  background: var(--color-accent-hover);
+}
+
+.reader-ask-form button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.reader-error {
+  font-family: var(--font-sans);
+  font-size: 0.84rem;
+  color: #b3403f;
+  background: color-mix(in srgb, #b3403f 8%, transparent);
+  border: 1px solid color-mix(in srgb, #b3403f 25%, transparent);
+  border-radius: var(--radius);
+  padding: 0.55rem 0.8rem;
+  margin: 0.6rem 0;
+}
+
+/* --- Notes ---------------------------------------------------------------------------------------- */
+
+.reader-note-context {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  border-left: 3px solid var(--color-accent);
+  background: var(--color-bg-alt);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 0.6rem 0.85rem;
+  margin-bottom: 0.9rem;
+  max-height: 7.5em;
+  overflow: hidden;
+}
+
+.reader-note-textarea {
+  width: 100%;
+  min-height: 9em;
+  font: inherit;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--color-text);
+  background: var(--color-bg-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 0.7rem 0.8rem;
+  resize: vertical;
+  transition: border-color var(--transition);
+}
+
+.reader-note-textarea:focus {
+  outline: none;
+  border-color: var(--color-accent);
+}
+
+.reader-note-status {
+  font-family: var(--font-sans);
+  font-size: 0.74rem;
+  color: var(--color-text-muted);
+  margin-top: 0.45rem;
+}
+
+.reader-tag-chip {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.55em;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  background: var(--color-bg-alt);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  padding: 0.15em 0.5em;
+  vertical-align: middle;
+}
+
+/* --- Annotations pane -------------------------------------------------------------------------- */
+
+.reader-ann {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.reader-ann-source {
+  font: inherit;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  text-align: left;
+  color: var(--color-text-muted);
+  background: none;
+  border: none;
+  border-left: 3px solid var(--color-border);
+  padding: 0.1rem 0 0.1rem 0.7rem;
+  cursor: pointer;
+  transition: color var(--transition), border-color var(--transition);
+}
+
+.reader-ann-source:hover {
+  color: var(--color-accent);
+  border-left-color: var(--color-accent);
+}
+
+.reader-ann-source.is-hl {
+  border-left-color: color-mix(in srgb, #eab308 60%, transparent);
+}
+
+.reader-ann-note {
+  font-size: 0.9rem;
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.reader-ann-remove {
+  align-self: flex-start;
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.reader-ann-remove:hover {
+  color: #b3403f;
+}
+
+/* --- Settings ---------------------------------------------------------------------------------------- */
+
+.reader-settings label {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.84rem;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+
+.reader-settings input {
+  width: 100%;
+  font: inherit;
+  font-size: 0.85rem;
+  color: var(--color-text);
+  background: var(--color-bg-alt);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 0.5rem 0.7rem;
+  margin-bottom: 0.7rem;
+  transition: border-color var(--transition);
+}
+
+.reader-settings input:focus {
+  outline: none;
+  border-color: var(--color-accent);
+}
+
+.reader-hint {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+  margin-top: 0.7rem;
+}
+
+/* --- Command palette (⌘K) --------------------------------------------------------------------------------- */
+
+.reader-palette-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  background: color-mix(in srgb, var(--color-text) 18%, transparent);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 14vh 1rem 0;
+  animation: reader-fade 120ms ease-out;
+}
+
+@keyframes reader-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.reader-palette {
+  width: min(36rem, 100%);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: 0 24px 70px var(--color-shadow-strong);
+  overflow: hidden;
+  animation: reader-pane-in 160ms ease-out;
+}
+
+.reader-palette-head {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+}
+
+.reader-palette-head svg {
+  width: 1.05rem;
+  height: 1.05rem;
+  flex: none;
+}
+
+.reader-palette-head input {
+  flex: 1;
+  min-width: 0;
+  font: inherit;
+  font-size: 1rem;
+  color: var(--color-text);
+  background: none;
+  border: none;
+  outline: none;
+}
+
+.reader-palette-head kbd,
+.reader-kbd {
+  font-family: var(--font-sans);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+  background: var(--color-bg-alt);
+  border: 1px solid var(--color-border);
+  border-bottom-width: 2px;
+  border-radius: 5px;
+  padding: 0.12rem 0.35rem;
+}
+
+.reader-palette-results {
+  list-style: none;
+  margin: 0;
+  padding: 0.4rem;
+  max-height: 21rem;
+  overflow-y: auto;
+}
+
+.reader-palette-results li {
+  display: flex;
+  align-items: baseline;
+  gap: 0.65rem;
+  padding: 0.5rem 0.65rem;
+  margin: 0;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.reader-palette-results li[aria-selected="true"] {
+  background: color-mix(in srgb, var(--color-accent) 9%, transparent);
+}
+
+.reader-palette-type {
+  flex: none;
+  width: 4.2rem;
+  font-family: var(--font-sans);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.reader-palette-type.is-concept {
+  color: var(--color-accent);
+}
+
+.reader-palette-body {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.reader-palette-title {
+  font-size: 0.92rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.reader-palette-sub {
+  font-size: 0.76rem;
+  color: var(--color-text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.reader-palette-hint {
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
+  margin: 0;
+  padding: 0.55rem 1rem;
+  border-top: 1px solid var(--color-border);
+  background: color-mix(in srgb, var(--color-bg-alt) 70%, transparent);
+}
+
+/* --- Toolbar extras ----------------------------------------------------------------------------------------- */
+
+.reader-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.15rem;
+  height: 1.15rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #fff;
+  background: var(--color-accent);
+  border-radius: 999px;
+  padding: 0 0.3rem;
+}
+
+/* --- Toast ------------------------------------------------------------------------------------------------- */
+
+.reader-toast {
+  position: fixed;
+  bottom: 1.4rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 85;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  color: var(--color-text);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  padding: 0.5rem 1.1rem;
+  box-shadow: 0 10px 32px var(--color-shadow-strong);
+  animation: reader-pop 180ms ease-out;
+}
+
+.reader-toast button {
+  font: inherit;
+  font-weight: 700;
+  color: var(--color-accent);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+/* --- Mobile: panel becomes a bottom sheet with backdrop ------------------------------------------------- */
+
+.reader-backdrop {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .reader-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: color-mix(in srgb, var(--color-text) 25%, transparent);
+    backdrop-filter: blur(2px);
+    z-index: 68;
+  }
+
+  .reader-panel {
+    inset: auto 0 0 0;
+    top: 16vh;
+    width: auto;
+    border-radius: var(--radius) var(--radius) 0 0;
+    animation: reader-sheet-in 240ms ease-out;
+  }
+
+  @keyframes reader-sheet-in {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: none; opacity: 1; }
+  }
+}
+
+/* --- Reduced motion ---------------------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .reader-panel,
+  .reader-pane,
+  .reader-selbar,
+  .reader-tip,
+  .reader-palette,
+  .reader-palette-overlay,
+  .reader-toast,
+  .rblock.is-flash > :first-child {
+    animation: none;
+  }
+}

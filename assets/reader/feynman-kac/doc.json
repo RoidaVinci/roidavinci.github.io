@@ -1,0 +1,139 @@
+{
+ "id": "feynman-kac",
+ "title": "The Feynman–Kac Formula",
+ "source": "_tools/reader/docs/feynman-kac.tex",
+ "concepts": [
+  "black-scholes",
+  "brownian-motion",
+  "conditional-expectation",
+  "heat-equation",
+  "infinitesimal-generator",
+  "ito-formula",
+  "martingale",
+  "sde"
+ ],
+ "blocks": [
+  {
+   "tag": "G6LT",
+   "type": "para",
+   "html": "The Feynman–Kac formula is one of the great bridges of twentieth-century mathematics: it expresses the solution of a parabolic partial differential equation as an average over the paths of a diffusion process. In one direction it lets us <em>solve</em> PDEs by running random simulations; in the other, it lets us compute probabilistic quantities — exit times, occupation measures, discounted payoffs — by solving deterministic equations. This short text states the formula precisely, sketches why it is true, and works through its two most famous instances: the <span class=\"concept\" data-concept=\"heat-equation\" role=\"button\" tabindex=\"0\">heat equation</span> and the <span class=\"concept\" data-concept=\"black-scholes\" role=\"button\" tabindex=\"0\">Black–Scholes equation</span>."
+  },
+  {
+   "tag": "MJ1X",
+   "type": "section",
+   "html": "From heat flow to random paths"
+  },
+  {
+   "tag": "7AEH",
+   "type": "para",
+   "html": "Consider the simplest evolution equation of them all, the <span class=\"concept\" data-concept=\"heat-equation\" role=\"button\" tabindex=\"0\">heat equation</span> $\\partial_t u = \\tfrac{1}{2}\\Delta u$ on $\\mathbb{R}^d$ with initial datum $u(0,\\cdot) = g$. Its solution is the convolution of $g$ with a Gaussian kernel of variance $t$. But a Gaussian of variance $t$ is exactly the law of a <span class=\"concept\" data-concept=\"brownian-motion\" role=\"button\" tabindex=\"0\">Brownian motion</span> at time $t$, so the solution can be rewritten as\n\\[\nu(t,x) = \\mathbb{E}\\left[ g(x + W_t) \\right],\n\\]\nan average of the initial datum over Brownian paths started at $x$. Heat does not spread by magic: it spreads because heat particles perform random walks, and the PDE is merely the aggregate description of that microscopic randomness."
+  },
+  {
+   "tag": "BQ55",
+   "type": "para",
+   "html": "The Feynman–Kac formula generalises this observation far beyond the <span class=\"concept\" data-concept=\"heat-equation\" role=\"button\" tabindex=\"0\">heat equation</span>: it covers variable coefficients, lower-order terms, source terms, and a potential term that — as Kac realised in 1949, inspired by Feynman's path-integral formulation of quantum mechanics — corresponds probabilistically to <em>killing</em> the diffusion at a state-dependent rate."
+  },
+  {
+   "tag": "SSKL",
+   "type": "section",
+   "html": "Probabilistic preliminaries"
+  },
+  {
+   "tag": "W0DW",
+   "type": "para",
+   "html": "Throughout, $(\\Omega, \\mathcal{F}, (\\mathcal{F}_t)_{t \\ge 0}, \\mathbb{P})$ is a filtered probability space satisfying the usual conditions."
+  },
+  {
+   "tag": "I9BP",
+   "type": "definition",
+   "html": "<p>A $d$-dimensional <span class=\"concept\" data-concept=\"brownian-motion\" role=\"button\" tabindex=\"0\">Brownian motion</span> is a continuous adapted process $(W_t)_{t \\ge 0}$ with $W_0 = 0$ such that for all $0 \\le s \\le t$ the increment $W_t - W_s$ is independent of $\\mathcal{F}_s$ and distributed as $\\mathcal{N}(0, (t-s) I_d)$.</p>",
+   "title": "Brownian motion"
+  },
+  {
+   "tag": "UELR",
+   "type": "definition",
+   "html": "<p>Let $b \\colon \\mathbb{R}^d \\to \\mathbb{R}^d$ and $\\sigma \\colon \\mathbb{R}^d \\to \\mathbb{R}^{d \\times m}$ be Lipschitz. The <span class=\"concept\" data-concept=\"sde\" role=\"button\" tabindex=\"0\">stochastic differential equation</span>\n\\[\ndX_t = b(X_t)\\,dt + \\sigma(X_t)\\,dW_t, \\qquad X_0 = x,\n\\]\nhas a unique strong solution $(X_t^x)_{t \\ge 0}$, called an Itô diffusion with drift $b$ and diffusion coefficient $\\sigma$.</p>",
+   "title": "Itô diffusion"
+  },
+  {
+   "tag": "P0GS",
+   "type": "para",
+   "html": "The local behaviour of a diffusion is captured by a second-order differential operator."
+  },
+  {
+   "tag": "G1LE",
+   "type": "definition",
+   "html": "<p>The <span class=\"concept\" data-concept=\"infinitesimal-generator\" role=\"button\" tabindex=\"0\">infinitesimal generator</span> of the diffusion $X$ is the operator\n\\[\n\\mathcal{A} f(x) = \\sum_{i} b_i(x)\\, \\partial_i f(x) + \\frac{1}{2} \\sum_{i,j} a_{ij}(x)\\, \\partial_i \\partial_j f(x), \\qquad a = \\sigma \\sigma^{\\mathsf{T}},\n\\]\ndefined for $f \\in C^2$. Equivalently, $\\mathcal{A} f(x)$ is the derivative at $t = 0$ of $t \\mapsto \\mathbb{E}[f(X_t^x)]$.</p>",
+   "title": "Infinitesimal generator"
+  },
+  {
+   "tag": "IIZ2",
+   "type": "para",
+   "html": "The single most important computational tool of the subject is the chain rule of stochastic calculus."
+  },
+  {
+   "tag": "4FFS",
+   "type": "theorem",
+   "html": "<p>Let $X$ solve the <span class=\"concept\" data-concept=\"sde\" role=\"button\" tabindex=\"0\">SDE</span> above and let $u \\in C^{1,2}([0,T] \\times \\mathbb{R}^d)$. Then <span class=\"concept\" data-concept=\"ito-formula\" role=\"button\" tabindex=\"0\">Itô's formula</span> holds:\n\\[\ndu(t, X_t) = \\left( \\partial_t u + \\mathcal{A} u \\right)(t, X_t)\\,dt + \\nabla u(t, X_t)^{\\mathsf{T}} \\sigma(X_t)\\,dW_t.\n\\]</p>",
+   "title": "Itô's formula"
+  },
+  {
+   "tag": "UP7T",
+   "type": "para",
+   "html": "The $dW$ term integrates to a local <span class=\"concept\" data-concept=\"martingale\" role=\"button\" tabindex=\"0\">martingale</span> — a process whose <span class=\"concept\" data-concept=\"conditional-expectation\" role=\"button\" tabindex=\"0\">conditional expectation</span> of future values, given the present, equals its present value. Martingales have constant expectation in time, and this innocuous fact is the entire engine of the proof below: to compute an expectation at a terminal time, exhibit a martingale that interpolates between the quantity you want and the quantity you know."
+  },
+  {
+   "tag": "MEY0",
+   "type": "section",
+   "html": "The Feynman–Kac formula"
+  },
+  {
+   "tag": "NM0N",
+   "type": "theorem",
+   "html": "<p>Let $V, f \\colon \\mathbb{R}^d \\to \\mathbb{R}$ and $g \\colon \\mathbb{R}^d \\to \\mathbb{R}$ be continuous, with $V$ bounded below, and suppose $u \\in C^{1,2}([0,T] \\times \\mathbb{R}^d)$, of at most polynomial growth, solves the terminal value problem\n\\[\n\\partial_t u(t,x) + \\mathcal{A} u(t,x) - V(x)\\,u(t,x) + f(x) = 0, \\qquad u(T, x) = g(x).\n\\]\nThen $u$ admits the stochastic representation\n\\[\nu(t,x) = \\mathbb{E}\\left[ e^{-\\int_t^T V(X_s)\\,ds}\\, g(X_T) + \\int_t^T e^{-\\int_t^s V(X_r)\\,dr} f(X_s)\\,ds \\;\\middle|\\; X_t = x \\right].\n\\]</p>",
+   "title": "Feynman–Kac"
+  },
+  {
+   "tag": "R8WQ",
+   "type": "proof",
+   "html": "<p>Fix $(t,x)$ and let $X$ solve the <span class=\"concept\" data-concept=\"sde\" role=\"button\" tabindex=\"0\">SDE</span> started from $X_t = x$. Define the discount factor $E_s = e^{-\\int_t^s V(X_r)\\,dr}$ and the candidate martingale\n\\[\nM_s = E_s\\, u(s, X_s) + \\int_t^s E_r\\, f(X_r)\\,dr, \\qquad s \\in [t, T].\n\\]\nApplying <span class=\"concept\" data-concept=\"ito-formula\" role=\"button\" tabindex=\"0\">Itô's formula</span> to the product $E_s\\,u(s,X_s)$ and using $dE_s = -V(X_s) E_s\\,ds$ gives\n\\[\ndM_s = E_s \\left( \\partial_t u + \\mathcal{A} u - V u + f \\right)(s, X_s)\\,ds + E_s \\nabla u^{\\mathsf{T}} \\sigma\\,dW_s.\n\\]\nThe drift vanishes identically because $u$ solves the PDE, so $M$ is a local martingale; the growth assumptions upgrade it to a true <span class=\"concept\" data-concept=\"martingale\" role=\"button\" tabindex=\"0\">martingale</span> on $[t,T]$. Equating $\\mathbb{E}[M_t] = \\mathbb{E}[M_T]$ yields\n\\[\nu(t,x) = \\mathbb{E}\\left[ E_T\\, g(X_T) + \\int_t^T E_s f(X_s)\\,ds \\right],\n\\]\nwhich is the claimed representation.</p>"
+  },
+  {
+   "tag": "P1PM",
+   "type": "remark",
+   "html": "<p>The theorem as stated is a <em>verification</em> result: it assumes a classical solution exists and identifies it. Existence is a separate PDE problem; conversely, under Hölder regularity of the coefficients the right-hand side can be shown directly to define a classical solution. The two viewpoints meet in the theory of viscosity solutions, where the stochastic representation itself serves as the definition of a generalised solution.</p>"
+  },
+  {
+   "tag": "RNQ0",
+   "type": "remark",
+   "html": "<p>Taking $V = f = 0$ recovers the Kolmogorov backward equation: $u(t,x) = \\mathbb{E}[g(X_T) \\mid X_t = x]$ solves $\\partial_t u + \\mathcal{A}u = 0$. In semigroup language, the formula says that $P_t = e^{t \\mathcal{A}}$ acts by averaging over paths, and the potential $V$ deforms the semigroup to $e^{t(\\mathcal{A} - V)}$.</p>"
+  },
+  {
+   "tag": "R57D",
+   "type": "section",
+   "html": "Two canonical examples"
+  },
+  {
+   "tag": "I39Q",
+   "type": "example",
+   "html": "<p>Take $b = 0$, $\\sigma = I_d$, $V = f = 0$, so $X_t = x + W_t$ and $\\mathcal{A} = \\tfrac{1}{2}\\Delta$. The <span class=\"concept\" data-concept=\"heat-equation\" role=\"button\" tabindex=\"0\">heat equation</span> in backward form, $\\partial_t u + \\tfrac{1}{2}\\Delta u = 0$ with $u(T,\\cdot) = g$, has solution\n\\[\nu(t,x) = \\mathbb{E}\\left[ g(x + W_{T-t}) \\right] = \\int_{\\mathbb{R}^d} g(y)\\, \\frac{e^{-|y-x|^2 / 2(T-t)}}{(2\\pi (T-t))^{d/2}}\\,dy,\n\\]\nrecovering the Gaussian kernel of Section 1. A positive potential $V$ kills <span class=\"concept\" data-concept=\"brownian-motion\" role=\"button\" tabindex=\"0\">Brownian particles</span> at rate $V(X_s)$, which is the probabilistic content of the Schrödinger-type operator $\\tfrac{1}{2}\\Delta - V$.</p>",
+   "title": "Heat equation"
+  },
+  {
+   "tag": "3KMY",
+   "type": "example",
+   "html": "<p>Under the risk-neutral measure, a stock price follows the geometric Brownian motion $dS_t = r S_t\\,dt + \\Sigma S_t\\,dW_t$, and the <span class=\"concept\" data-concept=\"black-scholes\" role=\"button\" tabindex=\"0\">Black–Scholes equation</span> for the price $u(t,S)$ of a European option with payoff $g$ is\n\\[\n\\partial_t u + r S\\, \\partial_S u + \\frac{1}{2} \\Sigma^2 S^2\\, \\partial_S^2 u - r u = 0, \\qquad u(T, S) = g(S).\n\\]\nThis is precisely the Feynman–Kac PDE with constant potential $V = r$, so\n\\[\nu(t, S) = e^{-r (T-t)}\\, \\mathbb{E}\\left[ g(S_T) \\mid S_t = S \\right] :\n\\]\nthe option price is the discounted expected payoff. Evaluating the expectation for $g(S) = \\max(S - K, 0)$ gives the Black–Scholes formula in closed form.</p>",
+   "title": "Black–Scholes"
+  },
+  {
+   "tag": "TPB5",
+   "type": "section",
+   "html": "Outlook"
+  },
+  {
+   "tag": "W5VQ",
+   "type": "para",
+   "html": "The formula's practical importance runs in both directions. Numerically, it underlies Monte Carlo methods for high-dimensional PDEs, where grid-based solvers are hopeless but sampling $N$ diffusion paths costs only $O(N d)$; modern deep-learning PDE solvers are trained on exactly this representation. Theoretically, it is the entry point to the deep correspondence between analysis and probability: Dirichlet problems and exit distributions, spectral theory and large deviations, and, through its imaginary-time relative, Feynman's path integral itself."
+  }
+ ]
+}

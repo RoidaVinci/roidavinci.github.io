@@ -1,0 +1,30 @@
+{
+ "id": "martingale",
+ "title": "Martingales",
+ "properties": [
+  "$\\mathbb{E}[M_t \\mid \\mathcal{F}_s] = M_s$ for $s \\le t$; adapted, integrable. Sub-/super-: $\\ge$ / $\\le$.",
+  "Constant expectation: $\\mathbb{E}[M_t] = \\mathbb{E}[M_0]$ for all $t$.",
+  "Optional stopping: $\\mathbb{E}[M_\\tau] = \\mathbb{E}[M_0]$ under uniform integrability.",
+  "Convergence: $\\sup_t \\mathbb{E}|M_t| < \\infty$ $\\Rightarrow$ $M_t \\to M_\\infty$ a.s.",
+  "Canonical Brownian examples: $W_t$, $\\;W_t^2 - t$, $\\;e^{\\lambda W_t - \\lambda^2 t/2}$.",
+  "Itô integrals $\\int_0^t H\\,dW$ are local martingales; true martingales if $\\mathbb{E}\\int_0^t H^2 < \\infty$."
+ ],
+ "motivation": "A martingale formalises a fair game: given everything known today, the expected value tomorrow is the value today. The concept looks bland but is the single most powerful structural notion of probability theory — because martingales have constant expectation, and an enormous number of quantities can be computed by exhibiting a martingale that interpolates between what you want and what you know.",
+ "definition": "An adapted, integrable process $(M_t)_{t \\ge 0}$ on a filtered space is a <em>martingale</em> if $\\mathbb{E}[M_t \\mid \\mathcal{F}_s] = M_s$ for all $s \\le t$. If $=$ is replaced by $\\ge$ ($\\le$) the process is a sub-(super-)martingale. A <em>local</em> martingale is a process that becomes a martingale when stopped at a suitable increasing sequence of stopping times — the natural class produced by stochastic integration.",
+ "examples": [
+  "$W_t$, $W_t^2 - t$, and $e^{\\lambda W_t - \\lambda^2 t/2}$ are the three canonical Brownian martingales; each generates a family of identities via optional stopping.",
+  "Every Itô integral $\\int_0^t H_s\\,dW_s$ with $\\mathbb{E}\\int_0^t H_s^2\\,ds < \\infty$ is a martingale — 'the noise term has mean zero, conditionally.'",
+  "Doob martingale: $M_t = \\mathbb{E}[Z \\mid \\mathcal{F}_t]$ for integrable $Z$ — any terminal quantity, revealed progressively."
+ ],
+ "consequences": [
+  "Optional stopping: $\\mathbb{E}[M_\\tau] = \\mathbb{E}[M_0]$ under uniform integrability — the tool that computes exit probabilities and expected hitting times in one line.",
+  "Martingale convergence: $L^1$-bounded martingales converge almost surely — the backbone of ergodic and limit theorems.",
+  "In Feynman–Kac, the drift-free process $e^{-\\int_t^s V}u(s,X_s) + \\int_t^s e^{-\\int V} f$ is a martingale precisely because $u$ solves the PDE; equating expectations at both ends of $[t,T]$ is the whole proof.",
+  "Local martingales that are not true martingales (strict local martingales) are exactly the source of financial 'bubbles' and of failure cases of the formula."
+ ],
+ "related": [
+  "conditional-expectation",
+  "brownian-motion",
+  "ito-formula"
+ ]
+}
