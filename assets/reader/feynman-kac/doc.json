@@ -16,7 +16,7 @@
   {
    "tag": "G6LT",
    "type": "para",
-   "html": "The Feynman–Kac formula is one of the great bridges of twentieth-century mathematics: it expresses the solution of a parabolic partial differential equation as an average over the paths of a diffusion process. In one direction it lets us <em>solve</em> PDEs by running random simulations; in the other, it lets us compute probabilistic quantities — exit times, occupation measures, discounted payoffs — by solving deterministic equations. This short text states the formula precisely, sketches why it is true, and works through its two most famous instances: the heat equation and the Black–Scholes equation."
+   "html": "The Feynman–Kac formula is one of the great bridges of twentieth-century mathematics: it expresses the solution of a parabolic partial differential equation as an average over the paths of a diffusion process. In one direction it lets us <em>solve</em> PDEs by running random simulations; in the other, it lets us compute probabilistic quantities — exit times, occupation measures, discounted payoffs — by solving deterministic equations. This short text states the formula precisely, sketches why it is true, and works through its two most famous instances: the <span class=\"concept\" data-concept=\"heat-equation\" role=\"button\" tabindex=\"0\">heat equation</span> and the <span class=\"concept\" data-concept=\"black-scholes\" role=\"button\" tabindex=\"0\">Black–Scholes equation</span>."
   },
   {
    "tag": "MJ1X",
@@ -31,7 +31,7 @@
   {
    "tag": "BQ55",
    "type": "para",
-   "html": "The Feynman–Kac formula generalises this observation far beyond the heat equation: it covers variable coefficients, lower-order terms, source terms, and a potential term that — as Kac realised in 1949, inspired by Feynman's path-integral formulation of quantum mechanics — corresponds probabilistically to <em>killing</em> the diffusion at a state-dependent rate."
+   "html": "The Feynman–Kac formula generalises this observation far beyond the <span class=\"concept\" data-concept=\"heat-equation\" role=\"button\" tabindex=\"0\">heat equation</span>: it covers variable coefficients, lower-order terms, source terms, and a potential term that — as Kac realised in 1949, inspired by Feynman's path-integral formulation of quantum mechanics — corresponds probabilistically to <em>killing</em> the diffusion at a state-dependent rate."
   },
   {
    "tag": "SSKL",
@@ -74,7 +74,7 @@
   {
    "tag": "4FFS",
    "type": "theorem",
-   "html": "<p>Let $X$ solve the SDE above and let $u \\in C^{1,2}([0,T] \\times \\mathbb{R}^d)$. Then <span class=\"concept\" data-concept=\"ito-formula\" role=\"button\" tabindex=\"0\">Itô's formula</span> holds:\n\\[\ndu(t, X_t) = \\left( \\partial_t u + \\mathcal{A} u \\right)(t, X_t)\\,dt + \\nabla u(t, X_t)^{\\mathsf{T}} \\sigma(X_t)\\,dW_t.\n\\]</p>",
+   "html": "<p>Let $X$ solve the <span class=\"concept\" data-concept=\"sde\" role=\"button\" tabindex=\"0\">SDE</span> above and let $u \\in C^{1,2}([0,T] \\times \\mathbb{R}^d)$. Then <span class=\"concept\" data-concept=\"ito-formula\" role=\"button\" tabindex=\"0\">Itô's formula</span> holds:\n\\[\ndu(t, X_t) = \\left( \\partial_t u + \\mathcal{A} u \\right)(t, X_t)\\,dt + \\nabla u(t, X_t)^{\\mathsf{T}} \\sigma(X_t)\\,dW_t.\n\\]</p>",
    "title": "Itô's formula"
   },
   {
@@ -96,7 +96,7 @@
   {
    "tag": "R8WQ",
    "type": "proof",
-   "html": "<p>Fix $(t,x)$ and let $X$ solve the SDE started from $X_t = x$. Define the discount factor $E_s = e^{-\\int_t^s V(X_r)\\,dr}$ and the candidate martingale\n\\[\nM_s = E_s\\, u(s, X_s) + \\int_t^s E_r\\, f(X_r)\\,dr, \\qquad s \\in [t, T].\n\\]\nApplying <span class=\"concept\" data-concept=\"ito-formula\" role=\"button\" tabindex=\"0\">Itô's formula</span> to the product $E_s\\,u(s,X_s)$ and using $dE_s = -V(X_s) E_s\\,ds$ gives\n\\[\ndM_s = E_s \\left( \\partial_t u + \\mathcal{A} u - V u + f \\right)(s, X_s)\\,ds + E_s \\nabla u^{\\mathsf{T}} \\sigma\\,dW_s.\n\\]\nThe drift vanishes identically because $u$ solves the PDE, so $M$ is a local martingale; the growth assumptions upgrade it to a true <span class=\"concept\" data-concept=\"martingale\" role=\"button\" tabindex=\"0\">martingale</span> on $[t,T]$. Equating $\\mathbb{E}[M_t] = \\mathbb{E}[M_T]$ yields\n\\[\nu(t,x) = \\mathbb{E}\\left[ E_T\\, g(X_T) + \\int_t^T E_s f(X_s)\\,ds \\right],\n\\]\nwhich is the claimed representation.</p>"
+   "html": "<p>Fix $(t,x)$ and let $X$ solve the <span class=\"concept\" data-concept=\"sde\" role=\"button\" tabindex=\"0\">SDE</span> started from $X_t = x$. Define the discount factor $E_s = e^{-\\int_t^s V(X_r)\\,dr}$ and the candidate martingale\n\\[\nM_s = E_s\\, u(s, X_s) + \\int_t^s E_r\\, f(X_r)\\,dr, \\qquad s \\in [t, T].\n\\]\nApplying <span class=\"concept\" data-concept=\"ito-formula\" role=\"button\" tabindex=\"0\">Itô's formula</span> to the product $E_s\\,u(s,X_s)$ and using $dE_s = -V(X_s) E_s\\,ds$ gives\n\\[\ndM_s = E_s \\left( \\partial_t u + \\mathcal{A} u - V u + f \\right)(s, X_s)\\,ds + E_s \\nabla u^{\\mathsf{T}} \\sigma\\,dW_s.\n\\]\nThe drift vanishes identically because $u$ solves the PDE, so $M$ is a local martingale; the growth assumptions upgrade it to a true <span class=\"concept\" data-concept=\"martingale\" role=\"button\" tabindex=\"0\">martingale</span> on $[t,T]$. Equating $\\mathbb{E}[M_t] = \\mathbb{E}[M_T]$ yields\n\\[\nu(t,x) = \\mathbb{E}\\left[ E_T\\, g(X_T) + \\int_t^T E_s f(X_s)\\,ds \\right],\n\\]\nwhich is the claimed representation.</p>"
   },
   {
    "tag": "P1PM",
@@ -116,7 +116,7 @@
   {
    "tag": "I39Q",
    "type": "example",
-   "html": "<p>Take $b = 0$, $\\sigma = I_d$, $V = f = 0$, so $X_t = x + W_t$ and $\\mathcal{A} = \\tfrac{1}{2}\\Delta$. The <span class=\"concept\" data-concept=\"heat-equation\" role=\"button\" tabindex=\"0\">heat equation</span> in backward form, $\\partial_t u + \\tfrac{1}{2}\\Delta u = 0$ with $u(T,\\cdot) = g$, has solution\n\\[\nu(t,x) = \\mathbb{E}\\left[ g(x + W_{T-t}) \\right] = \\int_{\\mathbb{R}^d} g(y)\\, \\frac{e^{-|y-x|^2 / 2(T-t)}}{(2\\pi (T-t))^{d/2}}\\,dy,\n\\]\nrecovering the Gaussian kernel of Section 1. A positive potential $V$ kills Brownian particles at rate $V(X_s)$, which is the probabilistic content of the Schrödinger-type operator $\\tfrac{1}{2}\\Delta - V$.</p>",
+   "html": "<p>Take $b = 0$, $\\sigma = I_d$, $V = f = 0$, so $X_t = x + W_t$ and $\\mathcal{A} = \\tfrac{1}{2}\\Delta$. The <span class=\"concept\" data-concept=\"heat-equation\" role=\"button\" tabindex=\"0\">heat equation</span> in backward form, $\\partial_t u + \\tfrac{1}{2}\\Delta u = 0$ with $u(T,\\cdot) = g$, has solution\n\\[\nu(t,x) = \\mathbb{E}\\left[ g(x + W_{T-t}) \\right] = \\int_{\\mathbb{R}^d} g(y)\\, \\frac{e^{-|y-x|^2 / 2(T-t)}}{(2\\pi (T-t))^{d/2}}\\,dy,\n\\]\nrecovering the Gaussian kernel of Section 1. A positive potential $V$ kills <span class=\"concept\" data-concept=\"brownian-motion\" role=\"button\" tabindex=\"0\">Brownian particles</span> at rate $V(X_s)$, which is the probabilistic content of the Schrödinger-type operator $\\tfrac{1}{2}\\Delta - V$.</p>",
    "title": "Heat equation"
   },
   {

@@ -1,6 +1,14 @@
 {
  "id": "infinitesimal-generator",
  "title": "Infinitesimal Generator",
+ "properties": [
+  "$\\mathcal{A}f = \\lim_{t \\downarrow 0} (P_t f - f)/t$ where $P_t f(x) = \\mathbb{E}[f(X_t) \\mid X_0 = x]$.",
+  "For $dX = b\\,dt + \\sigma\\,dW$: $\\;\\mathcal{A}f = b \\cdot \\nabla f + \\tfrac{1}{2}\\operatorname{tr}(a D^2 f)$, $\\;a = \\sigma\\sigma^{\\mathsf{T}}$.",
+  "Brownian motion $\\leftrightarrow$ $\\tfrac{1}{2}\\Delta$; Markov chain $\\leftrightarrow$ rate matrix $Q$.",
+  "Kolmogorov: $\\partial_t P_t = \\mathcal{A}P_t = P_t\\mathcal{A}$; semigroup $P_t = e^{t\\mathcal{A}}$.",
+  "Dynkin: $\\mathbb{E}[f(X_\\tau)] = f(x) + \\mathbb{E}\\int_0^\\tau \\mathcal{A}f(X_s)\\,ds$.",
+  "$f(X_t) - \\int_0^t \\mathcal{A}f(X_s)\\,ds$ is a martingale (martingale problem)."
+ ],
  "motivation": "A Markov process is described globally by its transition semigroup $P_t f(x) = \\mathbb{E}[f(X_t) \\mid X_0 = x]$, but semigroups are unwieldy objects. The generator is their derivative at $t=0$: a single (differential) operator that encodes the entire local behaviour of the process, in the same way a vector field encodes a flow.",
  "definition": "The <em>generator</em> of a Markov semigroup $(P_t)$ is $\\mathcal{A}f = \\lim_{t \\downarrow 0} \\frac{P_t f - f}{t}$, defined on the domain of functions where the limit exists (uniformly, or pointwise with bounds). For the Itô diffusion $dX = b\\,dt + \\sigma\\,dW$ and $f \\in C_c^2$, $$\\mathcal{A}f(x) = \\sum_i b_i(x)\\,\\partial_i f(x) + \\frac{1}{2}\\sum_{i,j} (\\sigma\\sigma^{\\mathsf{T}})_{ij}(x)\\,\\partial_i\\partial_j f(x),$$ a second-order elliptic operator whose first-order part is the drift and whose second-order part is the covariance of the noise.",
  "examples": [
@@ -13,5 +21,10 @@
   "Kolmogorov equations: $\\partial_t P_t f = \\mathcal{A} P_t f = P_t \\mathcal{A} f$; Feynman–Kac perturbs this to the semigroup $e^{t(\\mathcal{A}-V)}$.",
   "$f(X_t) - \\int_0^t \\mathcal{A}f(X_s)\\,ds$ is a martingale for $f$ in the domain; requiring exactly this is the Stroock–Varadhan martingale-problem characterisation of the process."
  ],
- "related": ["sde", "ito-formula", "martingale", "heat-equation"]
+ "related": [
+  "sde",
+  "ito-formula",
+  "martingale",
+  "heat-equation"
+ ]
 }

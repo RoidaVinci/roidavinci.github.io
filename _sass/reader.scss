@@ -28,11 +28,6 @@
   align-items: start;
 }
 
-.reader-app.has-panel {
-  grid-template-columns: 11rem minmax(0, 7fr) minmax(350px, 4fr);
-  grid-template-areas: "toc doc panel";
-}
-
 .reader-doc {
   grid-area: doc;
   max-width: var(--prose-width);
@@ -94,15 +89,9 @@
 }
 
 @media (max-width: 1180px) {
-  .reader-app,
-  .reader-app.has-panel {
+  .reader-app {
     grid-template-columns: minmax(0, 1fr);
     grid-template-areas: "doc";
-  }
-
-  .reader-app.has-panel {
-    grid-template-columns: minmax(0, 5fr) minmax(340px, 3fr);
-    grid-template-areas: "doc panel";
   }
 
   .reader-toc {
@@ -282,46 +271,86 @@
   color: var(--color-text-muted);
 }
 
-/* --- Note affordance -------------------------------------------------------------- */
+/* --- Block tools (note · permalink) ------------------------------------------------ */
 
-.rblock-note-btn {
+.rblock-tools {
   position: absolute;
-  top: 0.15rem;
-  right: -2.4rem;
-  width: 1.8rem;
-  height: 1.8rem;
+  top: 0.1rem;
+  right: -3.1rem;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.85rem;
-  color: var(--color-text-muted);
-  background: none;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
+  flex-direction: column;
+  gap: 0.3rem;
   opacity: 0;
-  transition: opacity var(--transition), background var(--transition), color var(--transition);
+  transition: opacity var(--transition);
 }
 
-.rblock:hover .rblock-note-btn,
-.rblock-note-btn:focus-visible,
-.rblock.has-note .rblock-note-btn {
+.rblock:hover .rblock-tools,
+.rblock-tools:focus-within,
+.rblock.has-note .rblock-tools {
   opacity: 1;
 }
 
-.rblock-note-btn:hover {
-  background: var(--color-bg-alt);
+.rblock-tool {
+  width: 2.2rem;
+  height: 2.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: color var(--transition), border-color var(--transition), transform var(--transition), box-shadow var(--transition);
+}
+
+.rblock-tool svg {
+  width: 1.05rem;
+  height: 1.05rem;
+}
+
+.rblock-tool:hover,
+.rblock-tool:focus-visible {
   color: var(--color-accent);
+  border-color: var(--color-accent);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px var(--color-shadow);
 }
 
 .rblock.has-note .rblock-note-btn {
   color: var(--color-accent);
+  border-color: color-mix(in srgb, var(--color-accent) 45%, transparent);
+  background: color-mix(in srgb, var(--color-accent) 7%, var(--color-surface));
 }
 
-@media (max-width: 900px) {
-  .rblock-note-btn {
+.rblock-tool-flash {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
+/* Flash a block after a deep-link / palette jump */
+.rblock.is-flash > :first-child {
+  animation: reader-flash 1.5s ease-out;
+  border-radius: var(--radius);
+}
+
+@keyframes reader-flash {
+  0% { background: color-mix(in srgb, var(--color-accent) 16%, transparent); box-shadow: 0 0 0 6px color-mix(in srgb, var(--color-accent) 16%, transparent); }
+  100% { background: transparent; box-shadow: 0 0 0 6px transparent; }
+}
+
+@media (max-width: 1100px) {
+  .rblock-tools {
     position: static;
     float: right;
+    flex-direction: row;
+    margin-left: 0.5rem;
+  }
+
+  .rblock-tool {
+    width: 2rem;
+    height: 2rem;
   }
 }
 
@@ -345,29 +374,50 @@
   text-decoration-color: var(--color-accent);
 }
 
-/* --- Selection ask button ------------------------------------------------------------- */
+/* --- Selection toolbar (highlight · ask) ------------------------------------------------ */
 
-.reader-ask-float {
+.reader-selbar {
   position: absolute;
   z-index: 65;
   display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
+  overflow: hidden;
   font-family: var(--font-sans);
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: #fff;
-  background: var(--color-accent);
-  border: none;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-radius: 999px;
-  padding: 0.35rem 0.85rem;
-  cursor: pointer;
-  box-shadow: 0 6px 18px var(--color-shadow-strong);
+  box-shadow: 0 8px 24px var(--color-shadow-strong);
   animation: reader-pop 140ms ease-out;
 }
 
-.reader-ask-float:hover {
-  background: var(--color-accent-hover);
+.reader-selbar button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-text);
+  background: none;
+  border: none;
+  padding: 0.45rem 0.9rem;
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition);
+}
+
+.reader-selbar button + button {
+  border-left: 1px solid var(--color-border);
+}
+
+.reader-selbar button:hover {
+  color: var(--color-accent);
+  background: color-mix(in srgb, var(--color-accent) 7%, transparent);
+}
+
+.reader-selbar-swatch {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 3px;
+  background: color-mix(in srgb, #eab308 55%, transparent);
 }
 
 @keyframes reader-pop {
@@ -375,21 +425,108 @@
   to { opacity: 1; transform: none; }
 }
 
-/* --- Pane stack panel -------------------------------------------------------------------- */
+/* --- Highlights ---------------------------------------------------------------------------- */
+
+mark.reader-hl {
+  background: color-mix(in srgb, #eab308 26%, transparent);
+  color: inherit;
+  border-radius: 2px;
+  padding: 0.05em 0;
+  cursor: pointer;
+  transition: background var(--transition);
+}
+
+mark.reader-hl:hover {
+  background: color-mix(in srgb, #eab308 40%, transparent);
+}
+
+.reader-hl-pop {
+  position: absolute;
+  z-index: 66;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  box-shadow: 0 8px 24px var(--color-shadow-strong);
+  animation: reader-pop 140ms ease-out;
+}
+
+.reader-hl-pop button {
+  font-family: var(--font-sans);
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--color-text);
+  background: none;
+  border: none;
+  padding: 0.4rem 0.85rem;
+  cursor: pointer;
+}
+
+.reader-hl-pop button:hover {
+  color: #b3403f;
+}
+
+/* --- Concept hover preview ------------------------------------------------------------------- */
+
+.reader-tip {
+  position: fixed;
+  z-index: 80;
+  max-width: 24rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: 0 14px 38px var(--color-shadow-strong);
+  padding: 0.75rem 0.95rem 0.65rem;
+  pointer-events: none;
+  animation: reader-pop 120ms ease-out;
+}
+
+.reader-tip-title {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin: 0 0 0.35rem;
+}
+
+.reader-tip-tldr {
+  font-size: 0.88rem;
+  line-height: 1.55;
+  margin: 0 0 0.4rem;
+}
+
+.reader-tip-hint {
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+/* --- Pane stack panel ----------------------------------------------------------------------
+   An overlay: floats above the page at the right edge and never reflows the
+   text column. On typical screens it occupies the margin; the text does not
+   move when it opens. */
 
 .reader-panel {
-  grid-area: panel;
-  position: sticky;
+  position: fixed;
   top: 4.75rem;
-  max-height: calc(100vh - 6rem);
+  right: clamp(0.75rem, 1.8vw, 1.75rem);
+  bottom: 1.25rem;
+  width: min(29rem, calc(100vw - 1.5rem));
+  z-index: 70;
   display: flex;
   flex-direction: column;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
-  box-shadow: 0 12px 36px var(--color-shadow);
+  box-shadow: 0 18px 60px var(--color-shadow-strong);
   overflow: hidden;
   animation: reader-panel-in 220ms ease-out;
+}
+
+.reader-panel[hidden] {
+  display: none;
 }
 
 .reader-panel::before {
@@ -401,8 +538,12 @@
 }
 
 @keyframes reader-panel-in {
-  from { opacity: 0; transform: translateX(16px); }
+  from { opacity: 0; transform: translateX(24px); }
   to { opacity: 1; transform: none; }
+}
+
+.reader-pane:focus {
+  outline: none;
 }
 
 .reader-crumbs {
@@ -566,6 +707,104 @@
   transform: translateY(-1px);
 }
 
+/* --- "At a glance" box: compressed definition + properties, skim-first ----------------------- */
+
+.reader-glance {
+  border: 1px solid color-mix(in srgb, var(--color-accent) 28%, transparent);
+  background: color-mix(in srgb, var(--color-accent) 4%, var(--color-bg-alt) 55%);
+  border-radius: var(--radius);
+  padding: 0.85rem 1rem 0.75rem;
+  margin: 0 0 1.2rem;
+}
+
+.reader-glance-label {
+  font-family: var(--font-sans);
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin: 0 0 0.45rem;
+}
+
+.reader-glance-tldr {
+  font-size: 0.92rem;
+  line-height: 1.6;
+  margin: 0 0 0.6rem;
+}
+
+.reader-glance-props {
+  list-style: none;
+  margin: 0;
+  padding: 0.55rem 0 0;
+  border-top: 1px dashed color-mix(in srgb, var(--color-accent) 25%, transparent);
+}
+
+.reader-glance-props li {
+  position: relative;
+  font-size: 0.85rem;
+  line-height: 1.55;
+  padding-left: 1rem;
+  margin-bottom: 0.4rem;
+}
+
+.reader-glance-props li::before {
+  content: "";
+  position: absolute;
+  left: 0.05rem;
+  top: 0.55em;
+  width: 0.35rem;
+  height: 0.35rem;
+  border-radius: 1.5px;
+  background: color-mix(in srgb, var(--color-accent) 65%, transparent);
+}
+
+.reader-glance-props li:last-child {
+  margin-bottom: 0;
+}
+
+/* --- Concept index (the visible face of the concept database) -------------------------------- */
+
+.reader-concept-index {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  margin-top: 1rem;
+}
+
+.reader-concept-item {
+  font: inherit;
+  text-align: left;
+  color: var(--color-text);
+  background: var(--color-bg-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 0.65rem 0.85rem;
+  cursor: pointer;
+  transition: border-color var(--transition), background var(--transition), transform var(--transition);
+}
+
+.reader-concept-item:hover {
+  border-color: var(--color-accent);
+  transform: translateY(-1px);
+}
+
+.reader-concept-item-title {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-accent);
+  margin-bottom: 0.25rem;
+}
+
+.reader-concept-item-tldr {
+  display: block;
+  font-size: 0.84rem;
+  line-height: 1.55;
+  color: var(--color-text-muted);
+}
+
 /* --- Ask (AI) --------------------------------------------------------------------------------- */
 
 .reader-ask-thread {
@@ -708,6 +947,73 @@
   margin-top: 0.45rem;
 }
 
+.reader-tag-chip {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.55em;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  background: var(--color-bg-alt);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  padding: 0.15em 0.5em;
+  vertical-align: middle;
+}
+
+/* --- Annotations pane -------------------------------------------------------------------------- */
+
+.reader-ann {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.reader-ann-source {
+  font: inherit;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  text-align: left;
+  color: var(--color-text-muted);
+  background: none;
+  border: none;
+  border-left: 3px solid var(--color-border);
+  padding: 0.1rem 0 0.1rem 0.7rem;
+  cursor: pointer;
+  transition: color var(--transition), border-color var(--transition);
+}
+
+.reader-ann-source:hover {
+  color: var(--color-accent);
+  border-left-color: var(--color-accent);
+}
+
+.reader-ann-source.is-hl {
+  border-left-color: color-mix(in srgb, #eab308 60%, transparent);
+}
+
+.reader-ann-note {
+  font-size: 0.9rem;
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.reader-ann-remove {
+  align-self: flex-start;
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.reader-ann-remove:hover {
+  color: #b3403f;
+}
+
 /* --- Settings ---------------------------------------------------------------------------------------- */
 
 .reader-settings label {
@@ -736,12 +1042,199 @@
   border-color: var(--color-accent);
 }
 
-.reader-settings .reader-hint {
+.reader-hint {
   font-family: var(--font-sans);
   font-size: 0.78rem;
   line-height: 1.5;
   color: var(--color-text-muted);
   margin-top: 0.7rem;
+}
+
+/* --- Command palette (⌘K) --------------------------------------------------------------------------------- */
+
+.reader-palette-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  background: color-mix(in srgb, var(--color-text) 18%, transparent);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 14vh 1rem 0;
+  animation: reader-fade 120ms ease-out;
+}
+
+@keyframes reader-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.reader-palette {
+  width: min(36rem, 100%);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: 0 24px 70px var(--color-shadow-strong);
+  overflow: hidden;
+  animation: reader-pane-in 160ms ease-out;
+}
+
+.reader-palette-head {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+}
+
+.reader-palette-head svg {
+  width: 1.05rem;
+  height: 1.05rem;
+  flex: none;
+}
+
+.reader-palette-head input {
+  flex: 1;
+  min-width: 0;
+  font: inherit;
+  font-size: 1rem;
+  color: var(--color-text);
+  background: none;
+  border: none;
+  outline: none;
+}
+
+.reader-palette-head kbd,
+.reader-kbd {
+  font-family: var(--font-sans);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+  background: var(--color-bg-alt);
+  border: 1px solid var(--color-border);
+  border-bottom-width: 2px;
+  border-radius: 5px;
+  padding: 0.12rem 0.35rem;
+}
+
+.reader-palette-results {
+  list-style: none;
+  margin: 0;
+  padding: 0.4rem;
+  max-height: 21rem;
+  overflow-y: auto;
+}
+
+.reader-palette-results li {
+  display: flex;
+  align-items: baseline;
+  gap: 0.65rem;
+  padding: 0.5rem 0.65rem;
+  margin: 0;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.reader-palette-results li[aria-selected="true"] {
+  background: color-mix(in srgb, var(--color-accent) 9%, transparent);
+}
+
+.reader-palette-type {
+  flex: none;
+  width: 4.2rem;
+  font-family: var(--font-sans);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.reader-palette-type.is-concept {
+  color: var(--color-accent);
+}
+
+.reader-palette-body {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.reader-palette-title {
+  font-size: 0.92rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.reader-palette-sub {
+  font-size: 0.76rem;
+  color: var(--color-text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.reader-palette-hint {
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
+  margin: 0;
+  padding: 0.55rem 1rem;
+  border-top: 1px solid var(--color-border);
+  background: color-mix(in srgb, var(--color-bg-alt) 70%, transparent);
+}
+
+/* --- Toolbar extras ----------------------------------------------------------------------------------------- */
+
+.reader-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.15rem;
+  height: 1.15rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #fff;
+  background: var(--color-accent);
+  border-radius: 999px;
+  padding: 0 0.3rem;
+}
+
+/* --- Toast ------------------------------------------------------------------------------------------------- */
+
+.reader-toast {
+  position: fixed;
+  bottom: 1.4rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 85;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  color: var(--color-text);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  padding: 0.5rem 1.1rem;
+  box-shadow: 0 10px 32px var(--color-shadow-strong);
+  animation: reader-pop 180ms ease-out;
+}
+
+.reader-toast button {
+  font: inherit;
+  font-weight: 700;
+  color: var(--color-accent);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
 }
 
 /* --- Mobile: panel becomes a bottom sheet with backdrop ------------------------------------------------- */
@@ -751,11 +1244,6 @@
 }
 
 @media (max-width: 900px) {
-  .reader-app.has-panel {
-    grid-template-columns: 1fr;
-    grid-template-areas: "doc";
-  }
-
   .reader-backdrop {
     display: block;
     position: fixed;
@@ -766,12 +1254,10 @@
   }
 
   .reader-panel {
-    position: fixed;
     inset: auto 0 0 0;
-    top: 18vh;
-    max-height: 82vh;
+    top: 16vh;
+    width: auto;
     border-radius: var(--radius) var(--radius) 0 0;
-    z-index: 70;
     animation: reader-sheet-in 240ms ease-out;
   }
 
@@ -786,7 +1272,12 @@
 @media (prefers-reduced-motion: reduce) {
   .reader-panel,
   .reader-pane,
-  .reader-ask-float {
+  .reader-selbar,
+  .reader-tip,
+  .reader-palette,
+  .reader-palette-overlay,
+  .reader-toast,
+  .rblock.is-flash > :first-child {
     animation: none;
   }
 }

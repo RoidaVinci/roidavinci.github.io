@@ -1,6 +1,14 @@
 {
  "id": "heat-equation",
  "title": "The Heat Equation",
+ "properties": [
+  "$\\partial_t u = \\tfrac{1}{2}\\Delta u$, $\\;u(0,\\cdot) = g$; solution $u(t,\\cdot) = g * p_t$, $\\;p_t(x) = (2\\pi t)^{-d/2}e^{-|x|^2/2t}$.",
+  "Probabilistic form: $u(t,x) = \\mathbb{E}[g(x + W_t)]$.",
+  "Instant smoothing: $u(t,\\cdot)$ analytic for $t > 0$; not reversible in time.",
+  "Maximum principle: extrema on the parabolic boundary.",
+  "Semigroup: $u(t) = e^{t\\Delta/2} g$; with potential, $e^{t(\\Delta/2 - V)}$ = killed Brownian motion.",
+  "Mass conservation: $\\int u(t,x)\\,dx = \\int g$; $L^1$–$L^\\infty$ decay $\\|u(t)\\|_\\infty \\lesssim t^{-d/2}\\|g\\|_1$."
+ ],
  "motivation": "The heat equation is the prototype of all parabolic PDEs: the macroscopic law of any quantity transported by microscopic random motion — heat, solutes, probability mass. Every structural feature of parabolic theory (smoothing, maximum principles, irreversibility, Gaussian kernels) appears here in its purest form, and Feynman–Kac is best understood as the statement that general parabolic equations are heat equations along the paths of a diffusion.",
  "definition": "The Cauchy problem is $$\\partial_t u = \\tfrac{1}{2}\\Delta u \\text{ on } (0,\\infty)\\times\\mathbb{R}^d, \\qquad u(0,\\cdot) = g,$$ with (unique, under growth conditions) solution given by convolution with the heat kernel: $u(t,x) = \\int_{\\mathbb{R}^d} g(y)\\, p_t(x,y)\\,dy$, where $p_t(x,y) = (2\\pi t)^{-d/2} e^{-|x-y|^2/2t}$. The factor $\\tfrac{1}{2}$ is the probabilist's normalisation, matching the generator of standard Brownian motion.",
  "examples": [
@@ -13,5 +21,9 @@
   "Maximum principle: solutions attain extrema at the initial time or spatial boundary; probabilistically obvious, since averages cannot exceed the values averaged.",
   "Duhamel's principle for $\\partial_t u = \\tfrac{1}{2}\\Delta u - Vu$ resummed along paths gives $u(t,x) = \\mathbb{E}[e^{-\\int_0^t V(x+W_s)ds} g(x+W_t)]$ — the original Kac formula for Schrödinger operators."
  ],
- "related": ["brownian-motion", "infinitesimal-generator", "black-scholes"]
+ "related": [
+  "brownian-motion",
+  "infinitesimal-generator",
+  "black-scholes"
+ ]
 }

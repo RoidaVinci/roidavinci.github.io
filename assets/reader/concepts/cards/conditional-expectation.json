@@ -1,6 +1,14 @@
 {
  "id": "conditional-expectation",
  "title": "Conditional Expectation",
+ "properties": [
+  "Defining property: $\\mathbb{E}[X \\mid \\mathcal{G}]$ is $\\mathcal{G}$-measurable with $\\int_G \\mathbb{E}[X \\mid \\mathcal{G}]\\,d\\mathbb{P} = \\int_G X\\,d\\mathbb{P}$, $G \\in \\mathcal{G}$.",
+  "Exists and is a.s. unique (Radon–Nikodym); linear, positive, contraction on every $L^p$.",
+  "Tower: $\\mathbb{E}[\\mathbb{E}[X \\mid \\mathcal{G}] \\mid \\mathcal{H}] = \\mathbb{E}[X \\mid \\mathcal{H}]$ for $\\mathcal{H} \\subseteq \\mathcal{G}$.",
+  "Taking out what is known: $\\mathbb{E}[ZX \\mid \\mathcal{G}] = Z\\,\\mathbb{E}[X \\mid \\mathcal{G}]$ for $\\mathcal{G}$-measurable bounded $Z$.",
+  "Independence: $X \\perp \\mathcal{G}$ $\\Rightarrow$ $\\mathbb{E}[X \\mid \\mathcal{G}] = \\mathbb{E}[X]$; conditional Jensen $\\varphi(\\mathbb{E}[X\\mid\\mathcal{G}]) \\le \\mathbb{E}[\\varphi(X)\\mid\\mathcal{G}]$.",
+  "On $L^2$: orthogonal projection onto $L^2(\\mathcal{G})$ — best mean-square prediction."
+ ],
  "motivation": "Probability theory needs a precise way to say 'the best guess of $X$ given partial information'. Elementary conditioning on events of positive probability does not survive the passage to continuous time, where every particular trajectory has probability zero. Kolmogorov's solution — conditioning on a σ-algebra — replaces pointwise formulas with a characterising property, and is the definition on which filtrations, martingales, and Markov processes are built.",
  "definition": "Let $X \\in L^1(\\Omega, \\mathcal{F}, \\mathbb{P})$ and let $\\mathcal{G} \\subseteq \\mathcal{F}$ be a sub-σ-algebra. The <em>conditional expectation</em> $\\mathbb{E}[X \\mid \\mathcal{G}]$ is the (a.s.-unique) $\\mathcal{G}$-measurable, integrable random variable $Y$ satisfying $$\\int_G Y\\,d\\mathbb{P} = \\int_G X\\,d\\mathbb{P} \\quad \\text{for all } G \\in \\mathcal{G}.$$ Existence follows from the Radon–Nikodym theorem; for $X \\in L^2$ it is the orthogonal projection of $X$ onto $L^2(\\mathcal{G})$.",
  "examples": [
@@ -13,5 +21,8 @@
   "The Feynman–Kac representation is literally a conditional expectation given $X_t = x$, i.e. a function on state space defined via conditioning.",
   "Projection interpretation makes conditional expectation the theoretical core of filtering, regression, and least-squares prediction."
  ],
- "related": ["martingale", "brownian-motion"]
+ "related": [
+  "martingale",
+  "brownian-motion"
+ ]
 }

@@ -1,22 +1,28 @@
-// Concept layer: reviewed cards (fetched from static JSON, cached) plus the
-// AI panes that hang off them — ad-hoc questions and "expand further". Cards
-// are curated content; AI answers are generated live and visually provisional.
+// Concept layer: reviewed cards (fetched from the site-wide concept
+// database, cached) plus the AI panes that hang off them — ad-hoc questions
+// and "expand further". Cards are curated content; AI answers are generated
+// live and visually provisional.
+//
+// Card anatomy (skim-first): an "At a glance" box with the compressed
+// math-style definition and key properties, then the prose — why it
+// matters, full definition, examples, consequences, related concepts.
 
 import { push, typeset } from './panes.js';
 import { aiEnabled, ask, proseToHtml } from './ask.js';
+import { getConcept, conceptTitle, allConcepts, linkify } from './registry.js';
 
-let base = '';
+let conceptsBase = '';
 const cardCache = new Map();
 
-export function initCards(basePath) {
-  base = basePath;
+export function initCards(conceptsBasePath) {
+  conceptsBase = conceptsBasePath;
 }
 
 export async function openConcept(id, displayText, contextText) {
   let card = cardCache.get(id);
   if (card === undefined) {
     try {
-      const res = await fetch(`${base}/cards/${id}.json`);
+      const res = await fetch(`${conceptsBase}/cards/${id}.json`);
       card = res.ok ? await res.json() : null;
     } catch {
       card = null;
@@ -26,7 +32,7 @@ export async function openConcept(id, displayText, contextText) {
   if (card) {
     pushCard(card, contextText);
   } else if (aiEnabled()) {
-    pushAsk(displayText, contextText, `Explain “${displayText}” as it is used in this passage.`);
+    pushAsk(displayText || conceptTitle(id), contextText, `Explain “${displayText || conceptTitle(id)}” as it is used in this passage.`);
   }
 }
 
@@ -34,12 +40,26 @@ function section(title, html) {
   return `<h3>${title}</h3>${html}`;
 }
 
+function glanceHtml(card) {
+  const tldr = getConcept(card.id)?.tldr || card.tldr;
+  const props = card.properties || [];
+  if (!tldr && props.length === 0) return '';
+  let html = '<div class="reader-glance"><p class="reader-glance-label">At a glance</p>';
+  if (tldr) html += `<p class="reader-glance-tldr">${tldr}</p>`;
+  if (props.length) {
+    html += `<ul class="reader-glance-props">${props.map((p) => `<li>${p}</li>`).join('')}</ul>`;
+  }
+  return `${html}</div>`;
+}
+
 function pushCard(card, contextText) {
   const state = { thread: [] }; // survives re-renders while the pane is on the stack
   push({
     title: card.title,
+    hash: `c/${card.id}`,
     render(el) {
       let html = `<p class="reader-pane-eyebrow">Reviewed concept</p><h2>${card.title}</h2>`;
+      html += glanceHtml(card);
       if (card.motivation) html += section('Why it matters', `<p>${card.motivation}</p>`);
       if (card.definition) html += section('Definition', `<p>${card.definition}</p>`);
       if (card.examples?.length) {
@@ -50,6 +70,10 @@ function pushCard(card, contextText) {
       }
       el.innerHTML = html;
 
+      // Same database, same links: concept mentions inside the card become
+      // concept links too (never to the card itself).
+      linkify(el, { exclude: card.id });
+
       if (card.related?.length) {
         el.insertAdjacentHTML('beforeend', '<h3>Related</h3>');
         const chips = document.createElement('div');
@@ -57,8 +81,8 @@ function pushCard(card, contextText) {
         for (const id of card.related) {
           const chip = document.createElement('button');
           chip.className = 'reader-chip';
-          chip.textContent = id.replace(/-/g, ' ');
-          chip.addEventListener('click', () => openConcept(id, id.replace(/-/g, ' '), contextText));
+          chip.textContent = conceptTitle(id);
+          chip.addEventListener('click', () => openConcept(id, conceptTitle(id), contextText));
           chips.appendChild(chip);
         }
         el.appendChild(chips);
@@ -77,6 +101,26 @@ function pushCard(card, contextText) {
         el.appendChild(expand);
         mountAskThread(el, state, cardContext(card, contextText));
       }
+    },
+  });
+}
+
+// The visible face of the concept database: every concept with its TL;DR.
+export function pushConceptIndex() {
+  push({
+    title: 'Concepts',
+    render(el) {
+      el.innerHTML = '<p class="reader-pane-eyebrow">Concept library</p><h2>All concepts</h2><p class="reader-hint">Every linked term in the text resolves to one of these reviewed cards.</p>';
+      const list = document.createElement('div');
+      list.className = 'reader-concept-index';
+      for (const c of allConcepts()) {
+        const item = document.createElement('button');
+        item.className = 'reader-concept-item';
+        item.innerHTML = `<span class="reader-concept-item-title">${c.title}</span><span class="reader-concept-item-tldr">${c.tldr || ''}</span>`;
+        item.addEventListener('click', () => openConcept(c.id, c.title, ''));
+        list.appendChild(item);
+      }
+      el.appendChild(list);
     },
   });
 }

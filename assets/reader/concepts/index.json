@@ -1,0 +1,53 @@
+{
+ "concepts": [
+  {
+   "id": "brownian-motion",
+   "title": "Brownian Motion",
+   "aliases": ["Brownian motion", "Brownian motions", "Brownian path", "Brownian paths", "Brownian particle", "Brownian particles", "Wiener process"],
+   "avoidPrefixes": ["geometric"],
+   "tldr": "Continuous adapted $(W_t)_{t \\ge 0}$, $W_0 = 0$, with increments $W_t - W_s \\sim \\mathcal{N}(0,(t-s)I_d)$ independent of $\\mathcal{F}_s$."
+  },
+  {
+   "id": "sde",
+   "title": "Stochastic Differential Equation",
+   "aliases": ["stochastic differential equation", "stochastic differential equations", "SDE", "SDEs", "Itô diffusion", "Itô diffusions"],
+   "tldr": "$dX_t = b(X_t)\\,dt + \\sigma(X_t)\\,dW_t$, $X_0 = x$; unique strong solution when $b, \\sigma$ are Lipschitz."
+  },
+  {
+   "id": "ito-formula",
+   "title": "Itô's Formula",
+   "aliases": ["Itô's formula", "Itô formula", "Itô's lemma", "Itô calculus"],
+   "tldr": "$du(t,X_t) = (\\partial_t u + \\mathcal{A}u)\\,dt + \\nabla u^{\\mathsf{T}} \\sigma\\,dW_t$ for $u \\in C^{1,2}$ — the chain rule of stochastic calculus."
+  },
+  {
+   "id": "infinitesimal-generator",
+   "title": "Infinitesimal Generator",
+   "aliases": ["infinitesimal generator", "infinitesimal generators"],
+   "tldr": "$\\mathcal{A}f = b \\cdot \\nabla f + \\tfrac{1}{2}\\operatorname{tr}\\!\\big(a\\, \\nabla^2 f\\big)$, $a = \\sigma\\sigma^{\\mathsf{T}}$; equals $\\partial_t \\mathbb{E}[f(X_t^x)]\\big|_{t=0}$."
+  },
+  {
+   "id": "martingale",
+   "title": "Martingale",
+   "aliases": ["martingale", "martingales", "local martingale", "local martingales"],
+   "tldr": "Adapted, integrable $(M_t)$ with $\\mathbb{E}[M_t \\mid \\mathcal{F}_s] = M_s$ for $s \\le t$ — conditionally constant, hence constant in expectation."
+  },
+  {
+   "id": "conditional-expectation",
+   "title": "Conditional Expectation",
+   "aliases": ["conditional expectation", "conditional expectations"],
+   "tldr": "$\\mathbb{E}[X \\mid \\mathcal{G}]$: the a.s.-unique $\\mathcal{G}$-measurable $Y$ with $\\mathbb{E}[Y \\mathbf{1}_A] = \\mathbb{E}[X \\mathbf{1}_A]$ for all $A \\in \\mathcal{G}$."
+  },
+  {
+   "id": "heat-equation",
+   "title": "Heat Equation",
+   "aliases": ["heat equation", "heat kernel"],
+   "tldr": "$\\partial_t u = \\tfrac{1}{2}\\Delta u$, $u(0,\\cdot) = g$ $\\;\\Rightarrow\\;$ $u(t,x) = \\mathbb{E}[g(x + W_t)] = (g * p_t)(x)$."
+  },
+  {
+   "id": "black-scholes",
+   "title": "Black–Scholes Equation",
+   "aliases": ["Black–Scholes equation", "Black–Scholes formula", "Black–Scholes model", "Black–Scholes"],
+   "tldr": "$\\partial_t u + rS\\,\\partial_S u + \\tfrac{1}{2}\\Sigma^2 S^2\\, \\partial_S^2 u - ru = 0$, $u(T,S) = g(S)$ $\\;\\Rightarrow\\;$ $u = e^{-r(T-t)}\\,\\mathbb{E}[g(S_T) \\mid S_t = S]$."
+  }
+ ]
+}

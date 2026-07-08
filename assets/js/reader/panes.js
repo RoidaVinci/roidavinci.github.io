@@ -1,15 +1,39 @@
 // Pane stack — the anti-drift navigation core.
 // Every deep-dive is a push; returning is a pop. There is no free navigation,
 // so the reader can always get back to the root text in one gesture.
+//
+// The panel is an overlay: it floats above the page and never reflows the
+// text column. Each push adds a history entry (panes with a `hash` also set
+// a shareable URL), so the browser back button pops panes — on mobile,
+// back closes the sheet instead of leaving the page.
 
 const panel = document.getElementById('reader-panel');
-const app = document.getElementById('reader-app');
 
-let stack = []; // [{ title, render(el), onPop? }]
+let stack = []; // [{ title, render(el), hash?, onPop? }]
+let pendingNav = false;
+let lastFocus = null;
 
 export function typeset(el) {
   window.MathJax?.typesetPromise?.([el]).catch(() => {});
 }
+
+export function initPanes() {
+  history.replaceState({ rd: 0 }, '', location.href);
+}
+
+// Update the visible hash (e.g. TOC navigation) without adding a history
+// entry, preserving the pane-depth state.
+export function setHash(hash) {
+  history.replaceState({ rd: stack.length }, '', hash ? `#${hash}` : location.pathname + location.search);
+}
+
+window.addEventListener('popstate', (e) => {
+  pendingNav = false;
+  const target = Math.max(0, Math.min(e.state?.rd ?? 0, stack.length));
+  if (target === stack.length) return;
+  while (stack.length > target) stack.pop()?.onPop?.();
+  renderPanel();
+});
 
 let backdrop = null;
 
@@ -17,13 +41,13 @@ function renderPanel() {
   panel.innerHTML = '';
   if (stack.length === 0) {
     panel.hidden = true;
-    app.classList.remove('has-panel');
     backdrop?.remove();
     backdrop = null;
+    if (lastFocus?.isConnected) lastFocus.focus({ preventScroll: true });
+    lastFocus = null;
     return;
   }
   panel.hidden = false;
-  app.classList.add('has-panel');
   if (!backdrop) {
     // Only visible on small screens (CSS); tapping it returns to the text.
     backdrop = document.createElement('div');
@@ -70,14 +94,19 @@ function renderPanel() {
 
   const pane = document.createElement('div');
   pane.className = 'reader-pane';
+  pane.tabIndex = -1;
   panel.appendChild(pane);
   stack[stack.length - 1].render(pane);
   typeset(pane);
 }
 
 export function push(pane) {
+  if (stack.length === 0) lastFocus = document.activeElement;
   stack.push(pane);
+  const url = pane.hash ? `${location.pathname}${location.search}#${pane.hash}` : location.href;
+  history.pushState({ rd: stack.length }, '', url);
   renderPanel();
+  panel.querySelector('.reader-pane')?.focus({ preventScroll: true });
 }
 
 export function pop() {
@@ -85,10 +114,12 @@ export function pop() {
 }
 
 export function popTo(depth) {
-  while (stack.length > depth) {
-    stack.pop()?.onPop?.();
-  }
-  renderPanel();
+  depth = Math.max(0, depth);
+  if (pendingNav || depth >= stack.length) return;
+  pendingNav = true;
+  // Let the browser drive: popstate performs the actual pop, so history and
+  // the pane stack can never disagree.
+  history.go(depth - stack.length);
 }
 
 export function refresh() {
@@ -100,5 +131,5 @@ export function depth() {
 }
 
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && stack.length > 0) pop();
+  if (e.key === 'Escape' && stack.length > 0 && !e.defaultPrevented) pop();
 });
