@@ -1,0 +1,438 @@
+/* ==========================================================================
+   Chinese reader (/chinese/)
+   ========================================================================== */
+
+:root {
+  /* Computer Modern has no CJK coverage, so the characters fall back to a
+     system serif. Kept as a token so it can be swapped in one place. */
+  --zh-font-han: "Songti SC", "Noto Serif CJK SC", "Source Han Serif SC",
+    "Hiragino Sans GB", "Microsoft YaHei", var(--font-serif), serif;
+}
+
+.zh-app {
+  font-family: var(--font-sans);
+  margin: 2rem 0;
+}
+
+/* ------------------------------------------------------------- composer -- */
+
+.zh-compose {
+  padding: 1rem 1.1rem 1.1rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+}
+
+.zh-compose label {
+  display: block;
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-bottom: 0.5rem;
+}
+
+.zh-input {
+  display: block;
+  width: 100%;
+  min-height: 8.5rem;
+  resize: vertical;
+  padding: 0.7rem 0.8rem;
+  font-family: var(--zh-font-han);
+  font-size: 1.15rem;
+  line-height: 1.7;
+  color: var(--color-text);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+}
+
+.zh-input:focus-visible {
+  border-color: var(--color-accent);
+}
+
+.zh-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 0.75rem;
+}
+
+.zh-btn {
+  font: inherit;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--color-text);
+  background: var(--color-bg-alt);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  transition: background var(--transition), border-color var(--transition);
+}
+
+.zh-btn:hover {
+  background: var(--color-border);
+}
+
+.zh-btn--primary {
+  color: #fff;
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.zh-btn--primary:hover {
+  background: var(--color-accent-hover);
+  border-color: var(--color-accent-hover);
+}
+
+.zh-toggles {
+  display: flex;
+  gap: 0.9rem;
+  margin-left: auto;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.zh-toggles label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0;
+  font-weight: 400;
+  font-size: 0.85rem;
+  letter-spacing: 0;
+  text-transform: none;
+  cursor: pointer;
+}
+
+.zh-status {
+  margin: 0.75rem 0 0;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  min-height: 1.3em;
+}
+
+.zh-status--error {
+  color: #b3261e;
+}
+
+html[data-theme="dark"] .zh-status--error {
+  color: #f2b8b5;
+}
+
+/* ----------------------------------------------------------- reading pane -- */
+
+.zh-pane {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  column-gap: 0.3rem;
+  row-gap: 1.1rem;
+  margin: 1.5rem 0 0;
+  min-height: 2rem;
+}
+
+.zh-pane:empty {
+  display: none;
+}
+
+.zh-break {
+  flex-basis: 100%;
+  height: 0;
+}
+
+.zh-punct {
+  font-family: var(--zh-font-han);
+  font-size: 1.55rem;
+  line-height: 1.25;
+  white-space: pre-wrap;
+  color: var(--color-text-muted);
+}
+
+.zh-tok {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+  padding: 0.15rem 0.25rem 0.2rem;
+  font: inherit;
+  color: inherit;
+  text-align: center;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background var(--transition), border-color var(--transition);
+}
+
+.zh-tok:hover {
+  background: var(--color-bg-alt);
+}
+
+.zh-tok.is-selected {
+  background: color-mix(in srgb, var(--color-accent) 12%, transparent);
+  border-bottom-color: var(--color-accent);
+}
+
+.zh-tok--unknown .zh-hanzi {
+  color: var(--color-text-muted);
+}
+
+.zh-hanzi {
+  font-family: var(--zh-font-han);
+  font-size: 1.55rem;
+  line-height: 1.25;
+}
+
+.zh-pinyin {
+  font-size: 0.72rem;
+  line-height: 1.2;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.zh-en {
+  max-width: 9rem;
+  font-size: 0.68rem;
+  line-height: 1.25;
+  color: var(--color-text-muted);
+  opacity: 0.85;
+}
+
+.zh-pane--no-pinyin .zh-pinyin,
+.zh-pane--no-english .zh-en {
+  display: none;
+}
+
+/* ------------------------------------------------------- definition card -- */
+
+.zh-card {
+  position: fixed;
+  z-index: 80;
+  width: min(22rem, calc(100vw - 1.5rem));
+  max-height: 60vh;
+  overflow-y: auto;
+  padding: 0.8rem 0.9rem;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: 0 8px 28px var(--color-shadow-strong);
+}
+
+.zh-card[hidden] {
+  display: none;
+}
+
+.zh-card-head {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.zh-card-hanzi {
+  font-family: var(--zh-font-han);
+  font-size: 1.6rem;
+  line-height: 1.1;
+}
+
+.zh-card-trad {
+  font-family: var(--zh-font-han);
+  font-size: 1.1rem;
+  color: var(--color-text-muted);
+}
+
+.zh-card-pinyin {
+  margin-left: auto;
+  color: var(--color-accent);
+}
+
+.zh-card-reading {
+  margin: 0.6rem 0 0.1rem;
+  font-weight: 600;
+  color: var(--color-accent);
+}
+
+.zh-card-senses {
+  margin: 0.5rem 0 0;
+  padding-left: 1.2rem;
+}
+
+.zh-card-senses li {
+  margin-bottom: 0.15rem;
+}
+
+.zh-card-note {
+  margin: 0.6rem 0 0.3rem;
+  color: var(--color-text-muted);
+}
+
+.zh-card-chars {
+  margin-top: 0.6rem;
+  font-size: 0.82rem;
+}
+
+.zh-card-chars summary {
+  cursor: pointer;
+  color: var(--color-text-muted);
+}
+
+.zh-card-charlist {
+  margin: 0.4rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.zh-card-charlist li {
+  display: grid;
+  grid-template-columns: 1.7rem 4.5rem 1fr;
+  align-items: baseline;
+  gap: 0.4rem;
+  padding: 0.2rem 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.zh-card-char {
+  font-family: var(--zh-font-han);
+  font-size: 1.15rem;
+}
+
+.zh-card-charpinyin {
+  color: var(--color-accent);
+}
+
+.zh-card-chargloss {
+  color: var(--color-text-muted);
+}
+
+.zh-card-foot {
+  margin-top: 0.7rem;
+}
+
+.zh-card-add {
+  width: 100%;
+  justify-content: center;
+}
+
+/* ------------------------------------------------------------ word list -- */
+
+.zh-tray {
+  margin: 2rem 0 0;
+  padding: 1rem 1.1rem 1.1rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-bg-alt);
+}
+
+.zh-tray[hidden] {
+  display: none;
+}
+
+.zh-tray h2 {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.zh-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0.8rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.zh-chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  padding: 0.25rem 0.55rem;
+  font: inherit;
+  font-size: 0.8rem;
+  color: var(--color-text);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: border-color var(--transition), color var(--transition);
+}
+
+.zh-chip:hover {
+  border-color: var(--color-accent);
+}
+
+.zh-chip-hanzi {
+  font-family: var(--zh-font-han);
+  font-size: 1rem;
+}
+
+.zh-chip-pinyin {
+  color: var(--color-text-muted);
+}
+
+.zh-chip-x {
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
+.zh-chip:hover .zh-chip-x {
+  color: var(--color-accent);
+}
+
+.zh-export {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.9rem;
+}
+
+.zh-format {
+  margin: 0.7rem 0 0;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+}
+
+.zh-format code {
+  font-size: 0.78rem;
+}
+
+/* ----------------------------------------------------------------- small -- */
+
+@media (max-width: 640px) {
+  .zh-toggles {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .zh-hanzi,
+  .zh-punct {
+    font-size: 1.4rem;
+  }
+
+  .zh-en {
+    max-width: 7rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zh-tok,
+  .zh-btn,
+  .zh-chip {
+    transition: none;
+  }
+}
