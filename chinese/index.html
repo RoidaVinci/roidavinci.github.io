@@ -1,0 +1,94 @@
+---
+layout: default
+title: Chinese reader
+description: "Paste Chinese text and read it with the reading and the meaning above each word: dictionary segmentation, hover definitions, and a vocabulary list you can export."
+permalink: /chinese/
+---
+<h1 class="page-title">Chinese reader</h1>
+<p class="hero-tagline" style="max-width: 46rem;">
+  Paste any Chinese text. It is cut into words, each word is set over its pinyin
+  and its meaning, and hovering one opens its dictionary entry. Click the words
+  you want to keep and export them as a vocabulary list. Everything runs in your
+  browser — the text you paste never leaves it.
+</p>
+
+<div class="zh-app" id="zh-app" data-dict="{{ '/assets/data/cedict.tsv.gz' | relative_url }}">
+  <div class="zh-compose">
+    <label for="zh-input">Chinese text</label>
+    <textarea id="zh-input" class="zh-input" spellcheck="false" lang="zh"
+              placeholder="把中文粘贴在这里…"></textarea>
+
+    <div class="zh-controls">
+      <button type="button" id="zh-annotate" class="zh-btn zh-btn--primary">Annotate</button>
+      <button type="button" id="zh-sample" class="zh-btn">Load example</button>
+      <button type="button" id="zh-clear" class="zh-btn">Clear text</button>
+
+      <div class="zh-toggles">
+        <label for="zh-show-pinyin"><input type="checkbox" id="zh-show-pinyin" checked> Pinyin</label>
+        <label for="zh-show-english"><input type="checkbox" id="zh-show-english" checked> English</label>
+      </div>
+    </div>
+
+    <p class="zh-status" id="zh-status" role="status" aria-live="polite"></p>
+  </div>
+
+  <div class="zh-pane" id="zh-pane" lang="zh"></div>
+
+  <section class="zh-tray" id="zh-tray" hidden aria-label="Selected words">
+    <h2>Word list · <span id="zh-count">0</span></h2>
+    <ul class="zh-list" id="zh-list"></ul>
+
+    <div class="zh-export">
+      <button type="button" id="zh-export-txt" class="zh-btn zh-btn--primary">Export .txt</button>
+      <button type="button" id="zh-export-tsv" class="zh-btn">Export .tsv for Anki</button>
+      <button type="button" id="zh-copy" class="zh-btn">Copy</button>
+      <button type="button" id="zh-clear-list" class="zh-btn">Clear list</button>
+    </div>
+
+    <p class="zh-format">One line per word: <code>汉字; hàn zì - Chinese character</code></p>
+  </section>
+</div>
+
+<div class="prose">
+  <h2>How the text is cut into words</h2>
+  <p>
+    Chinese is written without spaces, so before anything can be looked up the
+    text has to be split. This page does it with the dictionary itself: among
+    all the ways of covering a run of characters with dictionary headwords, it
+    takes the one with the highest total corpus probability, computed by dynamic
+    programming over the run. Frequency counts come from
+    <a href="https://github.com/fxsjy/jieba" rel="noopener noreferrer" target="_blank">jieba</a>'s
+    table; the vocabulary is CC-CEDICT and nothing else.
+  </p>
+  <p>
+    Restricting the vocabulary that way costs something — a name or a word coined
+    last year will be broken into single characters — but it buys a property
+    worth more here: every word the reader shows you has an entry behind it, so
+    a hover never comes up empty. Characters that no headword covers are shown
+    on their own and looked up individually.
+  </p>
+  <p>
+    Splitting into words first is also what makes the readings correct. 行 is
+    <em>xíng</em> in 行走 and <em>háng</em> in 银行; a character-by-character
+    annotator has to guess, while a word-based one simply reads the entry. What
+    it cannot settle is a lone character doing grammatical work — 地 is
+    <em>dì</em>, "earth", and also the neutral <em>de</em> that marks an adverb,
+    and only the surrounding grammar says which. Where a character has more than
+    one reading, the line under it shows the commonest and the card lists them
+    all.
+  </p>
+
+  <h2>The dictionary</h2>
+  <p>
+    Definitions and readings come from
+    <a href="https://cc-cedict.org/" rel="noopener noreferrer" target="_blank">CC-CEDICT</a>,
+    about 119,000 entries, used under
+    <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noopener noreferrer" target="_blank">CC BY-SA</a>.
+    It ships as a single compressed file of roughly 3.6&nbsp;MB, downloaded the
+    first time you annotate something and then cached, so the rest of the site
+    and the first visit to this page cost nothing. Both simplified and
+    traditional text are accepted.
+  </p>
+</div>
+
+<script type="module" src="{{ '/assets/js/chinese/main.js' | relative_url }}"></script>

@@ -1,2 +1,5 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# The dictionary asset is a compressed binary blob; never touch its line endings.
+*.gz binary

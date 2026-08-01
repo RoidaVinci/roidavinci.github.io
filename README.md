@@ -33,10 +33,14 @@ _layouts/
 _includes/           head, header, footer, article card, SVG icon sprite
 _articles/           One file per article (a Jekyll collection)
 _visualizations/     One file per interactive visualization (a Jekyll collection)
+chinese/             Chinese reader (see below)
+script/              Build scripts for generated assets
 assets/
   css/main.scss      Single stylesheet — design tokens + components
   js/                theme.js, mathjax-config.js, main.js
   js/viz/            Visualization toolkit (see below)
+  js/chinese/        Chinese reader (see below)
+  data/              Generated data assets (CC-CEDICT)
   img/               Images (thumbnails under img/thumbnails/)
   fonts/             Self-hosted Computer Modern
   docs/              PDFs
@@ -94,3 +98,50 @@ landscapes) and `fourier-series` (epicycle Fourier series builder).
 
 Add a collection in `_config.yml` (e.g. `projects`), create `_projects/`,
 and loop over `site.projects` in a page — the card include is reusable.
+
+## The Chinese reader
+
+`/chinese/` annotates pasted Chinese text: each word is set over its pinyin and
+its gloss, hovering a word opens its dictionary entry, and selected words export
+as `汉字; pīnyīn - english`. It is dependency-free like the rest of the site and
+runs entirely in the browser — nothing is sent anywhere.
+
+```
+chinese/index.html          The page
+_sass/chinese.scss          Styles (imported from assets/css/main.scss)
+assets/js/chinese/
+  main.js                   Controller: state, controls, persistence
+  dict.js                   Fetch, decompress and index the dictionary
+  segment.js                Word segmentation
+  pinyin.js                 Numbered tones → tone marks
+  gloss.js                  Sense cleanup shared by renderer and exporter
+  render.js                 Token stacks and the definition card
+  export.js                 .txt / .tsv output
+assets/data/cedict.tsv.gz   Generated — see script/build-dict.mjs
+```
+
+**Segmentation.** Chinese has no spaces, so the text is split before it can be
+looked up. Among all the ways of covering a run of characters with CC-CEDICT
+headwords, the reader takes the one of highest total corpus log-probability,
+found by dynamic programming over the run; the counts come from jieba's
+frequency table, which `build-dict.mjs` joins onto the dictionary. The
+vocabulary is CC-CEDICT and nothing else, so every word shown has an entry
+behind it and a hover never comes up empty. Characters no headword covers are
+emitted singly and looked up one at a time.
+
+**Regenerating the dictionary.**
+
+```
+node script/build-dict.mjs          # downloads CC-CEDICT and jieba's counts
+node script/build-dict.mjs --help   # see the flags for local source files
+```
+
+The output is a single gzipped TSV of about 3.6 MB, fetched only when the reader
+is first used and then held in the Cache API. Splitting it into a small index
+(headword, reading, frequency) plus a lazily fetched gloss file would cut time
+to first render by roughly three; it is not worth the complexity yet.
+
+**Licensing.** Dictionary data is [CC-CEDICT](https://cc-cedict.org/), used
+under CC BY-SA; word frequencies come from
+[jieba](https://github.com/fxsjy/jieba), MIT. Both are credited on the page.
+The site's own MIT licence covers the code, not the dictionary file.
